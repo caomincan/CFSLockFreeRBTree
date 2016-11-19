@@ -1,4 +1,5 @@
 /bin/
+/jack_materials/
 *.txt
 .classpath
 .project
