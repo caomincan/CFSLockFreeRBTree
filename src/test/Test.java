@@ -1,11 +1,13 @@
 package test;
 
+import lockfree.LockFreeRBTree;
 import tree.RBTree;
 
 public class Test {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
+        //LockFreeRBTree<Integer> tree = new LockFreeRBTree<Integer>();
         RBTree<Integer> tree = new RBTree<Integer>();
         Integer[] list1 = new Integer[]{11,2,14,1,7,5,8,15,4};
         int num = 0;
