@@ -47,13 +47,15 @@ public class CFS_simulator_multi_thread<T extends Comparable<T>> {
 	
 	static //private Node<T> root = null;
 	//AVL<Integer> instance;
-	AVL<Task> instance;
+	//AVL<Task> instance;
+	RBTree<Task> instance;
 	
 	public CFS_simulator_multi_thread(String testName, int thread, int duration, int n, int ops) {
 		g_time = 0;
 		g_queue_thread_num = 0;
 		//instance = new AVL<Integer>();
-		instance = new AVL<Task>();
+		//instance = new AVL<Task>();
+		instance = new RBTree<Task>();
 	}
 	
 	public static void main(String[] args) throws Exception {
@@ -74,8 +76,7 @@ public class CFS_simulator_multi_thread<T extends Comparable<T>> {
 		tree.remove();
 		tree.leftmost();
 		
-		
-		tree.add();
+		//tree.add();
 		//tree.add(wok);
 		tree.
 		tree.remove(wok);
