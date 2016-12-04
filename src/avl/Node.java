@@ -14,7 +14,7 @@ public class Node<T extends Comparable<T>> {
     private int balanceFactor;
     Task task;
 
-    public Node(T d) {
+    public Node(T d, task) {
         data = d; // virtual runtime
         task = new Task();
     }

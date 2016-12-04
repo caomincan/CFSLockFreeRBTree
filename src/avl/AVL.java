@@ -28,7 +28,8 @@ public class AVL<T extends Comparable<T>> implements AVLInterface<T> {
     @Override
     public synchronized void add(Task _task) { //Jack
     	//s(Task) _task.id;
-        if (_task.VirtualRunTime == null) {
+        //if (_task.VirtualRunTime == null) {
+        if (_task.VirtualRunTime < 0) {
             throw new IllegalArgumentException("Argument cannot be null!");
         } else if (this.size == 0) {
             this.root = new Node<T>(_task); // Jack
