@@ -475,7 +475,9 @@ if(DEBUG){
 			Thread.sleep(1000);
 			do {
 				//if (instance.get_leftmost()==null) 
-				if (curr_task＝pop_from_rbtree()==null)
+				//if (curr_task＝pop_from_rbtree()==null)
+				curr_task ＝ (Task)pop_from_rbtree();
+				if (curr_task==null)
 					continue;	// nothing in run queue
 				
 				/**
