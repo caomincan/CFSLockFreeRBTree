@@ -489,9 +489,7 @@ if(DEBUG){
 	// This is FIFO O(1) version //TODO: replace with tree 
 	private T pop_from_rbtree(Task _task) {
 		//int i;
-		T get_leftmost2 = (T) instance.get_leftmost();
-		T get_leftmost = get_leftmost2;
-		return get_leftmost;
+		return (T) instance.get_leftmost();
 		/*
 		//Task _task = run_queue[0];
 		//System.out.println("pop[0].id: " + run_queue[0].id);
