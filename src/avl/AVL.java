@@ -3,6 +3,7 @@ package avl;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ArrayList;
+import queue.Task;
 
 /** copyright on https://github.com/GodTamIt/java-iterative-avl-tree
  * A completely iterative AVL implementation (excluding certain order
@@ -26,7 +27,7 @@ public class AVL<T extends Comparable<T>> implements AVLInterface<T> {
 
     @Override
     public synchronized void add(T _task) { //Jack
-    	(Task) _task;
+    	_task.id;
         if (data == null) {
             throw new IllegalArgumentException("Argument cannot be null!");
         } else if (this.size == 0) {
