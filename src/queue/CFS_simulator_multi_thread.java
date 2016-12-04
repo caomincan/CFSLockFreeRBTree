@@ -70,18 +70,24 @@ public class CFS_simulator_multi_thread<T extends Comparable<T>> {
 		
 		//RBTree<Task> tree = new RBTree<Task>();
 
-		Task task = new Task();
+		Task _task = new Task();
 		
-		task.VirtualRunTime=12;
-		int inserted_runtime = VirtualRunTime_update(task, 12);
-		instance.add(task);
+		_task.VirtualRunTime=12;
+		int inserted_runtime = VirtualRunTime_update(_task, 12);
+		instance.add(_task);
 		// don't change it
 		
-		instance.remove(task);
-		
 		Task p_task;
-		//p_task = instance.leftmost();
-
+		p_task = instance.leftmost();
+		if (instance.remove(p_task) !=null) {
+			//do
+		}
+		else {
+			System.out.println("ERROR: cannot remove from tree");
+		}	
+		p_task.VirtualRunTime = 100;
+		
+		
 		
 		
 		
