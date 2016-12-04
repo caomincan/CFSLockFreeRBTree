@@ -26,6 +26,7 @@ public class RBTree<V extends Comparable<V>> {
 		}
 		return temp;
 	}
+	
 	public void add(V value){
 		RBNode<V> curr = insertHelp(value);
 		while(curr != this.root && curr.parent.isRed){
@@ -75,7 +76,6 @@ public class RBTree<V extends Comparable<V>> {
 		}
 		this.root.isRed = false;
 	}
-	
 	
 	// first insert a node based on BST
 	// return null means duplicate value
@@ -287,4 +287,7 @@ public class RBTree<V extends Comparable<V>> {
 		printHelp(root.right,height+1,res);
 		return res;
 	}
+
+
+
 } 

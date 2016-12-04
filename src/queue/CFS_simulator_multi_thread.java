@@ -464,7 +464,8 @@ if(DEBUG){
 	private static void push_to_rbtree(Task _task) {
 		int i;
 		
-		instance.add(_task); // must succeed
+		Integer a = new Integer(_task.VirtualRunTime);
+		instance.add( a, _task); // must succeed
 
 		/*
 		for(i=0; i<TASK ;i++) {
