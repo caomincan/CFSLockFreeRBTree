@@ -44,6 +44,9 @@ public class CFS_simulator_multi_thread<T extends Comparable<T>> {
   	static boolean[] done_queue; 	// Be careful id is from 1~Task
   	static Task[] finishing_order_queue;
 
+  	static int[] Vtime_table; 	
+  	static int Vtime_num; 	
+  	
 	private static Random random = new Random();
 	
 	static //private Node<T> root = null;
@@ -602,6 +605,9 @@ if(DEBUG){
 			}
 			
 			add _task.VirtualRunTime to queue;
+			
+			static int[] Vtime_table; 	// Be careful id is from 1~Task
+		  	static int Vtime_num; 	// Be careful id is from 1~Task
 			
 			
 		}
