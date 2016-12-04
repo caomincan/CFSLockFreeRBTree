@@ -137,14 +137,21 @@ public class CFS_simulator_multi_thread<T extends Comparable<T>> {
 	  	read_file_lines2();
 	  			
 if(DEBUG){  	
+		System.out.print("id" + "\t");
+		System.out.print("cpu" + "\t");
+		System.out.print("io" + "\t");
+		System.out.print("prio" + "\t");
+		System.out.print("nice" + "\t");
+		System.out.print("start_time" + "\t");
+		System.out.println("");
 	  	for(i=0; i<TASK; i++) {
 	  		// read from txt
-	  		System.out.print(task[i].id + " ");
-	  		System.out.print(task[i].cpu + " ");
-	  		System.out.print(task[i].io + " ");
-	  		System.out.print(task[i].prio + " ");
-	  		System.out.print(task[i].nice + " ");
-	  		System.out.print(task[i].start_time + " ");
+	  		System.out.print(task[i].id + "\t");
+	  		System.out.print(task[i].cpu + "\t");
+	  		System.out.print(task[i].io + "\t");
+	  		System.out.print(task[i].prio + "\t");
+	  		System.out.print(task[i].nice + "\t");
+	  		System.out.print(task[i].start_time + "\t");
 
 	  		System.out.println("");
 		}
@@ -169,7 +176,7 @@ if(DEBUG){
 			
 if(DEBUG){
 			if(g_time>0 && TimerIntThreshold>0 && g_time>TimerIntThreshold) {
-				if (how_many_int/g_time/TimerIntThreshold==0) {
+				if (how_many_int/(g_time/TimerIntThreshold)==0) {
 					System.out.println("--------------------------------------------");
 					System.out.println("g_time=" + g_time);
 					System.out.println("TASK=" + TASK);		// main() is the only one access TASK table
@@ -180,10 +187,11 @@ if(DEBUG){
 				}
 			}
 }	
-				
+			
 			/* check any thread should set to run_queue */
 			for(i=0; i<TASK; i++) { // check any thread ready to run
-				if( task[i].start_time >= g_time) {  // if so put it to runqueue
+				//System.out.println("task[i].id=" + task[i].id);
+				if( task[i].id>0 && task[i].start_time >= (g_time-1)) {  // if so put it to runqueue
 					
 					// TODO: replace all run_queue with rbtree
 					/* least Vtime */
@@ -196,11 +204,12 @@ if(DEBUG){
 					//}
 					//task[i].VirtualRunTime = least_Vtime;
 					
+					
 					Task _task = new Task();		// redundant?
 					thread_copy(_task, task[i]);	// redundant?
 					System.out.println("_task=" + _task);
 					// 1. enqueue() to run_queue
-					push_to_rbtree(_task);
+					//push_to_rbtree(_task);
 					
 					// 2. kill the task in task[] (task table)
 					thread_clean(task[i]);	// remove from task table	
@@ -246,7 +255,7 @@ if(DEBUG){
 		int line_num = 0; 
 		String fileName ="in.txt";
 		File currentDir = new File("").getAbsoluteFile();
-		System.out.println(currentDir);
+		System.out.println("Find input file in \"" + currentDir + "\"");
 		String line;
 		try {
 			// use BufferedReader and apply on FileReader. process streaming apply on node streaming
@@ -293,12 +302,13 @@ if(DEBUG){
 
 		String fileName ="in.txt";
 		File currentDir = new File("").getAbsoluteFile();
-		System.out.println(currentDir);
+		//System.out.println(currentDir);
 		String line;
 		try {
 			// use BufferedReader and apply on FileReader. process streaming apply on node streaming
 			BufferedReader in = new BufferedReader(new FileReader(currentDir+"/"+fileName));
 
+			System.out.print ("Task id =");
 			// read the first line 
 			line = in.readLine(); // ignore first line
 			line = in.readLine();
@@ -324,7 +334,7 @@ if(DEBUG){
 					// line_num++;
 			  		// read from txt
 					task[i].id = i+1; // from 0 to Task
-					System.out.println("id=" + (i+1));
+					System.out.print ((i+1) + " ");
 					//= Integer.parseInt(tokens[1]);	// number of thread
 					task[i].cpu = Integer.parseInt(tokens[2])*1000;	// cpu (ms) need to *1000
 					task[i].io = Integer.parseInt(tokens[3])*1000;	// io (ms) need to * 1000
@@ -340,8 +350,8 @@ if(DEBUG){
 				// read the next line
 				line = in.readLine();
 			} //file ends 
-			//close the "pipe"
-			in.close();
+			System.out.println("");
+			in.close(); //close the "pipe"
 		
 		} catch(IOException iox) {
 			System.out.println("FILE_NOT_FOUND: ERROR cannot open file " + fileName);
@@ -520,6 +530,8 @@ if(DEBUG){
 						System.out.println("1. " + curr_task.cpu_runtime + "\t2. " +curr_task.io_runtime + "\t3. " + running_tasks[i].time_slice);
 			  			// update Virtual Time
 			  			curr_task.VirtualRunTime += (curr_task.cpu_runtime+curr_task.io_runtime); // + actual run time NOT time_slice  // TODO: check time_slice is > 0
+			  			adjust_virtualtime = 
+			  			
 			  			
 			  			// update nice
 			  			if (curr_task.io_runtime*2 > curr_task.cpu_runtime) {
