@@ -1,4 +1,7 @@
 /bin/
+<<<<<<< HEAD
 *.txt
 .classpath
 .project
+=======
+>>>>>>> rbtree
