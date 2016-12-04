@@ -2,6 +2,9 @@ package avl;
 
 import java.util.LinkedList;
 import java.util.List;
+
+import queue.Task;
+
 import java.util.ArrayList;
 
 /** copyright on https://github.com/GodTamIt/java-iterative-avl-tree
@@ -496,7 +499,7 @@ public class AVL<T extends Comparable<T>> implements AVLInterface<T> {
 
 	
 	@Override
-    public synchronized T get_leftmost() {
+    public synchronized Task get_leftmost() {
         //if (data == null) {
         //    throw new IllegalArgumentException("Argument cannot be null.");
         //}
