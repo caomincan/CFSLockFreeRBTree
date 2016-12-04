@@ -446,7 +446,6 @@ if(DEBUG){
 				  	task[i].time_slice = 0;
 				  	task[i].weight = 0;
 				}
-
 				// read the next line
 				line = in.readLine();
 			} //file ends 
@@ -456,7 +455,7 @@ if(DEBUG){
 		} catch(IOException iox) {
 			System.out.println("FILE_NOT_FOUND: ERROR cannot open file " + fileName);
 		}
-
+		
 		return line_num;
 	}
 	
@@ -615,7 +614,7 @@ if(DEBUG){
 				}
 */
 			//}
-		} 
+		}
 		
 		return 0;
 	}
@@ -681,12 +680,10 @@ if(DEBUG){
 
 		task1.io_runtime = task2.io_runtime;
 		task1.cpu_runtime = task2.cpu_runtime;
-
 	}
 
 	private static void thread_clean(Task task1) {
 		task1.id = 0;
-
 		/*
 		int cpu;
 		int prio;				//
@@ -697,9 +694,8 @@ if(DEBUG){
 		int start_time;
 
 		int io_runtime;
-		int cpu_runtime;
-		 
-		 */
+		int cpu_runtime; 
+		*/
 	}
 	
 	static class CPUThread extends Thread {
@@ -724,11 +720,11 @@ if(DEBUG){
 			Task curr_task;
 			boolean is_exit=false;
 			
-			do{
+			do {
 				//if (instance.get_leftmost()==null) 
 				if (pop_from_rbtree(curr_task)==null)
 					continue;	// nothing in run queue
-
+				
 				/**
 				calculate timeslice	
 				JobTask
@@ -762,7 +758,6 @@ if(DEBUG){
 				// clean(init) all runtime info
 				curr_task.cpu_runtime=0;	// used for 
 				curr_task.io_runtime=0; 	// used for dy
-				
 				
 				do {
 					//if (timer<TimerIntThreshold ) { // keep running
