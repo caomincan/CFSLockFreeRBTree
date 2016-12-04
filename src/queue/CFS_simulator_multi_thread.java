@@ -470,13 +470,20 @@ if(DEBUG){
 			Task curr_task;
 			boolean is_exit=false;
 			
-			Thread.sleep(1000);
-			do {
+			try {
+				Thread.sleep(3000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			while(true) {
 				//if (instance.get_leftmost()==null) 
 				//if (curr_task＝pop_from_rbtree()==null)
-				curr_task ＝ pop_from_rbtree();
-				if (curr_task==null)
+				curr_task = pop_from_rbtree();
+				if (curr_task==null) {
 					continue;	// nothing in run queue
+				}
 				
 				/**
 				calculate timeslice	
@@ -585,7 +592,7 @@ if(DEBUG){
 			  		}
 				}
 				
-			}while(true);
+			}
 		}
 		      
 		public int GetTotalDeq() { //
