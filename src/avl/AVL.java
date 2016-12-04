@@ -25,7 +25,8 @@ public class AVL<T extends Comparable<T>> implements AVLInterface<T> {
     }
 
     @Override
-    public synchronized void add(T data) { //Jack
+    public synchronized void add(T _task) { //Jack
+    	(Task) _task;
         if (data == null) {
             throw new IllegalArgumentException("Argument cannot be null!");
         } else if (this.size == 0) {
