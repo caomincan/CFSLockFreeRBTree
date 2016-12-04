@@ -26,7 +26,7 @@ public class AVL<T extends Comparable<T>> implements AVLInterface<T> {
     }
 
     @Override
-    public synchronized void add(Task _task) { //Jack
+    public synchronized void add(T data, Task _task) { //Jack
     	//s(Task) _task.id;
         //if (_task.VirtualRunTime == null) {
         if (_task.VirtualRunTime < 0) {
@@ -219,7 +219,7 @@ public class AVL<T extends Comparable<T>> implements AVLInterface<T> {
 
         // Parallel arrays tracking node ancestors
         @SuppressWarnings("unchecked")
-        Node<T>[] parents = new Node[worstCase];
+        Node<T>[] parents = new Node[worstCase]; //Jack
         ChildType[] childTypes = new ChildType[worstCase];
 
         int parentCount = 0;

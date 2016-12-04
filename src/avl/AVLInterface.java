@@ -110,4 +110,6 @@ public interface AVLInterface<T extends Comparable<T>> {
     T get_leftmost();
 
 	void add(Task _task);
+
+	void add(T data, Task _task);
 }
