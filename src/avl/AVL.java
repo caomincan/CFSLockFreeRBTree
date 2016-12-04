@@ -2,6 +2,10 @@ package avl;
 
 import java.util.LinkedList;
 import java.util.List;
+
+import queue.Task;
+import tree.RBNode;
+
 import java.util.ArrayList;
 
 /** copyright on https://github.com/GodTamIt/java-iterative-avl-tree
@@ -12,7 +16,6 @@ import java.util.ArrayList;
  */
 
 public class AVL<T extends Comparable<T>> implements AVLInterface<T> {
-
     // Do not add additional instance variables
     private Node<T> root = null;
     private int size = 0;
@@ -516,11 +519,22 @@ public class AVL<T extends Comparable<T>> implements AVLInterface<T> {
 	            }
 	            */
 	        }
-	        //return (T) current;
-	        return current.getData();
+	        return (T)current;
+	        //return current.getTask();
         }
         return null;
     }
+	/**
+	protected RBNode<V> findMin(RBNode<V> node){
+		if(node == null) return null;
+		RBNode<V> temp = node;
+		while(temp.left.value!= null){
+			temp = temp.left;
+		}
+		return temp;
+	}
+	*/
+	
 	
 	
 	

@@ -2,6 +2,8 @@ package avl;
 
 import java.util.List;
 
+import queue.Task;
+
 /** copyright on https://github.com/GodTamIt/java-iterative-avl-tree
  * The interface the for an AVL Tree
  * @version 1.0
@@ -106,4 +108,9 @@ public interface AVLInterface<T extends Comparable<T>> {
     int height();
     
     T get_leftmost();
+    //Task get_leftmost();
+    //Node<T> get_leftmost();
+	//void add(Task _task);
+
+	//void add(T data, Task _task);
 }

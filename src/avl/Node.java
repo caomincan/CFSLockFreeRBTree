@@ -12,11 +12,10 @@ public class Node<T extends Comparable<T>> {
     private Node<T> right;
     private int height;
     private int balanceFactor;
-    Task task;
+    //Task task;
 
     public Node(T d) {
         data = d; // virtual runtime
-        task = new Task();
     }
 
     public Node(T d, Node<T> l, Node<T> r) {
@@ -25,13 +24,13 @@ public class Node<T extends Comparable<T>> {
         right = r;
     }
 
-    public Task getTask() { //Jack
-        return task;
-    }
+    //public Task getTask() { //Jack
+    //    return task;
+    //}
     
-    public void setTask(Task data) { //Jack
-        this.task = data;
-    }
+    //public void setTask(Task data) { //Jack
+    //    this.task = data;
+    //}
 
     public T getData() {
         return data;
