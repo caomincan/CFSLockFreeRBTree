@@ -67,13 +67,16 @@ public class CFS_simulator_multi_thread<T extends Comparable<T>> {
 		//this.root = new Node<T>(null);
 		
 		RBTree<Task> tree = new RBTree<Task>();
+
+		Task task = new Task();
+		tree.add(task);
+		
+		tree.remove();
+		tree.leftmost();
 		
 		
-		
-		
+		tree.add();
 		//tree.add(wok);
-		
-		
 		tree.
 		tree.remove(wok);
 		
