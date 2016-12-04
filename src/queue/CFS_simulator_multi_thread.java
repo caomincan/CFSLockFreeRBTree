@@ -68,32 +68,26 @@ public class CFS_simulator_multi_thread<T extends Comparable<T>> {
 		int data = 1;
 		//this.root = new Node<T>(null);
 		
-		RBTree<Task> tree = new RBTree<Task>();
+		//RBTree<Task> tree = new RBTree<Task>();
 
 		Task task = new Task();
-		tree.add(task);
 		
-		tree.remove();
-		tree.leftmost();
+		task.VirtualRunTime=12;
+		int inserted_runtime = VirtualRunTime_update(task, 12);
+		instance.add(task);
+		// don't change it
 		
-		//tree.add();
-		//tree.add(wok);
-		tree.
-		tree.remove(wok);
+		instance.remove(task);
 		
-		wok = leftmost();
-		wok.key=1213213;
-		
-		
-		tree.add(wok);
-		
-		work wok;
-		wok = leftmost();
+		Task p_task;
+		//p_task = instance.leftmost();
+
 		
 		
 		
 		/* Test */
 		//empty
+		/*
 		System.out.println("tree height = " + instance.height());
 		System.out.println("tree get leftmost = " + instance.get_leftmost());
 		Task __task = new Task(); 
@@ -131,7 +125,7 @@ public class CFS_simulator_multi_thread<T extends Comparable<T>> {
 		instance.remove(__task);	
 		System.out.println("tree height = " + instance.height());
 		System.out.println("tree get leftmost = " + instance.get_leftmost());
-	
+		*/
 		
 		
 
