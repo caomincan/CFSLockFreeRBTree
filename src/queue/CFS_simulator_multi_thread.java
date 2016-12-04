@@ -776,7 +776,7 @@ if(DEBUG){
 						break;
 				}while(true);
 				
-				if (timer > TimerIntThreshold ) { // feature - timer interrupt
+				if (timer > TimerIntThreshold) { // feature - timer interrupt
 					//check time_slice passed?
 					// 3. not done but time slice is reached. recycle(reclaim).
 					if ( curr_task.time_slice <= (curr_task.cpu_runtime+curr_task.io_runtime) ) { // expired mush deq()	
@@ -784,7 +784,7 @@ if(DEBUG){
 						System.out.println("1. " + curr_task.cpu_runtime + "\t2. " +curr_task.io_runtime + "\t3. " + running_tasks[i].time_slice);
 			  			// update Virtual Time
 			  			curr_task.VirtualRunTime += (curr_task.cpu_runtime+curr_task.io_runtime); // + actual run time NOT time_slice  // TODO: check time_slice is > 0
-
+			  			
 			  			// update nice
 			  			if (curr_task.io_runtime*2 > curr_task.cpu_runtime) {
 			  				curr_task.nice++;
@@ -807,8 +807,7 @@ if(DEBUG){
 							//							clean runtime_info
 
 							push_to_rbtree(curr_task);
-			  				
-			  				
+			  					
 			  				//g_exec_thread_num--;
 			  				//g_queue_thread_num++;
 			  				thread_clean(curr_task);
