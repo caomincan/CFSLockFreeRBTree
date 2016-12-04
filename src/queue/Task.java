@@ -25,7 +25,7 @@ import java.util.Random;
 		int prio;				//
 		int nice;				// dynamic priority
 		int ori_nice;			// user defined
-		int VirtualRunTime; 	// accumulated =   TimerIntThreshold * (time_slice/weight) 
+		public int VirtualRunTime; 	// accumulated =   TimerIntThreshold * (time_slice/weight) 
 		int time_slice; 		// chose one = prio + nice  = 100ms  suppose to run
 		int weight;				// chose one = prio + nice 
 		int start_time;
