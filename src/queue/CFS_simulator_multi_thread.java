@@ -476,7 +476,7 @@ if(DEBUG){
 			do {
 				//if (instance.get_leftmost()==null) 
 				//if (curr_task＝pop_from_rbtree()==null)
-				curr_task ＝ (Task)pop_from_rbtree();
+				curr_task ＝ pop_from_rbtree();
 				if (curr_task==null)
 					continue;	// nothing in run queue
 				
