@@ -68,8 +68,7 @@ public class CFS_simulator_multi_thread<T extends Comparable<T>> {
 		int data = 1;
 		//this.root = new Node<T>(null);
 		
-		//RBTree<Task> tree = new RBTree<Task>();
-
+		/*
 		Task _task = new Task();
 		
 		_task.VirtualRunTime=12;
@@ -78,7 +77,9 @@ public class CFS_simulator_multi_thread<T extends Comparable<T>> {
 		// don't change it
 		
 		Task p_task;
-		p_task = instance.leftmost();
+		p_task = instance.get_leftmost();
+		//p_task = instance.get_leftmost();
+		//
 		if (instance.remove(p_task) !=null) {
 			//do
 		}
@@ -86,57 +87,11 @@ public class CFS_simulator_multi_thread<T extends Comparable<T>> {
 			System.out.println("ERROR: cannot remove from tree");
 		}	
 		p_task.VirtualRunTime = 100;
-		
-		
-		
-		
-		
-		/* Test */
-		//empty
-		/*
-		System.out.println("tree height = " + instance.height());
-		System.out.println("tree get leftmost = " + instance.get_leftmost());
-		Task __task = new Task(); 
-		// 4
-		instance.add(__task);		
-		System.out.println("tree height = " + instance.height());
-		System.out.println("tree get leftmost = " + instance.get_leftmost());
-		
-		// 5
-		instance.add(__task);		
-		System.out.println("tree height = " + instance.height());
-		System.out.println("tree get leftmost = " + instance.get_leftmost());
-				
-		// 6
-		instance.add(__task);		
-		System.out.println("tree height = " + instance.height());
-		System.out.println("tree get leftmost = " + instance.get_leftmost());
-		
-		// 3
-		instance.add(__task);		
-		System.out.println("tree height = " + instance.height());
-		System.out.println("tree get leftmost = " + instance.get_leftmost());
-		
-		// 2
-		instance.add(__task);		
-		System.out.println("tree height = " + instance.height());
-		System.out.println("tree get leftmost = " + instance.get_leftmost());
-				
-		// 1
-		instance.add(__task);		
-		System.out.println("tree height = " + instance.height());
-		System.out.println("tree get leftmost = " + instance.get_leftmost());
-		
-		// empty
-		instance.remove(__task);	
-		System.out.println("tree height = " + instance.height());
-		System.out.println("tree get leftmost = " + instance.get_leftmost());
 		*/
 		
 		
-
-	  	
-	  	
+		
+		
 		/* determine how many threads */
 	  	TASK = read_file_lines();
 	  	if(TASK<=0) {
@@ -154,9 +109,7 @@ public class CFS_simulator_multi_thread<T extends Comparable<T>> {
 		 * 
 		 * */
 		
-		
 		// Create THREADS threads
-		
 		
 		// Create Tasks	
 		task = new Task[TASK];					// all tasks in this simulation
@@ -491,9 +444,9 @@ if(DEBUG){
 	// This is FIFO O(1) version //TODO: replace with tree 
 	private static void push_to_rbtree(Task _task) {
 		int i;
-		
-		Integer a = new Integer(_task.VirtualRunTime);
-		instance.add( a, _task); // must succeed
+
+		//Integer a = new Integer(_task.VirtualRunTime);
+		instance.add(_task); // must succeed
          
 		
 		/*
@@ -517,7 +470,7 @@ if(DEBUG){
 	}
 	
 	// This is FIFO O(1) version //TODO: replace with tree 
-	private T pop_from_rbtree(Task _task) {
+	private T pop_from_rbtree() {
 		//int i;
 		return (T) instance.get_leftmost();
 		/*
@@ -753,7 +706,7 @@ if(DEBUG){
 			
 			do {
 				//if (instance.get_leftmost()==null) 
-				if (pop_from_rbtree(curr_task)==null)
+				if (curr_task＝pop_from_rbtree()==null)
 					continue;	// nothing in run queue
 				
 				/**
