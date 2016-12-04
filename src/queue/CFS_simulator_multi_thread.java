@@ -530,7 +530,7 @@ if(DEBUG){
 						System.out.println("1. " + curr_task.cpu_runtime + "\t2. " +curr_task.io_runtime + "\t3. " + running_tasks[i].time_slice);
 			  			// update Virtual Time
 			  			curr_task.VirtualRunTime += (curr_task.cpu_runtime+curr_task.io_runtime); // + actual run time NOT time_slice  // TODO: check time_slice is > 0
-			  			adjust_virtualtime = 
+			  			adjust_virtualtime(curr_task);
 			  			
 			  			
 			  			// update nice
