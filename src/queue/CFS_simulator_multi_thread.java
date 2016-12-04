@@ -161,12 +161,8 @@ if(DEBUG){
 	    for (i = 0; i < THREADS; i ++) {
 	    	myThreads[i].start();
 	    }
-	    for (i = 0; i < THREADS; i ++) {
-	    	myThreads[i].join();
-	    }
 	    
 	  	/* main keeps checks all task start time */
-		
 		/* main thead only check whether should I place a Task from pool to the run_queue(rbtree) */
 		/* mimicing external interrupt with polling*/
 		while(true) { // infinite loop until every work is done
@@ -214,7 +210,11 @@ if(DEBUG){
 				break;
 			
 		} // while
-
+		
+		for (i = 0; i < THREADS; i ++) {
+	    	myThreads[i].join();
+	    }
+		
 		if (instance.get_leftmost()!=null)
 			System.out.println("ERROR: tasks not done");
 		else // ==null
