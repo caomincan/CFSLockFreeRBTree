@@ -376,9 +376,7 @@ if(DEBUG){
 		*/
 	}
 	
-	// This is FIFO O(1) version //TODO: replace with tree 
-	public static Task pop_from_rbtree() {
-		//int i;
+	public static Task pop_from_rbtree() {	
 		return instance.get_leftmost();
 	}
 	
