@@ -48,15 +48,15 @@ public class CFS_simulator_multi_thread<T extends Comparable<T>> {
 	
 	static //private Node<T> root = null;
 	//AVL<Integer> instance;
-	//AVL<Task> instance;
-	RBTree<Task> instance;
+	AVL<Task> instance;
+	//RBTree<Task> instance;
 	
 	public CFS_simulator_multi_thread(String testName, int thread, int duration, int n, int ops) {
 		g_time = 0;
 		g_queue_thread_num = 0;
 		//instance = new AVL<Integer>();
-		//instance = new AVL<Task>();
-		instance = new RBTree<Task>();
+		instance = new AVL<Task>();
+		//instance = new RBTree<Task>();
 	}
 	
 	public static void main(String[] args) throws Exception {
@@ -149,11 +149,7 @@ if(DEBUG){
 	  		System.out.println("");
 		}
 }
-	  	
-	  	System.out.println("task[0] = " + task[0]);
-		System.out.println("task[0].id = " + task[0].id);
-		System.out.println("task[1].id = " + task[1].id);
-		
+
 		/* after tasks are all enqueued */
 		Thread[] myThreads = new Thread[THREADS];
 	    for (i = 0; i < THREADS; i++) {
@@ -169,9 +165,10 @@ if(DEBUG){
 		while(true) { // infinite loop until every work is done
 			/* periodically debug */
 			int how_many_int=100;
-if(DEBUG){
 			g_time++;
-			if(g_time>0 && TimerIntThreshold>0) {
+			
+if(DEBUG){
+			if(g_time>0 && TimerIntThreshold>0 && g_time>TimerIntThreshold) {
 				if (how_many_int/g_time/TimerIntThreshold==0) {
 					System.out.println("--------------------------------------------");
 					System.out.println("g_time=" + g_time);
@@ -200,7 +197,7 @@ if(DEBUG){
 					//task[i].VirtualRunTime = least_Vtime;
 					
 					Task _task = new Task();		// redundant?
-					thread_copy(_task, task[i]);	// reduandant?
+					thread_copy(_task, task[i]);	// redundant?
 					System.out.println("_task=" + _task);
 					// 1. enqueue() to run_queue
 					push_to_rbtree(_task);
@@ -219,7 +216,7 @@ if(DEBUG){
 	    	myThreads[i].join();
 	    }
 		
-		if (instance.get_leftmost()!=null)
+		if (instance.get_leftmost()!=null)	//TODO
 			System.out.println("ERROR: tasks not done");
 		else // ==null
 			System.out.println("Good: tasks are all done");
@@ -360,8 +357,8 @@ if(DEBUG){
 		instance.add(_task); // must succeed
 	}
 	
-	public static Task pop_from_rbtree() {	
-		return instance.get_leftmost();
+	public static Task pop_from_rbtree() { 	
+		return instance.get_leftmost(); //TODO
 	}
 	
 	/* Thread */
@@ -451,7 +448,7 @@ if(DEBUG){
 		public void run() {
 			int i=0;
 			int timer=0;
-			Task curr_task;
+			Task curr_task=new Task();
 			boolean is_exit=false;
 			
 			try {
@@ -464,7 +461,7 @@ if(DEBUG){
 			while(true) {
 				//if (instance.get_leftmost()==null) 
 				//if (curr_task＝pop_from_rbtree()==null)
-				curr_task = pop_from_rbtree();
+				curr_task = pop_from_rbtree(); //TODO
 				if (curr_task==null) {
 					continue;	// nothing in run queue
 				}

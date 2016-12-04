@@ -27,7 +27,7 @@ public class RBTree<V extends Comparable<V>> {
 		return temp;
 	}
 	
-	public void add(V value){
+	public synchronized void add(V value){
 		RBNode<V> curr = insertHelp(value);
 		while(curr != this.root && curr.parent.isRed){
 			if(curr.parent == curr.parent.parent.left){
@@ -114,7 +114,7 @@ public class RBTree<V extends Comparable<V>> {
 		return toBeAdded;	
 	}
 	
-	public V remove(V value){
+	public synchronized V remove(V value){
 		RBNode<V> curr = find(value);
 		if(curr == null || curr.value == null) return null;
      	RBNode<V> x,y;
