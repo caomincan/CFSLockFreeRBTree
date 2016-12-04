@@ -13,6 +13,8 @@ import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import avl.*;
+import tree.RBTree;
+
 import java.io.*;  
 
 public class CFS_simulator_multi_thread<T extends Comparable<T>> {
@@ -63,6 +65,28 @@ public class CFS_simulator_multi_thread<T extends Comparable<T>> {
  	  	
 		int data = 1;
 		//this.root = new Node<T>(null);
+		
+		RBTree<Task> tree = new RBTree<Task>();
+		
+		
+		
+		
+		//tree.add(wok);
+		
+		
+		tree.
+		tree.remove(wok);
+		
+		wok = leftmost();
+		wok.key=1213213;
+		
+		
+		tree.add(wok);
+		
+		work wok;
+		wok = leftmost();
+		
+		
 		
 		/* Test */
 		//empty
@@ -466,7 +490,8 @@ if(DEBUG){
 		
 		Integer a = new Integer(_task.VirtualRunTime);
 		instance.add( a, _task); // must succeed
-
+         
+		
 		/*
 		for(i=0; i<TASK ;i++) {
 			if(run_queue[i].id==(0)) {

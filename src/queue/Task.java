@@ -17,7 +17,7 @@ import java.util.Random;
 
 
 //public class CFStest {
-	public class Task {
+	public class Task implements Comparable<Task>{
 		/* Task info - cfs entity */
 		public int id=0; // from 1 to TASK. So Tak[0]==0 is wrong!
 		public int io;
@@ -33,5 +33,11 @@ import java.util.Random;
 		/* run-time record */
 		public int io_runtime;
 		public int cpu_runtime;
+		
+		@Override
+		public int compareTo(Task o) {
+			// TODO Auto-generated method stub
+			return VirtualRunTime-o.VirtualRunTime;
+		}
 	}
 	
