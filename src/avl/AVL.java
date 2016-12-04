@@ -27,11 +27,11 @@ public class AVL<T extends Comparable<T>> implements AVLInterface<T> {
 
     @Override
     public synchronized void add(Task _task) { //Jack
-    	(Task) _task.id;
+    	//s(Task) _task.id;
         if (_task.VirtualRunTime == null) {
             throw new IllegalArgumentException("Argument cannot be null!");
         } else if (this.size == 0) {
-            this.root = new Node<T>(data); // Jack
+            this.root = new Node<T>(_task); // Jack
         } else {
             // Calculate maximum parents to visit
             int worstCase = this.size / 2 + 1;
