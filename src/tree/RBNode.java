@@ -1,5 +1,5 @@
 package tree;
-import queue.
+import queue.Task;
 
 public class RBNode<V extends Comparable<V>> {
 	public volatile V value;
@@ -18,6 +18,7 @@ public class RBNode<V extends Comparable<V>> {
 	
 	public RBNode(V value){
 		this.value = value;
+		this.task = Task;
 		this.left = null;
 		this.right = null;
 		this.parent = null;
