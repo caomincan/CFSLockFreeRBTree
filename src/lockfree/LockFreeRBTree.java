@@ -8,7 +8,7 @@ public class LockFreeRBTree<V extends Comparable<V>> {
 	LockFreeRBNode<V> root;
 	
 	public LockFreeRBTree(){
-		this.root = null;
+		this.root = new LockFreeRBNode<V>();
 	}
 	
 	// find the value if not in the tree return null
@@ -27,18 +27,41 @@ public class LockFreeRBTree<V extends Comparable<V>> {
 		return temp;
 	}
 	public void add(V value){
-		LockFreeRBNode<V> z = null;
-		LockFreeRBNode<V> y = this.root;
-		while(y!= null && y.value != null){
-			z = y;
-			if(value.compareTo(y.value)<0){
-				y = y.left;
-			}else{
-				y =y.right;
-			}
-		}// end while
-		// place new node x as child of z
+		LockFreeRBNode<V> y,z;
 		LockFreeRBNode<V> x = new LockFreeRBNode<V>(value);
+		boolean gotoFlag = false;
+		while(true){
+			gotoFlag = false;
+			// restart
+			z = null;
+			while(!root.flag.compareAndSet(false, true));
+			y = this.root;
+			while(y!= null && y.value != null){
+				z = y;
+				if(value.compareTo(y.value)<0){
+					y = y.left;
+				}else{
+					y =y.right;
+				}
+				if(!y.flag.compareAndSet(false, true)){
+					z.flag.set(false); // release held flag
+					gotoFlag = true;
+					break;
+				}
+				if(y.value != null){
+					z.flag.set(false);
+				}
+			}// end while
+			if(gotoFlag) continue;
+			x.flag.set(true);
+			if(!SetupLocalAreaForInsert(z)){
+				z.flag.set(false); // release help flag
+				continue;
+			}else{
+				break;
+			}
+		}
+		// place new node x as child of z
 		x.parent = z;
 		if(z == null) { this.root = x; }
 		else if(value.compareTo(z.value)<0){
@@ -49,10 +72,77 @@ public class LockFreeRBTree<V extends Comparable<V>> {
 		x.left = new LockFreeRBNode<V>();
 		x.right = new LockFreeRBNode<V>();
 		x.isRed = true;
-		insertHelp(x);
-		
+		insertHelp(x);	
 	}
 	
+	protected boolean SetupLocalAreaForInsert(LockFreeRBNode<V> z){
+		if(z == null) return true;
+		// try to get flags for rest of local area
+		LockFreeRBNode<V> zp = z.parent;
+		if(zp == null) return true;
+		if(!zp.flag.compareAndSet(false, true)){
+			return false;
+		}
+		if(zp != z.parent){
+			zp.flag.set(false);
+			return false;
+		}
+		LockFreeRBNode<V> uncle;
+		if(z == z.parent.left)  // uncle is the right child
+			uncle = z.parent.right;
+		else
+			uncle = z.parent.left;
+		if(!uncle.flag.compareAndSet(false, true)){
+			z.parent.flag.set(false);
+			return false;
+		}
+		// Now try to get the four intention markers above p[z]
+		// The second argument is only useful for deletes so we pass z
+		// which is not an ancestor of p[z] and will have no effect
+		/*if(!GetFlagsAndMarkersAbove(z.parent,z)){
+			z.parent.flag.set(false);
+			uncle.flag.set(false);
+			return false;
+		}*/
+		return true;
+	}
+	
+	protected LockFreeRBNode<V> MoveInserterUp(LockFreeRBNode<V> oldx){
+		LockFreeRBNode<V> oldp = oldx.parent;
+		LockFreeRBNode<V> oldgp = oldp.parent;
+		LockFreeRBNode<V> olduncle;
+		if(oldp == oldgp.left) olduncle = oldgp.right;
+		else olduncle = oldgp.left;
+		
+		LockFreeRBNode<V> newx,newp,newgp,newuncle;
+		// get above flag
+		newx = oldgp;
+		while(true && newx.parent!= null){
+			newp = newx.parent;
+			if(!newp.flag.compareAndSet(false, true)){
+				continue;
+			}
+			newgp = newp.parent;
+			if(newgp == null) break;
+			if(!newgp.flag.compareAndSet(false, true)){
+				newp.flag.set(false);
+				continue;
+			}
+			if(newp == newgp.left) newuncle = newgp.right;
+			else newuncle = newgp.left;
+			if(!newuncle.flag.compareAndSet(false, true)){
+				newgp.flag.set(false);
+				newp.flag.set(false);
+				continue;
+			}
+			break;
+		}
+		// releaseflags
+		oldx.flag.set(false);
+		oldp.flag.set(false);
+		olduncle.flag.set(false);
+		return newx;	
+	}
 	
 	// insert fix up
 	protected void insertHelp(LockFreeRBNode<V> x){
@@ -65,7 +155,7 @@ public class LockFreeRBTree<V extends Comparable<V>> {
 					x.parent.isRed = false;
 					y.isRed = false;
 					x.parent.parent.isRed = true;
-					x = x.parent.parent;
+					x = MoveInserterUp(x);
 				}else{
 					if(x == x.parent.right){
 						// Case 2
@@ -84,7 +174,7 @@ public class LockFreeRBTree<V extends Comparable<V>> {
 					x.parent.isRed = false;
 					y.isRed = false;
 					x.parent.parent.isRed = true;
-					x = x.parent.parent;
+					x = MoveInserterUp(x);
 				}else{
 					if(x == x.parent.left){
 						// Case 2
@@ -99,6 +189,23 @@ public class LockFreeRBTree<V extends Comparable<V>> {
 			}
 		}// end while
 		this.root.isRed = false;
+		// release flag
+		LockFreeRBNode<V> xp = x.parent;
+		x.flag.set(false);
+		if(xp!= null){
+			LockFreeRBNode<V> gp,uncle = null;
+			xp.flag.set(false);
+			gp = xp.parent;
+			if(gp!= null){
+				if(gp.left == xp) uncle = gp.right;
+				else uncle = gp.left;
+				gp.flag.set(false);
+			}
+			if(uncle != null){
+				uncle.flag.set(false);
+			}
+		}
+		
 	}
 	
 	public V remove(V value){
