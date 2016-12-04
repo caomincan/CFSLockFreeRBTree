@@ -590,8 +590,19 @@ if(DEBUG){
 		      
 		private void adjust_virtualtime(Task _task) {
 
-			_task.VirtualRunTime
+			// remove old time
 			_task.oldVtime
+			
+			// adjust
+			_task.VirtualRunTime
+			
+			for () {
+				// if match, ++ & retry from the head
+				_task.VirtualRunTime++;
+			}
+			
+			add _task.VirtualRunTime to queie;
+			
 			
 		}
 
