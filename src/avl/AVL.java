@@ -3,7 +3,6 @@ package avl;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ArrayList;
-import queue.Task;
 
 /** copyright on https://github.com/GodTamIt/java-iterative-avl-tree
  * A completely iterative AVL implementation (excluding certain order
@@ -13,7 +12,6 @@ import queue.Task;
  */
 
 public class AVL<T extends Comparable<T>> implements AVLInterface<T> {
-
     // Do not add additional instance variables
     private Node<T> root = null;
     private int size = 0;
@@ -26,13 +24,11 @@ public class AVL<T extends Comparable<T>> implements AVLInterface<T> {
     }
 
     @Override
-    public synchronized void add(T data, Task _task) { //Jack
-    	//s(Task) _task.id;
-        //if (_task.VirtualRunTime == null) {
-        if (_task.VirtualRunTime < 0) {
+    public synchronized void add(T data) { //Jack
+        if (data == null) {
             throw new IllegalArgumentException("Argument cannot be null!");
         } else if (this.size == 0) {
-            this.root = new Node<T>(_task); // Jack
+            this.root = new Node<T>(data); // Jack
         } else {
             // Calculate maximum parents to visit
             int worstCase = this.size / 2 + 1;
@@ -219,7 +215,7 @@ public class AVL<T extends Comparable<T>> implements AVLInterface<T> {
 
         // Parallel arrays tracking node ancestors
         @SuppressWarnings("unchecked")
-        Node<T>[] parents = new Node[worstCase]; //Jack
+        Node<T>[] parents = new Node[worstCase];
         ChildType[] childTypes = new ChildType[worstCase];
 
         int parentCount = 0;
@@ -520,9 +516,8 @@ public class AVL<T extends Comparable<T>> implements AVLInterface<T> {
 	            */
 	        }
 	        //return (T) current;
-	        return current.getTask();
+	        return current.getData();
         }
-        
         return null;
     }
 	
