@@ -206,7 +206,7 @@ if(DEBUG){
 					//	}
 					//}
 					//task[i].VirtualRunTime = least_Vtime;
-					adjust_virtualtime(task[i]);
+					adjust_Vtime(task[i]);
 					
 					Task _task = new Task();		// redundant?
 					thread_copy(_task, task[i]);	// redundant?
@@ -253,7 +253,7 @@ if(DEBUG){
 		System.out.println("");
 	}
 
-	
+
 	private static int read_file_lines() {
 		int line_num = 0; 
 		String fileName ="in.txt";
@@ -533,7 +533,7 @@ if(DEBUG){
 						System.out.println("1. " + curr_task.cpu_runtime + "\t2. " +curr_task.io_runtime + "\t3. " + running_tasks[i].time_slice);
 			  			// update Virtual Time
 			  			curr_task.VirtualRunTime += (curr_task.cpu_runtime+curr_task.io_runtime); // + actual run time NOT time_slice  // TODO: check time_slice is > 0
-			  			= adjust_virtualtime(curr_task);
+			  			adjust_Vtime(curr_task);
 			  			
 			  			
 			  			// update nice
@@ -591,7 +591,8 @@ if(DEBUG){
 			}
 		}
 		      
-		private void adjust_virtualtime(Task _task) {
+
+		private static synchronized void adjust_Vtime(Task _task) {
 
 			// remove old time
 			_task.oldVtime
