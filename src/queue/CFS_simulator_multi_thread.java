@@ -203,7 +203,7 @@ if(DEBUG){
 					//	}
 					//}
 					//task[i].VirtualRunTime = least_Vtime;
-					
+					adjust_virtualtime(task[i]);
 					
 					Task _task = new Task();		// redundant?
 					thread_copy(_task, task[i]);	// redundant?
@@ -530,7 +530,7 @@ if(DEBUG){
 						System.out.println("1. " + curr_task.cpu_runtime + "\t2. " +curr_task.io_runtime + "\t3. " + running_tasks[i].time_slice);
 			  			// update Virtual Time
 			  			curr_task.VirtualRunTime += (curr_task.cpu_runtime+curr_task.io_runtime); // + actual run time NOT time_slice  // TODO: check time_slice is > 0
-			  			adjust_virtualtime(curr_task);
+			  			= adjust_virtualtime(curr_task);
 			  			
 			  			
 			  			// update nice
@@ -588,6 +588,13 @@ if(DEBUG){
 			}
 		}
 		      
+		private void adjust_virtualtime(Task _task) {
+
+			_task.VirtualRunTime
+			_task.oldVtime
+			
+		}
+
 		public int GetTotalDeq() { //
 		      return TotalDeq;  
 		}
