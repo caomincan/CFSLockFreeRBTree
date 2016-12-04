@@ -185,19 +185,21 @@ if(DEBUG){
 				/* check any thread should set to run_queue */
 				for(i=0; i<TASK; i++) { // check any thread ready to run
 					if( task[i].start_time >= g_time) {  // if so put it to runqueue
+						
 						// TODO: replace all run_queue with rbtree
 						/* least Vtime */
-						int least_Vtime=1; 		// Feature: min garauntee
-						for(k=0; k<TASK; k++) { // assign the least nice value to the new task
-							if (run_queue[k].id!=0) {
-								if (least_Vtime > run_queue[k].VirtualRunTime)
-									least_Vtime = run_queue[k].VirtualRunTime;
-							}
-						}
-						task[i].VirtualRunTime = least_Vtime;
+						//int least_Vtime=1; 		// Feature: min garauntee
+						//for(k=0; k<TASK; k++) { // assign the least nice value to the new task
+						//	if (run_queue[k].id!=0) {
+						//		if (least_Vtime > run_queue[k].VirtualRunTime)
+						//			least_Vtime = run_queue[k].VirtualRunTime;
+						//	}
+						//}
+						//task[i].VirtualRunTime = least_Vtime;
 						
 						Task _task = new Task();		// redundant?
 						thread_copy(_task, task[i]);	// reduandant?
+						System.out.println("push_to_rbtre=" + push_to_rbtree);
 						// 1. enqueue() to run_queue
 						push_to_rbtree(_task);
 						
@@ -351,29 +353,8 @@ if(DEBUG){
 	
 	// This is FIFO O(1) version //TODO: replace with tree 
 	private static void push_to_rbtree(Task _task) {
-		int i;
 		//Integer a = new Integer(_task.VirtualRunTime);
 		instance.add(_task); // must succeed
-         
-		
-		/*
-		for(i=0; i<TASK ;i++) {
-			if(run_queue[i].id==(0)) {
-				//TODO: ERROR: copy hand by hand
-				thread_copy(run_queue[i], _task);
-				
-				//TODO: sched1 - virtual += timslice 
-				//				copy all info hand by hand
-				
-				//Reminder: TODO: sched2 - recalculate time_slice 
-				//							clean runtime_info
-
-				g_queue_thread_num++;
-				return 0; // pushed successfully
-			}
-		}
-		return -1; // queue is full
-		*/
 	}
 	
 	public static Task pop_from_rbtree() {	
