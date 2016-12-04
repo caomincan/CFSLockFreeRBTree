@@ -816,7 +816,7 @@ if(DEBUG){
 			  		}
 				}
 				
-				if(is_exit==true) { // feature - exit() interrupt						
+				if(is_exit==true) { // feature - exit() interrupt			
 					if ( ((curr_task.cpu+curr_task.io) <= 0) ) {	// task done
 
 			  			// before cleaning info, record successful done threads
