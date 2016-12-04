@@ -657,6 +657,7 @@ if(DEBUG){
 		task1.cpu = task2.cpu;
 		task1.prio = task2.prio;		
 		task1.nice = task2.nice;
+		task1.ori_nice = task2.ori_nice;
 		task1.VirtualRunTime = task2.VirtualRunTime;
 		task1.time_slice = task2.time_slice; 		
 		task1.weight = task2.weight;

@@ -102,7 +102,7 @@ public class CFS_simulator_multi_thread<T extends Comparable<T>> {
 		System.out.println("TASK = " + TASK);
 		System.out.println("THREADS = " + THREADS);
 	  	
-	
+
 		/*
 		 * every task will be executed in the threads
 		 * when a thread is done/out of time slice, it enq()/deq() global queue
@@ -115,8 +115,8 @@ public class CFS_simulator_multi_thread<T extends Comparable<T>> {
 		task = new Task[TASK];					// all tasks in this simulation
 	  	// xxxxxxxxxxx							// enqueue to tree
 		
-		//run_queue = new Task[TASK];				// visible while run time
-	  	//running_tasks = new Task[THREADS];		// executing // thread will take care of this
+		//run_queue = new Task[TASK];			// visible while run time
+	  	//running_tasks = new Task[THREADS];	// executing // thread will take care of this
 	  	finishing_order_queue = new Task[TASK]; // check finishing order // for record
 	  	
 	  	is_interrupted = new boolean[THREADS];	
@@ -129,34 +129,12 @@ public class CFS_simulator_multi_thread<T extends Comparable<T>> {
 
 	  	for(i=0; i<TASK; i++) {
 	  		task[i] = new Task();
-	  		//run_queue[i] = new Task();	
 	  		finishing_order_queue[i] = new Task();	
 	  	}
-	  	
-	  	//for(i=0; i<THREADS; i++) {
-	  		//running_tasks[i] = new Task();
-	  	//}
 	
-	  	// init threads
+	  	// init threads (task[i])
 	  	read_file_lines2();
-	  	/*
-	  	for(i=0; i<TASK; i++) {
-	  		// read from txt
-	  		task[i].id = i+1; // from 0 to Task
-
-	  		task[i].cpu = 1*1000*1000*10; // user defined (ms)
-	  		task[i].io = 1*1000*1000*10; // user defined (ms)
-	  		task[i].prio = 1000; //99 (high prio) ~ 0 (low prio) 
-	  		task[i].start_time = 0; // optional
-	  		
-	  		// init
-	  		task[i].nice = 1; // -20 (high prio) ~ 19 (low prio)   // -19 (high prio) ~ 20 (low prio)
-	  		task[i].VirtualRunTime = 0; 
-	  		task[i].time_slice = 0;
-	  		task[i].weight = 0;
-		}
-		*/
-		
+	  			
 if(DEBUG){  	
 	  	for(i=0; i<TASK; i++) {
 	  		// read from txt
@@ -174,12 +152,6 @@ if(DEBUG){
 	  	System.out.println("task[0] = " + task[0]);
 		System.out.println("task[0].id = " + task[0].id);
 		System.out.println("task[1].id = " + task[1].id);
-	  	
-		// init all CPU
-		//for(i=0; i<THREADS; i++) { // traverse all CPU
-		//	running_tasks[i].id=0;
-		//}
-		
 		
 		/* after tasks are all enqueued */
 		Thread[] myThreads = new Thread[THREADS];
@@ -187,10 +159,10 @@ if(DEBUG){
 	    	myThreads[i] = new CPUThread(i); 
 	    }
 	    for (i = 0; i < THREADS; i ++) {
-	      //myThreads[i].start();
+	    	myThreads[i].start();
 	    }
 	    for (i = 0; i < THREADS; i ++) {
-	      //myThreads[i].join();
+	    	myThreads[i].join();
 	    }
 	    
 	  	/* main keeps checks all task start time */
@@ -198,11 +170,6 @@ if(DEBUG){
 		/* main thead only check whether should I place a Task from pool to the run_queue(rbtree) */
 		/* mimicing external interrupt with polling*/
 		while(true) { // infinite loop until every work is done
-			//do {
-			  	
-			  	/*clear flags*/
-			  	//g_is_interrupted=false;
-
 				/* periodically debug */
 				int how_many_int=100;
 if(DEBUG){
@@ -222,18 +189,8 @@ if(DEBUG){
 				/* check any thread should set to run_queue */
 				for(i=0; i<TASK; i++) { // check any thread ready to run
 					if( task[i].start_time >= g_time) {  // if so put it to runqueue
-						/*
-						int least_nice=1; // Feature: min garauntee
-						for(k=0; k<TASK; k++) { // assign the least nice value to the new task
-							if (run_queue[k].id!=0){
-								if (least_nice > run_queue[k].nice)
-									least_nice = run_queue[k].nice;
-							}
-						}
-						task[i].nice = least_nice;
-						*/
-						
 						// TODO: replace all run_queue with rbtree
+						/* least Vtime */
 						int least_Vtime=1; 		// Feature: min garauntee
 						for(k=0; k<TASK; k++) { // assign the least nice value to the new task
 							if (run_queue[k].id!=0) {
@@ -243,69 +200,20 @@ if(DEBUG){
 						}
 						task[i].VirtualRunTime = least_Vtime;
 						
-						
-						// TODO: 1. enqueue() to run_queue
-						//if (push_to_rbtree(task[i]) < 0 ) { //1. find a empty slot & insert the task to run_queue
-						//	System.out.println("ERROR: enq() run_queue is full");
-						//	break; // no more task can be inserted!!!!
-						//}
-						
+						Task _task = new Task();		// redundant?
+						thread_copy(_task, task[i]);	// reduandant?
+						// 1. enqueue() to run_queue
+						push_to_rbtree(_task);
 						
 						// 2. kill the task in task[] (task table)
-						//g_queue_thread_num++; 	// record
-						thread_clean(task[i]);	// remove from task table
+						thread_clean(task[i]);	// remove from task table	
 					}
 				}
 
-				/*
-				// if ideal cpu, push task
-				for(i=0; i<THREADS; i++) { // traverse all CPU
-					if(running_tasks[i].id==0) { // found ideal cpu
-						if ( pop_from_rbtree(running_tasks[i]) >=0 ) {	// insert task to the cpu
-							if(running_tasks[i].id!=0) { // if successful, record
-								g_exec_thread_num++;
-							}
-						}
-					}
-				}
-				
-				System.out.println("thread id on CPUs:");
-				for(i=0; i<THREADS; i++)
-					System.out.print(running_tasks[i].id + " ");
-				System.out.println("");
-				
-				boolean q_is_empty=true;
-				for(i=0; i<THREADS; i++) { // traverse all CPU
-					if( running_tasks[i].id!=0 || g_exec_thread_num!=0) { 
-						q_is_empty=false;	// if is_task in run_queue
-						break;
-					}
-				}
-				if(q_is_empty==true)
-					continue; // to do while(true) // if no task, keep looping 
-				*/
-				
-				
-			//	if(g_done_thread_num.get()==TASK) // all TASK are done
-			//		break;
-			//	
-		  	//} while(true);
-		  	
 			if(g_done_thread_num.get()==TASK) // all TASK are done
 				break;
 			
 		} // while
-		
-		// double check
-		//int done_cnt=0;
-		//for(i=1; i<TASK+1; i++) {
-		//	if( done_queue[i]==true)
-		//		done_cnt++; 
-		//}
-		//System.out.println("simulation done: " + done_cnt + " tasks finished");
-		//System.out.println("simulation done: " + (TASK-done_cnt) + " tasks not finished");
-		//if ((TASK-done_cnt)!=0)
-		//	System.out.println("ERROR: tasks not done");
 
 		if (instance.get_leftmost()!=null)
 			System.out.println("ERROR: tasks not done");
@@ -444,7 +352,6 @@ if(DEBUG){
 	// This is FIFO O(1) version //TODO: replace with tree 
 	private static void push_to_rbtree(Task _task) {
 		int i;
-
 		//Integer a = new Integer(_task.VirtualRunTime);
 		instance.add(_task); // must succeed
          
@@ -657,6 +564,7 @@ if(DEBUG){
 		task1.cpu = task2.cpu;
 		task1.prio = task2.prio;		
 		task1.nice = task2.nice;
+		task1.ori_nice = task2.ori_nice;
 		task1.VirtualRunTime = task2.VirtualRunTime;
 		task1.time_slice = task2.time_slice; 		
 		task1.weight = task2.weight;
