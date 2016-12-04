@@ -47,15 +47,15 @@ public class CFS_simulator_multi_thread<T extends Comparable<T>> {
 	
 	static //private Node<T> root = null;
 	//AVL<Integer> instance;
-	//AVL<Task> instance;
-	RBTree<Task> instance;
+	AVL<Task> instance;
+	//RBTree<Task> instance;
 	
 	public CFS_simulator_multi_thread(String testName, int thread, int duration, int n, int ops) {
 		g_time = 0;
 		g_queue_thread_num = 0;
 		//instance = new AVL<Integer>();
-		//instance = new AVL<Task>();
-		instance = new RBTree<Task>();
+		instance = new AVL<Task>();
+		//instance = new RBTree<Task>();
 	}
 	
 	public static void main(String[] args) throws Exception {
@@ -377,137 +377,9 @@ if(DEBUG){
 	}
 	
 	// This is FIFO O(1) version //TODO: replace with tree 
-	private T pop_from_rbtree() {
+	public static Task pop_from_rbtree() {
 		//int i;
-		return (T) instance.get_leftmost();
-		/*
-		//Task _task = run_queue[0];
-		//System.out.println("pop[0].id: " + run_queue[0].id);
-		
-		if(run_queue[0].id!=0) { // auto-sorted array, left-most aligned
-			// copy
-			thread_copy(_task, run_queue[0]);
-			
-			//TODO: sched2 - recalculate time_slice 
-			//				clean runtime_info
-			
-			// weight = 1024 / (1.25 ^ nice_value)
-			// runtime=(base) 1/allthread
-			// virtual time += runtime * (nice / weight)
-			// 1*1000*1000*1000(1s)
-			// virtual time += (1*1000*1000*1000) * (_task.nice / (1024 / (1.25 ^ _task.nice)))
-			_task.time_slice = (int) ((1*1000) * (float)(_task.nice / (1024 / Math.pow(1.25, _task.nice)))); //TODO: nice=0 is wrong => this is wrong
-			
-			if (_task.time_slice <= min_granunarity)
-				_task.time_slice=min_granunarity;
-			//System.out.println("_task.time_slice = " +_task.time_slice + "\t nice=" + _task.nice);
-
-
-			// clean old queue
-			run_queue[0].id=0;
-
-			// clean(init) all runtime info
-	  		_task.cpu_runtime=0;	// used for 
-	  		_task.io_runtime=0; 	// used for dy
-	  	
-	  		g_queue_thread_num--;
-	  		
-  			// rearrange the queue - auto-sorted array, left-most aligned
-	  		//int j=0;
-	  		for (i=0; i<TASK-1; i++) {
-	  			if (run_queue[i+1]!=null) { // end
-	  				if (run_queue[i].id==0 && run_queue[i+1].id!=0) {
-	  					thread_copy(run_queue[i], run_queue[i+1]);
-	  					thread_clean(run_queue[i+1]);
-	  					i=0; continue; 	// O(N^2)
-	  				}
-	  			}
-	  		}
-	  		
-if(DEBUG){
-	  		for (i=0; i<TASK-1; i++) {
-	  			System.out.print( run_queue[i].id + " ");
-	  		}
-  			System.out.println("");
-}
-			
-			return 0;
-		}
-		else { 
-			System.out.println("pop failed: run_queue is empty (run_queue=" + g_queue_thread_num + ")");
-			for(i=0; i<TASK; i++) { // check any thread ready to run
-				System.out.print( run_queue[i].id + " ");
-			}
-			System.out.println("");
-
-			return -1;
-		}
-		*/
-	}
-	
-	/* 
-	 * weight = 1 * 2 * 3
-	 * 
-	 * 1. use the old weight to determine the virtual time should be added on 
-	 * 			take original  1 * 2 * 3 adding to virtual time
-	 * 
-	 * 2. update a new weight by this run (time_slice - I should run next time) 
-	 * 	(AVOIDE TO CHAGNE TO MUCH IF THIS RUN DOESN'T RUN MUCH)
-	 * 			TODO:
-	 * 
-	 * */
-	public static int reschedule() { // 有拿到cpu的不會跑到這邊來
-		int i=0;
-		// make sure no any task in executing
-		for (i=0; i<THREADS;i++) {
-			if ( running_tasks[i].id!=(0)) {
-				System.out.println("ERROR: reschedule(): runiing_task[] is not empty");
-				return -2;
-			}
-		}
-		// 寫在外面更簡單明瞭＝＝ 因為只針對要改變的調整而已
-		// start to travers all task in run queueue 
-		for(i=0; i<TASK; i++) { // traverse all task in queue. This is simple no need to take consideration into init
-	  		
-			//if ( (run_queue[i].io_runtime==0) && (run_queue[i].cpu_runtime==0) ) { 	//剛加入 或者上次沒搶到cpu
-			//	;
-			//}
-			//else { // 剛剛有cpu幹點事情  來計算吧
-				/* 1. use the old weight to determine the virtual time should be added on  */
-				/*1-formula
-				if( run_queue[i].nice>0 )
-					run_queue[i].time_slice = (TimerIntThreshold * 4 * (run_queue[i].nice+20) /20); // t x 4 x 40(20+20)
-				else										 // 					160x
-					run_queue[i].time_slice = (TimerIntThreshold * 1 * (run_queue[i].nice+20) /20); // t x 1 x 1(-19+20)
-				*/ 
-				//2-another ideal runtime formula 
-				//(run_queue[i]io_runtime + run_queue[i]_cpu_runtime) * (1024/run_queue[i].nice+20);
-/*
-				// I use version 1
-				if( run_queue[i].nice>0 )
-					run_queue[i].time_slice = ( (float)((float)(run_queue[i].io_runtime+run_queue[i].cpu_runtime)/(float)TimerIntThreshold) * (float)4 * (float)((run_queue[i].nice+20)/20)); // t x 4 x 40(20+20)
-				else										 // 					160x
-					run_queue[i].time_slice = ( (float)((float)(run_queue[i].io_runtime+run_queue[i].cpu_runtime)/(float)TimerIntThreshold) * (float)1 * (float)((run_queue[i].nice+20)/20)); // t x 1 x 1(-19+20)
-
-				
-				run_queue[i].VirtualRunTime += run_queue[i].time_slice;
-				System.out.println("debug time_slice=" + run_queue[i].time_slice + " [i]=" + i);
-*/			
-				/* 2. update a new weight by this run (time_slice - I should run next time) */ 
-/*
-
-				if (run_queue[i].io_runtime > run_queue[i].cpu_runtime) {
-					run_queue[i].nice++;	//TODO: this is too rough
-				}
-				
-				if (run_queue[i].io_runtime < run_queue[i].cpu_runtime) {
-					run_queue[i].nice--;	//TODO: this is too rough
-				}
-*/
-			//}
-		}
-		
-		return 0;
+		return instance.get_leftmost();
 	}
 	
 	/* Thread */
@@ -576,18 +448,6 @@ if(DEBUG){
 
 	private static void thread_clean(Task task1) {
 		task1.id = 0;
-		/*
-		int cpu;
-		int prio;				//
-		int nice;
-		int VirtualRunTime; 	// accumulated =   TimerIntThreshold * (time_slice/weight) 
-		float time_slice; 		// chose one = prio + nice  = 100ms 
-		int weight;				// chose one = prio + nice 
-		int start_time;
-
-		int io_runtime;
-		int cpu_runtime; 
-		*/
 	}
 	
 	static class CPUThread extends Thread {
@@ -612,6 +472,7 @@ if(DEBUG){
 			Task curr_task;
 			boolean is_exit=false;
 			
+			Thread.sleep(1000);
 			do {
 				//if (instance.get_leftmost()==null) 
 				if (curr_task＝pop_from_rbtree()==null)

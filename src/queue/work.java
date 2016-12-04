@@ -2,6 +2,7 @@ package queue;
 
 public class work implements Comparable<work> {
     int key;
+    String name;
     
     public work(int key){
     	this.key = key;
