@@ -44,22 +44,23 @@ public class CFS_simulator_multi_thread<T extends Comparable<T>> {
 	private static Random random = new Random();
 	
 	static //private Node<T> root = null;
-	AVL<Integer> instance;
+	//AVL<Integer> instance;
+	AVL<Task> instance;
 	
 	public CFS_simulator_multi_thread(String testName, int thread, int duration, int n, int ops) {
 		g_time = 0;
 		g_queue_thread_num = 0;
-		instance = new AVL<Integer>();
+		//instance = new AVL<Integer>();
+		instance = new AVL<Task>();
 	}
-  
+	
 	public static void main(String[] args) throws Exception {
 	  	int i, j, k;
 	  	int left;
 	  	boolean is_interrupted[];
 	  	int virtualtime = -1;
 	  	int timer; // timer interrupt cnt
-
-	  	  	
+ 	  	
 		int data = 1;
 		//this.root = new Node<T>(null);
 		
@@ -67,39 +68,39 @@ public class CFS_simulator_multi_thread<T extends Comparable<T>> {
 		//empty
 		System.out.println("tree height = " + instance.height());
 		System.out.println("tree get leftmost = " + instance.get_leftmost());
-		
+		Task __task = new Task(); 
 		// 4
-		instance.add(4);		
+		instance.add(__task);		
 		System.out.println("tree height = " + instance.height());
 		System.out.println("tree get leftmost = " + instance.get_leftmost());
 		
 		// 5
-		instance.add(5);		
+		instance.add(__task);		
 		System.out.println("tree height = " + instance.height());
 		System.out.println("tree get leftmost = " + instance.get_leftmost());
 				
 		// 6
-		instance.add(6);		
+		instance.add(__task);		
 		System.out.println("tree height = " + instance.height());
 		System.out.println("tree get leftmost = " + instance.get_leftmost());
 		
 		// 3
-		instance.add(3);		
+		instance.add(__task);		
 		System.out.println("tree height = " + instance.height());
 		System.out.println("tree get leftmost = " + instance.get_leftmost());
 		
 		// 2
-		instance.add(2);		
+		instance.add(__task);		
 		System.out.println("tree height = " + instance.height());
 		System.out.println("tree get leftmost = " + instance.get_leftmost());
 				
 		// 1
-		instance.add(1);		
+		instance.add(__task);		
 		System.out.println("tree height = " + instance.height());
 		System.out.println("tree get leftmost = " + instance.get_leftmost());
 		
 		// empty
-		instance.remove(data);	
+		instance.remove(__task);	
 		System.out.println("tree height = " + instance.height());
 		System.out.println("tree get leftmost = " + instance.get_leftmost());
 	
@@ -486,7 +487,7 @@ if(DEBUG){
 	}
 	
 	// This is FIFO O(1) version //TODO: replace with tree 
-	private static T pop_from_rbtree(Task _task) { // TODO
+	private  T pop_from_rbtree(Task _task) {
 		//int i;
 		return (T) instance.get_leftmost();
 		/*
