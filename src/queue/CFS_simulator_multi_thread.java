@@ -28,8 +28,9 @@ public class CFS_simulator_multi_thread<T extends Comparable<T>> {
 	static int g_time;					// global time
 	static int g_queue_thread_num;		// global number of threads in run_queue
 	//static int g_exec_thread_num; 		// global number of executing threads on simulated CPUs
-	static AtomicInteger g_done_thread_num;		// global number of threads done
-    //static AtomicInteger totalItems;
+	static AtomicInteger g_done_thread_num = new AtomicInteger(0);;		// global number of threads done
+	
+	//static AtomicInteger totalItems;
     //g_done_thread_num.get();
     //g_done_thread_num.getAndIncrement();
     
@@ -47,15 +48,15 @@ public class CFS_simulator_multi_thread<T extends Comparable<T>> {
 	
 	static //private Node<T> root = null;
 	//AVL<Integer> instance;
-	AVL<Task> instance;
-	//RBTree<Task> instance;
+	//AVL<Task> instance;
+	RBTree<Task> instance;
 	
 	public CFS_simulator_multi_thread(String testName, int thread, int duration, int n, int ops) {
 		g_time = 0;
 		g_queue_thread_num = 0;
 		//instance = new AVL<Integer>();
-		instance = new AVL<Task>();
-		//instance = new RBTree<Task>();
+		//instance = new AVL<Task>();
+		instance = new RBTree<Task>();
 	}
 	
 	public static void main(String[] args) throws Exception {
@@ -166,47 +167,48 @@ if(DEBUG){
 		/* main thead only check whether should I place a Task from pool to the run_queue(rbtree) */
 		/* mimicing external interrupt with polling*/
 		while(true) { // infinite loop until every work is done
-				/* periodically debug */
-				int how_many_int=100;
+			/* periodically debug */
+			int how_many_int=100;
 if(DEBUG){
-				if(g_time>0 && TimerIntThreshold>0) {
-					if (how_many_int/g_time/TimerIntThreshold==0) {
-						System.out.println("--------------------------------------------");
-						System.out.println("g_time=" + g_time);
-						System.out.println("TASK=" + TASK);		// main() is the only one access TASK table
-						//System.out.println("g_queue_thread_num=" + g_queue_thread_num);
-						//System.out.println("g_exec_thread_num=" + g_exec_thread_num);
-						System.out.println("g_done_thread_num=" + g_done_thread_num.get());
-						//TODO: done_queue
-					}
+			g_time++;
+			if(g_time>0 && TimerIntThreshold>0) {
+				if (how_many_int/g_time/TimerIntThreshold==0) {
+					System.out.println("--------------------------------------------");
+					System.out.println("g_time=" + g_time);
+					System.out.println("TASK=" + TASK);		// main() is the only one access TASK table
+					//System.out.println("g_queue_thread_num=" + g_queue_thread_num);
+					//System.out.println("g_exec_thread_num=" + g_exec_thread_num);
+					System.out.println("g_done_thread_num=" + g_done_thread_num.get());
+					//TODO: done_queue
 				}
+			}
 }	
 				
-				/* check any thread should set to run_queue */
-				for(i=0; i<TASK; i++) { // check any thread ready to run
-					if( task[i].start_time >= g_time) {  // if so put it to runqueue
-						
-						// TODO: replace all run_queue with rbtree
-						/* least Vtime */
-						//int least_Vtime=1; 		// Feature: min garauntee
-						//for(k=0; k<TASK; k++) { // assign the least nice value to the new task
-						//	if (run_queue[k].id!=0) {
-						//		if (least_Vtime > run_queue[k].VirtualRunTime)
-						//			least_Vtime = run_queue[k].VirtualRunTime;
-						//	}
-						//}
-						//task[i].VirtualRunTime = least_Vtime;
-						
-						Task _task = new Task();		// redundant?
-						thread_copy(_task, task[i]);	// reduandant?
-						System.out.println("push_to_rbtre=" + push_to_rbtree);
-						// 1. enqueue() to run_queue
-						push_to_rbtree(_task);
-						
-						// 2. kill the task in task[] (task table)
-						thread_clean(task[i]);	// remove from task table	
-					}
+			/* check any thread should set to run_queue */
+			for(i=0; i<TASK; i++) { // check any thread ready to run
+				if( task[i].start_time >= g_time) {  // if so put it to runqueue
+					
+					// TODO: replace all run_queue with rbtree
+					/* least Vtime */
+					//int least_Vtime=1; 		// Feature: min garauntee
+					//for(k=0; k<TASK; k++) { // assign the least nice value to the new task
+					//	if (run_queue[k].id!=0) {
+					//		if (least_Vtime > run_queue[k].VirtualRunTime)
+					//			least_Vtime = run_queue[k].VirtualRunTime;
+					//	}
+					//}
+					//task[i].VirtualRunTime = least_Vtime;
+					
+					Task _task = new Task();		// redundant?
+					thread_copy(_task, task[i]);	// reduandant?
+					System.out.println("_task=" + _task);
+					// 1. enqueue() to run_queue
+					push_to_rbtree(_task);
+					
+					// 2. kill the task in task[] (task table)
+					thread_clean(task[i]);	// remove from task table	
 				}
+			}
 
 			if(g_done_thread_num.get()==TASK) // all TASK are done
 				break;
@@ -354,6 +356,7 @@ if(DEBUG){
 	// This is FIFO O(1) version //TODO: replace with tree 
 	private static void push_to_rbtree(Task _task) {
 		//Integer a = new Integer(_task.VirtualRunTime);
+		System.out.println("_task=" + _task);
 		instance.add(_task); // must succeed
 	}
 	
