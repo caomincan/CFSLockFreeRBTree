@@ -805,7 +805,6 @@ if(DEBUG){
 							//				copy all info hand by hand
 							//Reminder: TODO: sched2 - recalculate time_slice (after pop) 
 							//							clean runtime_info
-
 							push_to_rbtree(curr_task);
 			  					
 			  				//g_exec_thread_num--;
