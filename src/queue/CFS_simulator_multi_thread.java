@@ -592,6 +592,11 @@ if(DEBUG){
 		}
 		      
 
+		private static synchronized voidadjust_Vtime(Task _task) {
+			// TODO Auto-generated method stub
+			
+		}
+
 		private static synchronized void adjust_Vtime(Task _task) {
 
 			// remove old time
