@@ -621,7 +621,7 @@ boolean DD=true;
 		public void run() {
 			int i=0;
 			Task curr_task = null;
-			try { Thread.sleep(3000); } catch (InterruptedException e) { e.printStackTrace(); }
+			//try { Thread.sleep(3000); } catch (InterruptedException e) { e.printStackTrace(); }
 			
 if(DD) {
 			while(true) {
@@ -685,6 +685,7 @@ if(DD) {
 			  			System.out.println("queue_num = " + g_queue_thread_num.get() + "\t" + 
 			  								"done_num = " + g_done_thread_num.get() + "\t" +
 			  								"done id = " + curr_task.id );
+			  			instance.print();
 			  			reschedule=true;
 			  			//System.out.println("why height = " + ((AVL<Task>)instance).height());
 					}
