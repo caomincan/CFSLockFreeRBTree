@@ -261,8 +261,9 @@ public class RBTree<V extends Comparable<V>> implements Tree<V> {
 	}
 	
 	public void print(){
+		int jack;
 		List<List<String>> res = new LinkedList<List<String>>();
-		res = printHelp(root,0,res);
+		res = printHelp(root,0,res,jack);
 		for(List<String> list:res){
 			for(String word: list){
 				System.out.print(word+" ");
@@ -271,7 +272,7 @@ public class RBTree<V extends Comparable<V>> implements Tree<V> {
 		}
 	}
 	
-	protected List<List<String>> printHelp(RBNode<V> root,int height,List<List<String>> res){
+	protected List<List<String>> printHelp(RBNode<V> root,int height,List<List<String>> res, int jack){
 		if(root == null) return res;
 		List<String> list;
 		if(height >= res.size()){
@@ -284,6 +285,7 @@ public class RBTree<V extends Comparable<V>> implements Tree<V> {
 			list.add(" _ ");
 		}else{
 			list.add(root.value.toString()+(root.isRed?"_R":"_B"));
+			//Jack
 		}
 		printHelp(root.left,height+1,res);
 		printHelp(root.right,height+1,res);

@@ -179,37 +179,47 @@ if(DEBUG){
 		Tree<Task> instance1 = new RBTree<Task>();
 		Hashtable<String, String> htable1 = new Hashtable<>();
 		Thread[] myThreads1 = new Thread[THREADS];
-		for (i = 0; i < THREADS; i++)
-			myThreads1[i] = new ADDThread(i, instance1, htable1, lock1); 
-		for (i = 0; i < THREADS; i ++)
+		int add_num = 16;
+		for (i = 0; i < THREADS; i++) {
+			myThreads1[i] = new ADDThread(i, instance1, htable1, lock1, add_num); 
+		}
+		for (i = 0; i < THREADS; i ++) {
 			myThreads1[i].start();
-		for (i = 0; i < THREADS; i ++)
+		}
+		for (i = 0; i < THREADS; i ++) {
 	    	myThreads1[i].join();
-		
-		instance.print();
+		}
+		System.out.println("THREADS=" + THREADS + "\tadd_num=" + add_num);
+		instance1.print();
 
-		Thread.sleep(10*10000);
-
+		Thread.sleep(10*1000);
+		for (i = 0; i < 5; i++) {
+			System.out.println(""); 
+		}
 		/* test 2. concurrent deletion*/
 		ReentrantLock lock2 = new ReentrantLock();
 		Tree<Task> instance2 = new RBTree<Task>();
 		Hashtable<String, String> htable2 = new Hashtable<>();
 		// sequential add
-		for (i = 0; i < TASK; i++) {
+		int del_num = TASK;
+		for (i = 0; i < del_num; i++) {
 			Task _task = new Task();
 			_task.id=i; _task.VirtualRunTime=i;
 			push_to_rbtree(_task, instance2, lock2, htable2);
 		}
 		Thread[] myThreads2 = new Thread[THREADS];
-		for (i = 0; i < THREADS; i++)
-			myThreads2[i] = new DELThread(i, instance2, htable2, lock2); 
-		for (i = 0; i < THREADS; i ++)
+		for (i = 0; i < THREADS; i++) {
+			myThreads2[i] = new DELThread(i, instance2, htable2, lock2, del_num);
+		}
+		for (i = 0; i < THREADS; i ++) {
 			myThreads2[i].start();
-		for (i = 0; i < THREADS; i ++)
+		}
+		for (i = 0; i < THREADS; i ++) {
 	    	myThreads1[i].join();
+		}
+		instance2.print();
 		
-		instance.print();
-
+		Thread.sleep(100*1000);
 
 
 
@@ -547,35 +557,31 @@ adjust_Vtime(_task, _htable);
 		private ReentrantLock _lock;
 		private Random random = new Random();
 		volatile boolean reschedule=true;
+		int add_num;
 		
-		public ADDThread(int i, Tree<Task> tree, Hashtable<String, String> htable, ReentrantLock lock) {
+		public ADDThread(int i, Tree<Task> tree, Hashtable<String, String> htable, ReentrantLock lock, int _add_num) {
 			id = i;
 			instance=tree;
 			_htable=htable;
 			_lock=lock;
+			add_num = _add_num;
 		}
 	
 		public void run() {
 			int i=0;
-			
-			try { Thread.sleep(2000); } catch (InterruptedException e) { e.printStackTrace(); }
-	
-			//while(true) {
-				int ppp=16;
-				int base = (id++ * ppp/THREADS);
-				for (i=base; i<base+(ppp/THREADS) ; i++) {
-					Task _task = new Task();
-					_task.id =i;
-					_task.VirtualRunTime=id;
-					push_to_rbtree(_task, instance, _lock, _htable);
-					System.out.println("test 1: inserting id=" + _task.id);
-				}
-			//	break;
-			//}
+			try { Thread.sleep(1000); } catch (InterruptedException e) { e.printStackTrace(); }
+			int base = (id++ * add_num/THREADS);
+			for (i=base; i<base+(add_num/THREADS) ; i++) {
+				Task _task = new Task();
+				_task.id =i;
+				_task.VirtualRunTime=id;
+				push_to_rbtree(_task, instance, _lock, _htable);
+				System.out.println("test1: inserting id=" + _task.id);
+			}
+
 		}
 	}
 		
-	
 	static class DELThread extends Thread {
 		private volatile int TotalDeq=0; //not used
 		private volatile int GoodDeq=0;
@@ -587,39 +593,27 @@ adjust_Vtime(_task, _htable);
 		private ReentrantLock _lock;
 		private Random random = new Random();
 		volatile boolean reschedule=true;
+		int del_num;
 		
-		public DELThread(int i, Tree<Task> tree, Hashtable<String, String> htable, ReentrantLock lock) {
+		public DELThread(int i, Tree<Task> tree, Hashtable<String, String> htable, ReentrantLock lock, int _del_num) {
 			id = i;
 			instance=tree;
 			_htable=htable;
 			_lock=lock;
+			del_num = _del_num;
 		}
 	
 		public void run() {
 			int i=0;
-			
 			try { Thread.sleep(2000); } catch (InterruptedException e) { e.printStackTrace(); }
-	
-			//while(true) {
-				int ppp=16;
-				int base = (id++ * ppp/THREADS);
-				for (i=base; i<base+(ppp/THREADS) ; i++) {
-					Task _task;
-					//= new Task();
-					//_task.id =i;
-					//_task.VirtualRunTime=id;
-					
-					//push_to_rbtree(_task, instance, _lock, _htable);
-					_task = pop_from_rbtree(instance, _lock);
-					System.out.println("test 2: deleting id=" + _task.id);
-				}
-			//	break;
-			//}
+			int base = (id++ * del_num/THREADS);
+			for (i=base; i<base+(del_num/THREADS) ; i++) {
+				Task _task;
+				_task = pop_from_rbtree(instance, _lock);
+				System.out.println("test2: deleting id=" + _task.id);
+			}
 		}
 	}
-	
-	
-	
 	
 	static class CPUThread extends Thread {
 		private volatile int TotalDeq=0; //not used
