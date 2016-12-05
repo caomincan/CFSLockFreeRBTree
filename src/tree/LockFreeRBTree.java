@@ -158,6 +158,7 @@ public class LockFreeRBTree<V extends Comparable<V>> implements Tree<V> {
 			if(x.parent == x.parent.parent.left){
 				y = x.parent.parent.right;
 				uncle = y;
+				if(uncle == null) continue;
 				// insert 4pos to working array
 				//working.set(0,x);working.set(1,xp);working.set(2,gp);working.set(3,uncle);
 				// just add new node
@@ -182,6 +183,7 @@ public class LockFreeRBTree<V extends Comparable<V>> implements Tree<V> {
 			}else{
 				y = x.parent.parent.left;
 				uncle = y;
+				if(uncle == null) continue;
 				// insert 4pos to working array
 				//working.set(0,x);working.set(1,xp);working.set(2,gp);working.set(3,uncle);
 				// just add new node
