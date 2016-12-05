@@ -13,8 +13,7 @@ import java.util.Hashtable;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import avl.*;
-import tree.RBTree;
+import tree.*;
 
 import java.io.*;  
 
