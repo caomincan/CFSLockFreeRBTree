@@ -27,7 +27,7 @@ public class LockFreeRBTree<V extends Comparable<V>> implements Tree<V> {
 		}
 		return temp==null?null:temp.value;
 	}
-	public void add(V value){
+	public void add(V value) throws NullPointerException{
 		LockFreeRBNode<V> y,z;
 		LockFreeRBNode<V> x = new LockFreeRBNode<V>(value);
 		x.flag.set(true);
