@@ -268,7 +268,7 @@ public class RBTree<V extends Comparable<V>> implements Tree<V> {
 			for(String word: list){
 				System.out.print(word+" ");
 			}
-			System.out.print(jack+"\n");
+			System.out.print(jack.valueOf(i)+"\n");
 		}
 	}
 	
