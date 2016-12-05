@@ -280,10 +280,9 @@ if(DEBUG){
 		System.out.println("g_time = " + g_time/1000 + " ms (system virtual ticks)");
 		System.out.println("g_time = " + g_time/1000/1000 + " s (system virtual ticks)");
 		
-		// TODO:
-		System.out.print("TODO finishing order:");
+		System.out.print("Finished order:");
 		for(i=1; i<TASK+1; i++) {
-			System.out.print(i+"=" + finishing_order_queue[i].intValue() + " ");		
+			System.out.print(finished_order_queue[i].intValue() + " ");		
 		}
 		System.out.println("");
 		
@@ -661,7 +660,7 @@ if(DEBUG){
 			  								"done_num = " + g_done_thread_num.get() + "\t" +
 			  								"done id = " + curr_task.id );
 }
-						finishing_order_queue[finishing_order_queue[0].incrementAndGet()].set(curr_task.id);
+						finished_order_queue[finished_order_queue[0].incrementAndGet()].set(curr_task.id);
 			  			reschedule=true;
 			  			//System.out.println("why height = " + ((AVL<Task>)instance).height());
 					}
