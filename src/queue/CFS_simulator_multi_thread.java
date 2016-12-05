@@ -71,8 +71,8 @@ public class CFS_simulator_multi_thread<T extends Comparable<T>> {
 	  	
 	  	/* dispatch to threads */
 		//this.root = new Node<T>(null);
-	  	//Tree<Task> instance = new AVL<Task>();
-		Tree<Task> instance = new RBTree<Task>();
+	  	Tree<Task> instance = new AVL<Task>();
+		//Tree<Task> instance = new RBTree<Task>();
 		Hashtable<String, String> htable = new Hashtable<>();
 		
 		/** example code - hashtable
@@ -387,7 +387,7 @@ if(DEBUG){
 		Task _task;
 		lock.lock();  // block until condition holds
 	    try {
-	    	instance.print();
+	    	//instance.print();
 	    	_task = instance.leftMost();
 			if(_task==null)
 				return null;
@@ -487,7 +487,7 @@ if(DEBUG){
 			Task curr_task;
 			boolean is_exit=false;
 			
-			try { Thread.sleep(1500); } catch (InterruptedException e) { e.printStackTrace(); }
+			//try { Thread.sleep(1500); } catch (InterruptedException e) { e.printStackTrace(); }
 			
 			while(true) {
 				curr_task = pop_from_rbtree(instance, _lock);
