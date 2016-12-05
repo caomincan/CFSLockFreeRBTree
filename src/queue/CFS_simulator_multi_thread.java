@@ -9,6 +9,7 @@ package queue;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Hashtable;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -71,6 +72,22 @@ public class CFS_simulator_multi_thread<T extends Comparable<T>> {
 		//instance = new RBTree<Task>();
 		
 		
+		Hashtable<String, String> htable = new Hashtable<>();
+		
+		Task __task = new Task();
+		__task.VirtualRunTime= new Integer(10); // set value
+		htable.put(__task.VirtualRunTime.toString(), __task.VirtualRunTime.toString());
+		__task.VirtualRunTime = new Integer(__task.VirtualRunTime.intValue() + 1); // ++
+		htable.put(__task.VirtualRunTime.toString(), __task.VirtualRunTime.toString());
+		
+		__task.VirtualRunTime.intValue(); //get
+		System.out.println("int = " + __task.VirtualRunTime.intValue()); 
+		
+		htable.put(__task.VirtualRunTime.toString(), __task.VirtualRunTime.toString());
+
+		System.out.println("ok key=" + htable.get(__task.VirtualRunTime.toString())); 
+		System.out.println("bad key=" + htable.get("123213")); 
+
 		/*
 		Task _task = new Task();
 		
@@ -253,6 +270,23 @@ if(DEBUG){
 
 
 	private static synchronized void adjust_Vtime(Task _task) {
+		
+		
+		Task __task = new Task();
+		__task.VirtualRunTime= new Integer(10); // set value
+		htable.put(__task.VirtualRunTime.toString(), __task.VirtualRunTime.toString());
+		__task.VirtualRunTime = new Integer(__task.VirtualRunTime.intValue() + 1); // ++
+		htable.put(__task.VirtualRunTime.toString(), __task.VirtualRunTime.toString());
+		
+		__task.VirtualRunTime.intValue(); //get
+		System.out.println("int = " + __task.VirtualRunTime.intValue()); 
+		
+		htable.put(__task.VirtualRunTime.toString(), __task.VirtualRunTime.toString());
+
+		System.out.println("ok key=" + htable.get(__task.VirtualRunTime.toString())); 
+		System.out.println("bad key=" + htable.get("123213")); 
+
+		// htable.get(_task.VirtualRunTime)
 /*
 			// remove old time
 			_task.oldVtime
@@ -269,7 +303,7 @@ if(DEBUG){
 			
 			static int[] Vtime_table; 	// Be careful id is from 1~Task
 		  	static int Vtime_num; 	// Be careful id is from 1~Task
-			*/
+		*/
 	}
 
 	private static int read_file_lines() {
@@ -364,7 +398,7 @@ if(DEBUG){
 					task[i].ori_nice = Integer.parseInt(tokens[5]);	// ori_nice 
 					task[i].start_time = Integer.parseInt(tokens[6]);	// start_time (used for interrupt or mimicing preemptive tasks) 
 					
-					task[i].VirtualRunTime = 0; 
+					task[i].VirtualRunTime = new Integer(0); 
 				  	task[i].time_slice = 0;
 				  	task[i].weight = 0;
 				}
@@ -450,7 +484,8 @@ if(DEBUG){
 		task1.prio = task2.prio;		
 		task1.nice = task2.nice;
 		task1.ori_nice = task2.ori_nice;
-		task1.VirtualRunTime = task2.VirtualRunTime;
+		task1.VirtualRunTime = new Integer(task2.VirtualRunTime.intValue()); 
+		
 		task1.time_slice = task2.time_slice; 		
 		task1.weight = task2.weight;
 		task1.start_time = task2.start_time;
@@ -544,7 +579,10 @@ if(DEBUG){
 						// time_slice passed(out)
 						System.out.println("1. " + curr_task.cpu_runtime + "\t2. " +curr_task.io_runtime + "\t3. " + running_tasks[i].time_slice);
 			  			// update Virtual Time
-			  			curr_task.VirtualRunTime += (curr_task.cpu_runtime+curr_task.io_runtime); // + actual run time NOT time_slice  // TODO: check time_slice is > 0
+			  			int temp_int=0;
+			  			temp_int += curr_task.VirtualRunTime.intValue();
+			  			temp_int += curr_task.cpu_runtime+curr_task.io_runtime; // + actual run time NOT time_slice 
+						curr_task.VirtualRunTime = new Integer(temp_int); 
 			  			adjust_Vtime(curr_task);
 			  			
 			  			// update nice
