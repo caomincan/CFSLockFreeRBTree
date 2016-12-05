@@ -226,7 +226,7 @@ if(DEBUG){
 	    for (i = 0; i < THREADS; i ++) {
 	    	myThreads[i].start();
 	    }
-	    
+	    long start_time = System.currentTimeMillis();
 	  	/* main keeps checks all task start time */
 		/* main thread only check whether should I place a Task from pool to the run_queue(rbtree) */
 		/* mimicking external interrupt with polling*/
@@ -273,6 +273,9 @@ if(DEBUG){
 		for (i = 0; i < THREADS; i ++) {
 	    	myThreads[i].join();
 	    }
+		
+		System.currentTimeMillis()-start_time
+		
 		/*
 		if (instance.leftMost()!=null)
 			System.out.println("ERROR: tasks not done");
@@ -690,11 +693,10 @@ if(DD) {
 					}
 				}
 				else if (t_time > TimerIntThreshold) { // feature - timer interrupt
-					// case 1. Job not done BUT time slice is reached. recycle(reclaim).
-					if ( curr_task.time_slice <= (curr_task.cpu_runtime+curr_task.io_runtime) ) { // expired must deq()	
-						// time_slice passed(out) 
+					// case 1. Job not done BUT time_slice is out. recycle(reclaim).
+					if ( curr_task.time_slice <= (curr_task.cpu_runtime+curr_task.io_runtime) ) { // time_slice expired must deq()	
 						//System.out.println("1. " + curr_task.cpu_runtime + "\t2. " +curr_task.io_runtime + "\t3. " + curr_task[i].time_slice);
-			  			// sched1 - update Virtual Time - virtual += timslice (before push)
+			  			// sched1 - update Virtual Time - virtual += time_slice (before push)
 			  			int temp_int=0;
 			  			temp_int += curr_task.VirtualRunTime.intValue();
 			  			temp_int += curr_task.cpu_runtime+curr_task.io_runtime; // + actual run time NOT time_slice 
