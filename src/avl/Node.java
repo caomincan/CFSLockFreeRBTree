@@ -12,7 +12,7 @@ public class Node<T extends Comparable<T>> {
     private Node<T> right;
     private int height;
     private int balanceFactor;
-    Task task;
+    //Task task;
 
     public Node(T d) {
         data = d; // virtual runtime

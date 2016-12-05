@@ -384,8 +384,7 @@ if(DEBUG){
 	private static void push_to_rbtree(Task _task, AVL<Task> instance) {
 		g_queue_thread_num.getAndIncrement();
 		instance.add(_task); // must succeed
-		System.out.println("height"+instance.height());
-		
+		//System.out.println("height"+instance.height());
 	}
 	
 	public static Task pop_from_rbtree(AVL<Task> instance) {
@@ -491,9 +490,9 @@ if(DEBUG){
 			
 			while(true) {
 				curr_task = pop_from_rbtree(instance);
-				System.out.println("curr_task="+curr_task);
+				//System.out.println("curr_task="+curr_task);
 				if (curr_task==null) {
-					System.out.println("curr_task="+curr_task);
+					//System.out.println("curr_task="+curr_task);
 					continue;	// nothing in run queue
 				}
 				
