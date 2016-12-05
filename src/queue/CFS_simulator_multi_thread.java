@@ -610,7 +610,6 @@ if(DD) {
 			  			//adjust_Vtime(curr_task, _htable);
 			  			
 			  			// update nice
-						/*
 			  			if (curr_task.io_runtime*2 > curr_task.cpu_runtime) {
 			  				curr_task.nice++;
 							if (curr_task.nice > curr_task.ori_nice+dynaic_nice_rang)
@@ -621,7 +620,7 @@ if(DD) {
 							if (curr_task.nice < curr_task.ori_nice-dynaic_nice_rang)
 								curr_task.nice = curr_task.ori_nice-dynaic_nice_rang;
 						}
-						*/
+						
 						push_to_rbtree(curr_task, instance, _lock, _htable);
 						reschedule=true;
 			  			//thread_clean(curr_task);
