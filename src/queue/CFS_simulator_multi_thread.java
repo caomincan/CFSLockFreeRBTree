@@ -498,10 +498,7 @@ if(DEBUG){
 				
 				CPUThread currThread = (CPUThread) CPUThread.currentThread();
 				System.out.println("Thread_id = " + currThread.id + ", Task_id = " + curr_task.id);
-				if(curr_task.id==0)
-					System.out.println(((AVL<Task>)instance).height());
-				
-				
+
 				/* Load a new task to run */
 				// sched2 - recalculate time_slice 
 				curr_task.time_slice = (int) ((1*1000) * (float)(curr_task.nice / (1024 / Math.pow(1.25, curr_task.nice))));
@@ -538,7 +535,7 @@ if(DEBUG){
 			  			//g_done_thread_num++;
 			  			g_done_thread_num.getAndIncrement();
 			  			//g_exec_thread_num--;
-
+			  			
 			  			/* clean runtime info to record for the next run */
 			  			curr_task.cpu_runtime=0;
 			  			curr_task.io_runtime=0;
