@@ -224,7 +224,7 @@ if(DEBUG){
 				}
 			}
 
-			if(g_done_thread_num.get()==TASK) // all TASK are done
+//if(g_done_thread_num.get()==TASK) // all TASK are done
 				break;
 			
 		} // while(1) end
@@ -232,7 +232,8 @@ if(DEBUG){
 		for (i = 0; i < THREADS; i ++) {
 	    	myThreads[i].join();
 	    }
-		
+		instance.print();
+		/*
 		if (instance.leftMost()!=null)
 			System.out.println("ERROR: tasks not done");
 		else // ==null
@@ -255,6 +256,7 @@ if(DEBUG){
 			System.out.print(finishing_order_queue[i].id + " ");			
 		}
 		System.out.println("");
+		*/
 	}
 
 	private static synchronized void adjust_Vtime(Task _task, Hashtable<String, String> _htable) {
@@ -536,19 +538,16 @@ boolean DD=false;
 				//	break;
 				//System.out.println("queue_num = " + g_queue_thread_num.get() + "\t" + 
 				//						"done_num = " + g_done_thread_num.get());
-				
-				int base = (id++ * 100/THREADS);
-				for (i=base; i<base+(100/THREADS)-1 ; i++) {
+				int ppp=16;
+				int base = (id++ * ppp/THREADS);
+				for (i=base; i<base+(ppp/THREADS) ; i++) {
 					Task _task = new Task();
 					_task.id =i;
 					_task.VirtualRunTime=id;
 					push_to_rbtree(_task, instance, _lock, _htable);
 					System.out.println("slice out: inserting id=" + _task.id);
-					
 				}
-				instance.print();
-				if (g_done_thread_num.get()==TASK)
-					break;
+				break;
 			}
 		
 			
