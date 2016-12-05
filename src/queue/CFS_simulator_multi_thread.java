@@ -495,7 +495,7 @@ if(DEBUG){
 					//System.out.println("curr_task="+curr_task);
 					continue;	// nothing in run queue
 				}
-
+				instance.print();
 				CPUThread currThread = (CPUThread) CPUThread.currentThread();
 				System.out.println("Thread_id = " + currThread.id + ", Task_id = " + curr_task.id);
 				
