@@ -537,9 +537,8 @@ if(DEBUG){
 			  			/* clean runtime info to record for the next run */
 			  			//curr_task.cpu_runtime=0;
 			  			//curr_task.io_runtime=0;
-			  			System.out.println("1. ");
 			  			kill_from_rbtree(curr_task, instance, _lock);
-			  			System.out.println(((AVL<Task>)instance).height());
+			  			System.out.println("why" + ((AVL<Task>)instance).height());
 					}
 				}
 				else if (t_time > TimerIntThreshold) { // feature - timer interrupt
