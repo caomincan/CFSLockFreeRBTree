@@ -24,6 +24,7 @@ public class CFS_simulator_multi_thread<T extends Comparable<T>> {
 	static int TimerIntThreshold = 1000*1000;	// timer interrupt ticks 1ms
 	static int min_granunarity = 1000*1000;		// minimum granularity // 1ms
 	static int dynaic_nice_rang = 5;			// nice(dynamic) = original_nice +-dynaic_nice_rang
+	static int how_many_int=10*1000; 				/* periodically debug */
 	
 	static int TASK = -1; 				// global number of tasks (threads) assigned by in.txt
 	static int g_time;					// global time
@@ -46,11 +47,6 @@ public class CFS_simulator_multi_thread<T extends Comparable<T>> {
   	static int Vtime_table_size = 1000000;
   	
 	private static Random random = new Random();
-	
-	//static private Node<T> root = null;
-	//AVL<Integer> instance;
-	//AVL<Task> instance;
-	//RBTree<Task> instance;
 	
 	public CFS_simulator_multi_thread(String testName, int thread, int duration, int n, int ops) {
 		g_time = 0;
@@ -77,8 +73,8 @@ public class CFS_simulator_multi_thread<T extends Comparable<T>> {
 	  	
 	  	/* dispatch to threads */
 		//this.root = new Node<T>(null);
-	  	//AVL<Task> instance = new AVL<Task>();
-		RBTree<Task> instance = new RBTree<Task>();
+	  	//Tree<Task> instance = new AVL<Task>();
+		Tree<Task> instance = new RBTree<Task>();
 		Hashtable<String, String> htable = new Hashtable<>();
 		
 		/** example code - hashtable
@@ -131,16 +127,11 @@ public class CFS_simulator_multi_thread<T extends Comparable<T>> {
 		/*
 		 * every task will be executed in the threads
 		 * when a thread is done/out of time slice, it enq()/deq() global queue
-		 * */
+		 */
 		
-		// Create THREADS threads
-		
-		// Create Tasks	
+
+		//  Create THREADS threads(CPUs)
 		task = new Task[TASK];					// all tasks in this simulation
-	  	// xxxxxxxxxxx							// enqueue to tree
-		
-		//run_queue = new Task[TASK];			// visible while run time
-	  	//running_tasks = new Task[THREADS];	// executing // thread will take care of this
 	  	finishing_order_queue = new Task[TASK]; // check finishing order // for record
 	  	
 	  	is_interrupted = new boolean[THREADS];	
@@ -160,7 +151,7 @@ public class CFS_simulator_multi_thread<T extends Comparable<T>> {
 	  		finishing_order_queue[i] = new Task();	
 	  	}
 	
-	  	// init threads (task[i])
+	  	// initilize threads (task[i])
 	  	read_file_lines2();
 	  			
 if(DEBUG){  	
@@ -197,7 +188,6 @@ if(DEBUG){
 		/* main thread only check whether should I place a Task from pool to the run_queue(rbtree) */
 		/* mimicking external interrupt with polling*/
 		while(true) { // infinite loop until every work is done
-			int how_many_int=1000; /* periodically debug */
 			g_time++;
 			
 if(DEBUG){
@@ -223,7 +213,6 @@ if(DEBUG){
 					thread_copy(_task, task[i]);	// redundant?
 					// 1. enqueue() to run_queue
 					push_to_rbtree(_task, instance, lock);
-					
 					// 2. kill the task in task[] (task table)
 					thread_clean(task[i]);	// remove from task table	
 				}
@@ -232,7 +221,7 @@ if(DEBUG){
 			if(g_done_thread_num.get()==TASK) // all TASK are done
 				break;
 			
-		} // while
+		} // while(1) end
 		
 		for (i = 0; i < THREADS; i ++) {
 	    	myThreads[i].join();
@@ -251,7 +240,6 @@ if(DEBUG){
 		System.out.println("--------------------------------------------");
 		System.out.println("TASK=" + TASK);
 		System.out.println("g_queue_thread_num=" + g_queue_thread_num.get());
-		//System.out.println("g_exec_thread_num=" + g_exec_thread_num);
 		System.out.println("g_done_thread_num=" + g_done_thread_num.get());
 		System.out.println("g_time=" + g_time + " us");
 		System.out.println("g_time=" + g_time/1000 + " ms");
@@ -385,8 +373,7 @@ if(DEBUG){
 		return line_num;
 	}
 	
-	//private static void push_to_rbtree(Task _task, AVL<Task> instance, R) {
-	private static void push_to_rbtree(Task _task, RBTree<Task> instance, ReentrantLock lock) {	
+	private static void push_to_rbtree(Task _task, Tree<Task> instance, ReentrantLock lock) {	
 		g_queue_thread_num.getAndIncrement();
 		lock.lock();  // block until condition holds
 	    try {
@@ -397,8 +384,7 @@ if(DEBUG){
 	    }
 	}
 	
-	//public static Task pop_from_rbtree(AVL<Task> instance) {
-	public static Task pop_from_rbtree(RBTree<Task> instance, ReentrantLock lock) {
+	public static Task pop_from_rbtree(Tree<Task> instance, ReentrantLock lock) {
 		Task _task;
 		lock.lock();  // block until condition holds
 	    try {
@@ -481,13 +467,11 @@ if(DEBUG){
 		private volatile int id=-1;  
 		int t_time=0; // thread run time
 		private Hashtable<String, String> _htable;
-		//private AVL<Task> instance;
-		private RBTree<Task> instance;
+		private Tree<Task> instance;
 		
 		private ReentrantLock _lock;
 		private Random random = new Random();
-		//public CPUThread(int i, AVL<Task> tree, Hashtable<String, String> htable) {
-		public CPUThread(int i, RBTree<Task> tree, Hashtable<String, String> htable, ReentrantLock lock) {
+		public CPUThread(int i, Tree<Task> tree, Hashtable<String, String> htable, ReentrantLock lock) {
 			id = i;
 			instance=tree;
 			_htable=htable;
