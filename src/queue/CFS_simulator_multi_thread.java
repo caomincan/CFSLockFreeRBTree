@@ -63,8 +63,8 @@ public class CFS_simulator_multi_thread<T extends Comparable<T>> {
 	  	
 	  	/* dispatch to threads */
 		//this.root = new Node<T>(null);
-	  	//Tree<Task> instance = new AVL<Task>();
-		Tree<Task> instance = new RBTree<Task>();
+	  	Tree<Task> instance = new AVL<Task>();
+		//Tree<Task> instance = new RBTree<Task>();
 		Hashtable<String, String> htable = new Hashtable<>();
 		
 		ReentrantLock lock = new ReentrantLock();
@@ -461,7 +461,8 @@ if(DEBUG){
 			else {
 				Task temp_task;
 				temp_task = instance.remove(_task);
-				if (temp_task == null) System.out.println("BAD$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+				if (temp_task == null) 
+					System.out.println("BAD$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
 				g_queue_thread_num.getAndDecrement();
 				return _task;
 			}
