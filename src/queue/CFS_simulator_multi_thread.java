@@ -20,7 +20,7 @@ import java.io.*;
 
 public class CFS_simulator_multi_thread<T extends Comparable<T>> {
 	/* default values */ /* unit=us */
-	static int THREADS =4; 					// number of workers (simulated CPUs, not task!!!!!!!!!!!)
+	static int THREADS =8; 					// number of workers (simulated CPUs, not task!!!!!!!!!!!)
 	static int TimerIntThreshold = 1000*1000;	// timer interrupt ticks 1ms
 	static int min_granunarity = 1000*1000;		// minimum granularity // 1ms
 	static int dynaic_nice_rang = 5;			// nice(dynamic) = original_nice +-dynaic_nice_rang
@@ -169,7 +169,7 @@ if(DEBUG){
 
 
 		/* test 1. concurrent addition */
-		
+		/*
 		ReentrantLock lock1 = new ReentrantLock();
 		Tree<Task> instance1 = new RBTree<Task>();
 		Hashtable<String, String> htable1 = new Hashtable<>();
@@ -187,13 +187,13 @@ if(DEBUG){
 		System.out.println("THREADS=" + THREADS + "\tadd_num=" + add_num);
 		instance1.print();
 
-		Thread.sleep(20*1000);
+		Thread.sleep(5*1000);
 		for (i = 0; i < 5; i++) {
 			System.out.println(""); 
 		}
-		
+		*/
 		/* test 2. concurrent deletion*/
-		
+		/*
 		ReentrantLock lock2 = new ReentrantLock();
 		Tree<Task> instance2 = new RBTree<Task>();
 		Hashtable<String, String> htable2 = new Hashtable<>();
@@ -216,8 +216,8 @@ if(DEBUG){
 		}
 		instance2.print();
 		
-		Thread.sleep(20*1000);
-		
+		Thread.sleep(5*1000);
+		*/
 		g_queue_thread_num.set(0);
 
 		/* after tasks are all enqueued */
@@ -640,6 +640,8 @@ if(DD) {
 					//System.out.println("curr_task="+curr_task);
 					if (curr_task==null) {
 						//System.out.println("curr_task="+curr_task);
+						if (g_done_thread_num.get() == TASK ) 
+							break;
 						continue;	// nothing in run queue
 					}
 					//System.out.println("Pop out: id = " + curr_task.id);
