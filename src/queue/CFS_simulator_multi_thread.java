@@ -387,23 +387,33 @@ if(DEBUG){
 	}
 	
 	//private static void push_to_rbtree(Task _task, AVL<Task> instance, R) {
-	private static void push_to_rbtree(Task _task, RBTree<Task> instance, Reenta lock) {	
+	private static void push_to_rbtree(Task _task, RBTree<Task> instance, ReentrantLock lock) {	
 		g_queue_thread_num.getAndIncrement();
-		instance.add(_task); // must succeed
-		//System.out.println("height"+instance.height());
+		lock.lock();  // block until condition holds
+	    try {
+	    	instance.add(_task); // must succeed
+			//System.out.println("height"+instance.height());
+	    } finally {
+	    	lock.unlock();
+	    }
 	}
 	
 	//public static Task pop_from_rbtree(AVL<Task> instance) {
-	public static Task pop_from_rbtree(RBTree<Task> instance) {
+	public static Task pop_from_rbtree(RBTree<Task> instance, ReentrantLock lock) {
 		Task _task;
-		_task = instance.leftMost();
-		if(_task==null)
-			return null;
-		else {
-			instance.remove(_task);
-			g_queue_thread_num.getAndDecrement();
-			return _task;
-		}
+		lock.lock();  // block until condition holds
+	    try {
+	    	_task = instance.leftMost();
+			if(_task==null)
+				return null;
+			else {
+				instance.remove(_task);
+				g_queue_thread_num.getAndDecrement();
+				return _task;
+			}
+	    } finally {
+	    	lock.unlock();
+	    }
 	}
 
 	public static boolean JobTask(Task task, int virtualtime) { 	/* a thread, a task */
@@ -497,7 +507,7 @@ if(DEBUG){
 			try { Thread.sleep(3000); } catch (InterruptedException e) { e.printStackTrace(); }
 			
 			while(true) {
-				curr_task = pop_from_rbtree(instance);
+				curr_task = pop_from_rbtree(instance, _lock);
 				//System.out.println("curr_task="+curr_task);
 				if (curr_task==null) {
 					//System.out.println("curr_task="+curr_task);
