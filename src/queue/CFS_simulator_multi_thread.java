@@ -622,7 +622,7 @@ if(DD) {
 			  			//thread_clean(curr_task);
 			  		} // expired end
 				} //kernel end
-				else { 
+				else { // case 3. keep occupying CPU 
 					reschedule=false;
 					// time_slice remains, keep running}
 				}
