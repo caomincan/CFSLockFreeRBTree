@@ -680,6 +680,8 @@ if(DD) {
 			  			//curr_task.io_runtime=0;
 			  			//instance.print();
 			  			kill_from_rbtree(curr_task, instance, _lock);
+						System.out.println("Thread_id = " + currThread.id + ", slice out: inserting id=" + curr_task.id);
+
 			  			System.out.println("queue_num = " + g_queue_thread_num.get() + "\t" + 
 			  								"done_num = " + g_done_thread_num.get());
 			  			reschedule=true;
