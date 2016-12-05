@@ -511,7 +511,29 @@ if(DEBUG){
 						break;
 				}while(true);
 				
-				if (t_time > TimerIntThreshold) { // feature - timer interrupt
+				// kernel space
+				// case 1. exit()
+				if(is_exit==true) { // feature - exit() interrupt			
+					if ( ((curr_task.cpu+curr_task.io) <= 0) ) {	// task done
+
+			  			// before cleaning info, record successful done threads
+			  			//g_queue_thread_num--; 					// this is not comprehensive
+			  			//System.out.println("id=?" + running_tasks[i].id + " done?=" + done_queue[running_tasks[i].id]);
+			  			done_queue[running_tasks[i].id]=true; 	// record (before id=0)	1~Task
+			  			//System.out.println("id=?" + running_tasks[i].id + " done?=" + done_queue[running_tasks[i].id]);
+			  				
+			  			thread_copy(finishing_order_queue[g_done_thread_num.get()], curr_task);
+			  			//g_done_thread_num++;
+			  			g_done_thread_num.getAndIncrement();
+			  			//g_exec_thread_num--;
+
+			  			/* clean runtime info to record for the next run */
+			  			curr_task.cpu_runtime=0;
+			  			curr_task.io_runtime=0;
+			  			curr_task.id=0; 			// kill!! the task so that it will not be pushed back to the tree		
+			  		}
+				}
+				else if (t_time > TimerIntThreshold) { // feature - timer interrupt
 					// case 1. Job not done BUT time slice is reached. recycle(reclaim).
 					if ( curr_task.time_slice <= (curr_task.cpu_runtime+curr_task.io_runtime) ) { // expired mush deq()	
 						// time_slice passed(out)
@@ -551,27 +573,6 @@ if(DEBUG){
 			  		}
 				}
 				
-				// case 1. exit()
-				if(is_exit==true) { // feature - exit() interrupt			
-					if ( ((curr_task.cpu+curr_task.io) <= 0) ) {	// task done
-
-			  			// before cleaning info, record successful done threads
-			  			//g_queue_thread_num--; 					// this is not comprehensive
-			  			//System.out.println("id=?" + running_tasks[i].id + " done?=" + done_queue[running_tasks[i].id]);
-			  			done_queue[running_tasks[i].id]=true; 	// record (before id=0)	1~Task
-			  			//System.out.println("id=?" + running_tasks[i].id + " done?=" + done_queue[running_tasks[i].id]);
-			  				
-			  			thread_copy(finishing_order_queue[g_done_thread_num.get()], curr_task);
-			  			//g_done_thread_num++;
-			  			g_done_thread_num.getAndIncrement();
-			  			//g_exec_thread_num--;
-
-			  			/* clean runtime info to record for the next run */
-			  			curr_task.cpu_runtime=0;
-			  			curr_task.io_runtime=0;
-			  			curr_task.id=0; 			// kill!! the task so that it will not be pushed back to the tree		
-			  		}
-				}
 				
 			}
 		}
