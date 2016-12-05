@@ -2,13 +2,14 @@
  * CFS_simulator_multi_thread.java
  *
  * Created on December 5, 2016, 11:15 PM
+ * AVL
  * 14365
  * 15527
  * 14102
  * 12361
  * 12807
  * 
- * AVL
+ * RB
  */
 package queue;
 
