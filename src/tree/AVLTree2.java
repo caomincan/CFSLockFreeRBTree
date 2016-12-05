@@ -361,12 +361,11 @@ public class AVLTree2<T extends Comparable<T>> implements  Tree<T>{
 	    //}
 		
 		Node<T> temp = getRoot();
-		if(temp == null || temp.value == null) return null;
-		while(temp.left.value!= null){
+		if(temp == null || temp.data == null) return null;
+		while(temp.left.data!= null){
 			temp = temp.left;
 		}
-		return temp == null? null : temp.value;
-		
-		return null;
+		return temp == null? null : temp.data;
+
 	}
 }
