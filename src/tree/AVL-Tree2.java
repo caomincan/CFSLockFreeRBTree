@@ -4,7 +4,7 @@ import java.util.Collection;
 
 
 
-public class AVL-Tree<T extends Comparable<T>> {
+public class AVLTree2<T extends Comparable<T>> {
     
     private Node<T> root;
     private int size;
