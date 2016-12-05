@@ -61,6 +61,12 @@ public class CFS_simulator_multi_thread<T extends Comparable<T>> {
 	  	//int timer; // timer interrupt cnt
 		//int data = 1;
 	  	
+	  	/* dispatch to threads */
+		//this.root = new Node<T>(null);
+	  	//Tree<Task> instance = new AVL<Task>();
+		Tree<Task> instance = new RBTree<Task>();
+		Hashtable<String, String> htable = new Hashtable<>();
+		
 		ReentrantLock lock = new ReentrantLock();
 		lock.lock();  // block until condition holds
 	    try {
@@ -68,17 +74,7 @@ public class CFS_simulator_multi_thread<T extends Comparable<T>> {
 	    } finally {
 	    	lock.unlock();
 	    }
-	  	
-	  	/* dispatch to threads */
-		//this.root = new Node<T>(null);
-	  	//Tree<Task> instance = new AVL<Task>();
-		Tree<Task> instance = new RBTree<Task>();
-		Hashtable<String, String> htable = new Hashtable<>();
-		
-		
-		
-		
-		
+	
 		/** example code - hashtable
 		Task __task = new Task();
 		__task.VirtualRunTime= new Integer(10); // set value
@@ -179,21 +175,40 @@ if(DEBUG){
 
 
 		/* test 1. concurrent addition */
-		Thread[] myThreads = new Thread[THREADS];
-		for (i = 0; i < THREADS; i++) {
-			myThreads[i] = new ADDThread(i, instance, htable, lock); 
-		}
-		for (i = 0; i < THREADS; i ++) {
-			myThreads[i].start();
-		}
-		for (i = 0; i < THREADS; i ++) {
-	    	myThreads[i].join();
-	    }
+		ReentrantLock lock1 = new ReentrantLock();
+		Tree<Task> instance1 = new RBTree<Task>();
+		Hashtable<String, String> htable1 = new Hashtable<>();
+		Thread[] myThreads1 = new Thread[THREADS];
+		for (i = 0; i < THREADS; i++)
+			myThreads1[i] = new ADDThread(i, instance1, htable1, lock1); 
+		for (i = 0; i < THREADS; i ++)
+			myThreads1[i].start();
+		for (i = 0; i < THREADS; i ++)
+	    	myThreads1[i].join();
+		
 		instance.print();
 
-
+		Thread.sleep(10*10000);
 
 		/* test 2. concurrent deletion*/
+		ReentrantLock lock2 = new ReentrantLock();
+		Tree<Task> instance2 = new RBTree<Task>();
+		Hashtable<String, String> htable2 = new Hashtable<>();
+		// sequential add
+		for (i = 0; i < TASK; i++) {
+			Task _task = new Task();
+			_task.id=i; _task.VirtualRunTime=i;
+			push_to_rbtree(_task, instance2, lock2, htable2);
+		}
+		Thread[] myThreads2 = new Thread[THREADS];
+		for (i = 0; i < THREADS; i++)
+			myThreads2[i] = new DELThread(i, instance2, htable2, lock2); 
+		for (i = 0; i < THREADS; i ++)
+			myThreads2[i].start();
+		for (i = 0; i < THREADS; i ++)
+	    	myThreads1[i].join();
+		
+		instance.print();
 
 
 
@@ -553,7 +568,7 @@ adjust_Vtime(_task, _htable);
 					_task.id =i;
 					_task.VirtualRunTime=id;
 					push_to_rbtree(_task, instance, _lock, _htable);
-					System.out.println("slice out: inserting id=" + _task.id);
+					System.out.println("test 1: inserting id=" + _task.id);
 				}
 				break;
 			}
