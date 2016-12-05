@@ -530,7 +530,7 @@ if(DEBUG){
 						break;
 				}while(true);
 				
-				// kernel space
+				// kernel space : 
 				// case 1. exit()
 				if(is_exit==true) { // feature - exit() interrupt			
 					if ( ((curr_task.cpu+curr_task.io) <= 0) ) {	// task done
