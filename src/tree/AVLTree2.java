@@ -368,6 +368,6 @@ public class AVLTree2<T extends Comparable<T>> implements  Tree<T>{
 			}
 			return temp == null? null : temp.data;
 		}
-		return temp; 
+		return temp.data; 
 	}
 }
