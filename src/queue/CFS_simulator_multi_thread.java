@@ -550,6 +550,8 @@ if(DEBUG){
 			  			int temp_int=0;
 			  			temp_int += curr_task.VirtualRunTime.intValue();
 			  			temp_int += curr_task.cpu_runtime+curr_task.io_runtime; // + actual run time NOT time_slice 
+						System.out.println("1. " + curr_task.cpu_runtime + "\t2. " +curr_task.io_runtime + "\t3. " + curr_task.time_slice + "4. " + temp_int);
+
 						curr_task.VirtualRunTime = new Integer(temp_int); 
 			  			adjust_Vtime(curr_task, _htable);
 			  			
