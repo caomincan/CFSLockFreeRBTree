@@ -139,7 +139,7 @@ public class LockFreeRBTree<V extends Comparable<V>> implements Tree<V> {
 	}
 	
 	// insert fix up
-	protected void insertHelp(LockFreeRBNode<V> x){
+	protected synchronized void insertHelp(LockFreeRBNode<V> x){
 		LockFreeRBNode<V> y,uncle = null,xp,gp = null;
 		xp = x.parent;
 		// Remember which node this thread are working at
@@ -158,7 +158,7 @@ public class LockFreeRBTree<V extends Comparable<V>> implements Tree<V> {
 			if(x.parent == x.parent.parent.left){
 				y = x.parent.parent.right;
 				uncle = y;
-				if(uncle == null) continue;
+				//if(uncle == null) continue;
 				// insert 4pos to working array
 				//working.set(0,x);working.set(1,xp);working.set(2,gp);working.set(3,uncle);
 				// just add new node
@@ -183,7 +183,7 @@ public class LockFreeRBTree<V extends Comparable<V>> implements Tree<V> {
 			}else{
 				y = x.parent.parent.left;
 				uncle = y;
-				if(uncle == null) continue;
+				//if(uncle == null) continue;
 				// insert 4pos to working array
 				//working.set(0,x);working.set(1,xp);working.set(2,gp);working.set(3,uncle);
 				// just add new node
@@ -316,7 +316,7 @@ public class LockFreeRBTree<V extends Comparable<V>> implements Tree<V> {
 		}
 		x.isRed = false;
 	}
-	protected  void leftRotate(LockFreeRBNode<V> x){
+	protected synchronized void leftRotate(LockFreeRBNode<V> x){
 		if(x == null) return;
 		LockFreeRBNode<V> y = x.right;
 		// Turn y's left sub-tree into x's right sub-tree
@@ -340,7 +340,7 @@ public class LockFreeRBTree<V extends Comparable<V>> implements Tree<V> {
 		x.parent = y;
 	}
 	// symmetric to leftRotate 
-	protected void rightRotate(LockFreeRBNode<V> y){
+	protected synchronized void rightRotate(LockFreeRBNode<V> y){
 		if(y == null) return;
 		LockFreeRBNode<V> x = y.left;
 		y.left = x.right;
