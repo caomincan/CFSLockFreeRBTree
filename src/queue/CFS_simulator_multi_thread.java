@@ -381,7 +381,7 @@ if(DEBUG){
 		//while (true) {
 			
 		//}		
-		adjust_Vtime(_task, _htable);
+//adjust_Vtime(_task, _htable);
 		//System.out.println("good?: vtime " + _task.VirtualRunTime.toString());
 		/*
 		if (_htable.get(_task.VirtualRunTime.toString()) == null){ // new key
@@ -528,27 +528,29 @@ boolean DD=false;
 
 			while(true) {
 				//curr_task = pop_from_rbtree(instance, _lock);
-				if (curr_task==null) {
-					continue;	// nothing in run queue
-				}
-				if (g_done_thread_num.get()==TASK)
-					break;
-				System.out.println("queue_num = " + g_queue_thread_num.get() + "\t" + 
-										"done_num = " + g_done_thread_num.get());
-				
-				Task _task = new Task();
+				//if (curr_task==null) {
+				//	continue;	// nothing in run queue
+				//}
+				//if (g_done_thread_num.get()==TASK)
+				//	break;
+				//System.out.println("queue_num = " + g_queue_thread_num.get() + "\t" + 
+				//						"done_num = " + g_done_thread_num.get());
 				
 				int base = (id++ * 100/THREADS);
 				for (i=base; i<base+(100/THREADS)-1 ; i++) {
+					Task _task = new Task();
 					_task.id =i;
 					push_to_rbtree(_task, instance, _lock, _htable);
 					System.out.println("slice out: inserting id=" + curr_task.id);
+					
 				}
+				instance.print();
+				if (g_done_thread_num.get()==TASK)
+					break;
 			}
 		
 			
 if(DD) {
-			
 			while(true) {
 				
 				if(reschedule==true) {
