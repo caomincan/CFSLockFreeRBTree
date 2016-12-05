@@ -31,7 +31,11 @@ public class testThread<V> extends Thread {
 		for(V element: list){
 			//System.out.println("Thread "+id+" add "+element.toString());
 			if(lock != null) lock.lock();
-			this.tree.add(element);
+			try{ 
+				this.tree.add(element);
+			}catch (NullPointerException ne){
+				// ignore
+			}
 			if(lock != null) lock.unlock();
 			//this.tree.print();
 		}
