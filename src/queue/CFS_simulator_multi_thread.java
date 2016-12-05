@@ -550,7 +550,7 @@ if(DEBUG){
 			  			curr_task.cpu_runtime=0;
 			  			curr_task.io_runtime=0;
 			  			kill_from_rbtree(curr_task, instance, _lock);
-			  			System.out.println(((AVL<Task>)instance).height());
+			  			//System.out.println(((AVL<Task>)instance).height());
 					}
 				}
 				else if (t_time > TimerIntThreshold) { // feature - timer interrupt
