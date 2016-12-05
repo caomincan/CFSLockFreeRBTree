@@ -713,7 +713,8 @@ if(DD) {
 							if (curr_task.nice < curr_task.ori_nice-dynaic_nice_rang)
 								curr_task.nice = curr_task.ori_nice-dynaic_nice_rang;
 						}
-						System.out.println("Thread_id = " + currThread.id + ", slice out: inserting id=" + curr_task.id + "\t left cpu=" + curr_task.cpu + ", left io=" + curr_task.io );
+						System.out.println("Thread_id = " + currThread.id + ", slice out: inserting id=" + curr_task.id + 
+											"\t left cpu=" + curr_task.cpu + ", left io=" + curr_task.io );
 						push_to_rbtree(curr_task, instance, _lock, _htable);
 						reschedule=true;
 			  			//thread_clean(curr_task);
