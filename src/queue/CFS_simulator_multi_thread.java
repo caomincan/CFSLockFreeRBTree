@@ -540,7 +540,8 @@ if(DEBUG){
 			  			curr_task.cpu_runtime=0;
 			  			curr_task.io_runtime=0;
 			  			//curr_task.id=0; 			// kill!! the task so that it will not be pushed back to the tree		
-			  		}
+			  			System.out.println(((AVL<Task>)instance).height());
+					}
 				}
 				else if (t_time > TimerIntThreshold) { // feature - timer interrupt
 					// case 1. Job not done BUT time slice is reached. recycle(reclaim).
