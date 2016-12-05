@@ -70,8 +70,8 @@ public class CFS_simulator_multi_thread<T extends Comparable<T>> {
 	  	
 	  	/* dispatch to threads */
 		//this.root = new Node<T>(null);
-	  	//AVL<Task> instance = new AVL<Task>();
-		RBTree<Task> instance = new RBTree<Task>();
+	  	AVL<Task> instance = new AVL<Task>();
+		//RBTree<Task> instance = new RBTree<Task>();
 		Hashtable<String, String> htable = new Hashtable<>();
 		
 		/** example code - hashtable
@@ -475,12 +475,12 @@ if(DEBUG){
 		private volatile int id=-1;  
 		int t_time=0; // thread run time
 		private Hashtable<String, String> _htable;
-		//private AVL<Task> instance;
-		private RBTree<Task> instance;
+		private AVL<Task> instance;
+		//private RBTree<Task> instance;
 		
 		private Random random = new Random();
-		//public CPUThread(int i, AVL<Task> tree, Hashtable<String, String> htable) {
-		public CPUThread(int i, RBTree<Task> tree, Hashtable<String, String> htable) {
+		public CPUThread(int i, AVL<Task> tree, Hashtable<String, String> htable) {
+		//public CPUThread(int i, RBTree<Task> tree, Hashtable<String, String> htable) {
 			id = i;
 			instance=tree;
 			_htable=htable;
