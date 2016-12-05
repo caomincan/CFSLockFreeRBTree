@@ -504,7 +504,7 @@ if(DEBUG){
 					//System.out.println("curr_task="+curr_task);
 					continue;	// nothing in run queue
 				}
-				
+			
 				CPUThread currThread = (CPUThread) CPUThread.currentThread();
 				System.out.println("Thread_id = " + currThread.id + ", Task_id = " + curr_task.id);
 
@@ -537,6 +537,7 @@ if(DEBUG){
 			  			/* clean runtime info to record for the next run */
 			  			//curr_task.cpu_runtime=0;
 			  			//curr_task.io_runtime=0;
+			  			System.out.println("1. " + curr_ta)
 			  			kill_from_rbtree(curr_task, instance, _lock);
 			  			System.out.println(((AVL<Task>)instance).height());
 					}
