@@ -704,7 +704,6 @@ if(DEBUG){
 											"\t left cpu=" + curr_task.cpu + ", left io=" + curr_task.io );
 						push_to_rbtree(curr_task, instance, _lock, _htable);
 						reschedule=true;
-			  			//thread_clean(curr_task);
 			  		}  // expired end
 					else {
 						reschedule=false;
