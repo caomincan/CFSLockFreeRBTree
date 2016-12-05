@@ -194,6 +194,7 @@ public class RBTree<V extends Comparable<V>> implements Tree<V> {
 					rightRotate(x.parent);
 					w = x.parent.left;
 				}
+				if(w.left == null || w.right == null) break;
 				if((!w.left.isRed) && (!w.right.isRed)){
 					//case 2
 					w.isRed = true;
