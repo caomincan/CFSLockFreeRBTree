@@ -286,7 +286,7 @@ if(DEBUG){
 		// TODO:
 		System.out.print("TODO finishing order:");
 		for(i=1; i<TASK+1; i++) {
-			System.out.print(finishing_order_queue[i].intValue()+ " ");		
+			System.out.print("i=", finishing_order_queue[i].intValue()+ " ");		
 		}
 		System.out.println("");
 		
