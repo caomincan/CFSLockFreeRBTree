@@ -478,16 +478,10 @@ if(DEBUG){
 		
 		public void run() {
 			int i=0;
-			int timer=0;
-			Task curr_task=new Task();
+			Task curr_task;
 			boolean is_exit=false;
 			
-			try {
-				Thread.sleep(3000);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			try { Thread.sleep(3000); } catch (InterruptedException e) { e.printStackTrace(); }
 			
 			while(true) {
 				curr_task = pop_from_rbtree(instance);
@@ -497,29 +491,28 @@ if(DEBUG){
 					continue;	// nothing in run queue
 				}
 				
-				curr_task.time_slice = (int) ((1*1000) * (float)(curr_task.nice / (1024 / Math.pow(1.25, curr_task.nice)))); //TODO: nice=0 is wrong => this is wrong
+				curr_task.time_slice = (int) ((1*1000) * (float)(curr_task.nice / (1024 / Math.pow(1.25, curr_task.nice))));
+										//TODO: nice=0 is wrong => this is wrong
 				
 				if (curr_task.time_slice <= min_granunarity)
 					curr_task.time_slice=min_granunarity;
 				//System.out.println("_task.time_slice = " +_task.time_slice + "\t nice=" + _task.nice);
 
 				// clean(initialize) all runtime info
-				curr_task.cpu_runtime=0;	// used for 
-				curr_task.io_runtime=0; 	// used for dy
+				curr_task.cpu_runtime=0;	// run_time record used for dynamic priority
+				curr_task.io_runtime=0; 	// run_time record used for dynamic priority
 				
+				t_time=0;		// initialize thread timer
+				is_exit=false; 	// clear
 				do {
-					//if (timer<TimerIntThreshold ) { // keep running
 						t_time++;
-						timer++;
 						
-						is_exit=false; // clear
 						is_exit = JobTask(curr_task, 0); 
-					
-					if (timer > TimerIntThreshold )
+					if (t_time > TimerIntThreshold || is_exit==true)
 						break;
 				}while(true);
 				
-				if (timer > TimerIntThreshold) { // feature - timer interrupt
+				if (t_time > TimerIntThreshold) { // feature - timer interrupt
 					//check time_slice passed?
 					// 3. not done but time slice is reached. recycle(reclaim).
 					if ( curr_task.time_slice <= (curr_task.cpu_runtime+curr_task.io_runtime) ) { // expired mush deq()	
