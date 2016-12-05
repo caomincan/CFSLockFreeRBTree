@@ -3,7 +3,7 @@ package tree;
 import java.util.LinkedList;
 import java.util.List;
 
-public class RBTree<V extends Comparable<V>> {
+public class RBTree<V extends Comparable<V>> implements Tree<V> {
 	int size = 0;
 	RBNode<V> root;
 	
@@ -298,6 +298,28 @@ public class RBTree<V extends Comparable<V>> {
 		return res;
 	}
 
-
-
+	@Override
+	public synchronized V search(V value) {
+		if(root == null) return null;
+		RBNode<V> temp = root;
+		while(temp != null && temp.value != null){
+			if(value.compareTo(temp.value)<0){
+				temp = temp.left;
+			}else if(value.compareTo(temp.value) >0){
+				temp = temp.right;
+			} else{
+				return temp.value;
+			}
+		}
+		return temp==null?null:temp.value;
+	}
+	
+	public V leftMost(){
+		RBNode<V> temp = root;
+		if(temp == null || temp.value == null) return null;
+		while(temp.left.value!= null){
+			temp = temp.left;
+		}
+		return temp == null? null : temp.value;
+	}
 } 
