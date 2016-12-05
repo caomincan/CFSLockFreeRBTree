@@ -28,8 +28,10 @@ public class CFS_simulator_multi_thread<T extends Comparable<T>> {
 	
 	static int TASK = -1; 				// global number of tasks (threads) assigned by in.txt
 	static int g_time;					// global time
+  	static AtomicInteger[] finished_order_queue; // check finishing order // Be careful id is from 1~Task
 	static AtomicInteger g_queue_thread_num = new AtomicInteger(0);		// global number of threads in run_queue
 	static AtomicInteger g_done_thread_num = new AtomicInteger(0);		// global number of threads done
+
     
 	static boolean IS_RBTREE = false; 	// RBTree/AVLTree
 	static boolean DEBUG = false;		
@@ -41,7 +43,6 @@ public class CFS_simulator_multi_thread<T extends Comparable<T>> {
 	static Task[] task; 			// all tasks going to run in this simulation
   	public static Task[] run_queue; // tasks should be ran
   	static Tree<Task> instance=null;
-  	static AtomicInteger[] finished_order_queue; // check finishing order // Be careful id is from 1~Task
 	private static Random random = new Random(); 
 	
 	public CFS_simulator_multi_thread(String testName, int thread, int duration, int n, int ops) {
