@@ -49,7 +49,7 @@ public class CFS_simulator_multi_thread<T extends Comparable<T>> {
 	public static void main(String[] args) throws Exception {
 	  	int i;
 
-	  	/* dispatch to threads */
+	  	/* dispatch tasks to threads */
 	  	if (IS_RBTREE==false) {
 		  	//Tree<Task> instance = new AVL<Task>(); 			// Wrong 
 		  	//Tree<Task> instance = new AvlTree<Task>(); 		// Wrong
