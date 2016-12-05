@@ -155,7 +155,7 @@ public class LockFreeRBTree<V extends Comparable<V>> implements Tree<V> {
 		while(x.parent!= null && x.parent.isRed){
 			xp = x.parent;
 			gp = xp.parent;
-			if(gp == null) continue;
+			if(gp == null) break;
 			if(x.parent == x.parent.parent.left){
 				y = x.parent.parent.right;
 				uncle = y;
