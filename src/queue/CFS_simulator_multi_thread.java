@@ -20,16 +20,15 @@ import java.io.*;
 
 public class CFS_simulator_multi_thread<T extends Comparable<T>> {
 	/* default values */ /* unit=us */
-	static int THREADS =4; 					// number of workers (simulated CPUs, not task!!!!!!!!!!!)
+	static int THREADS =4; 						// number of workers (simulated CPUs, not task!!!!!!!!!!!)
 	static int TimerIntThreshold = 1000*1000;	// timer interrupt ticks 1ms
 	static int min_granunarity = 1000*1000;		// minimum granularity // 1ms
 	static int dynaic_nice_rang = 5;			// nice(dynamic) = original_nice +-dynaic_nice_rang
-	static int how_many_int=10*1000; 				/* periodically debug */
+	static int how_many_int=10*1000; 			// periodically debug
 	
 	static int TASK = -1; 				// global number of tasks (threads) assigned by in.txt
 	static int g_time;					// global time
 	static AtomicInteger g_queue_thread_num = new AtomicInteger(0);		// global number of threads in run_queue
-	//static int g_exec_thread_num; 		// global number of executing threads on simulated CPUs
 	static AtomicInteger g_done_thread_num = new AtomicInteger(0);		// global number of threads done
     
 	static boolean DEBUG = true;			
@@ -41,11 +40,6 @@ public class CFS_simulator_multi_thread<T extends Comparable<T>> {
   	static Task[] running_tasks; 	// running on simulated CPU
   	static boolean[] done_queue; 	// Be careful id is from 1~Task
   	static Task[] finishing_order_queue;
-
-  	//static int[] Vtime_table; 	
-  	//static int Vtime_num; 	
-  	//static int Vtime_table_size = 1000000;
-  	
 	private static Random random = new Random();
 	
 	public CFS_simulator_multi_thread(String testName, int thread, int duration, int n, int ops) {
