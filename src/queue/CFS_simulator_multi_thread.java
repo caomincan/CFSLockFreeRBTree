@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.util.Hashtable;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.locks.ReentrantLock;
 
 import avl.*;
 import tree.RBTree;
@@ -67,6 +68,13 @@ public class CFS_simulator_multi_thread<T extends Comparable<T>> {
 	  	//int timer; // timer interrupt cnt
 		//int data = 1;
 	  	
+		ReentrantLock lock = new ReentrantLock();
+		lock.lock();  // block until condition holds
+	    try {
+	    	// ... method body
+	    } finally {
+	    	lock.unlock();
+	    }
 	  	
 	  	/* dispatch to threads */
 		//this.root = new Node<T>(null);
@@ -180,7 +188,7 @@ if(DEBUG){
 		/* after tasks are all enqueued */
 		Thread[] myThreads = new Thread[THREADS];
 	    for (i = 0; i < THREADS; i++) {
-	    	myThreads[i] = new CPUThread(i, instance, htable); 
+	    	myThreads[i] = new CPUThread(i, instance, htable, lock); 
 	    }
 	    for (i = 0; i < THREADS; i ++) {
 	    	myThreads[i].start();
@@ -215,7 +223,7 @@ if(DEBUG){
 					Task _task = new Task();		// redundant?
 					thread_copy(_task, task[i]);	// redundant?
 					// 1. enqueue() to run_queue
-					push_to_rbtree(_task, instance);
+					push_to_rbtree(_task, instance, lock);
 					
 					// 2. kill the task in task[] (task table)
 					thread_clean(task[i]);	// remove from task table	
@@ -378,8 +386,8 @@ if(DEBUG){
 		return line_num;
 	}
 	
-	//private static void push_to_rbtree(Task _task, AVL<Task> instance) {
-	private static void push_to_rbtree(Task _task, RBTree<Task> instance) {	
+	//private static void push_to_rbtree(Task _task, AVL<Task> instance, R) {
+	private static void push_to_rbtree(Task _task, RBTree<Task> instance, Reenta lock) {	
 		g_queue_thread_num.getAndIncrement();
 		instance.add(_task); // must succeed
 		//System.out.println("height"+instance.height());
@@ -467,12 +475,14 @@ if(DEBUG){
 		//private AVL<Task> instance;
 		private RBTree<Task> instance;
 		
+		private ReentrantLock _lock;
 		private Random random = new Random();
 		//public CPUThread(int i, AVL<Task> tree, Hashtable<String, String> htable) {
-		public CPUThread(int i, RBTree<Task> tree, Hashtable<String, String> htable) {
+		public CPUThread(int i, RBTree<Task> tree, Hashtable<String, String> htable, ReentrantLock lock) {
 			id = i;
 			instance=tree;
 			_htable=htable;
+			_lock=lock;
 		}
 		
 		public int getrand(int tmp) {
@@ -565,7 +575,7 @@ if(DEBUG){
 								curr_task.nice = curr_task.ori_nice-dynaic_nice_rang;
 						}
 
-						push_to_rbtree(curr_task, instance);
+						push_to_rbtree(curr_task, instance, _lock);
 			  			thread_clean(curr_task);
 
 			  		}
