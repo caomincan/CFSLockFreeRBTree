@@ -516,13 +516,21 @@ if(DEBUG){
 		public int getrand(int tmp) {
 			return random.nextInt(tmp);
 		}
-		
+boolean DD=false;
 		public void run() {
 			int i=0;
 			Task curr_task;
 
 			try { Thread.sleep(3000); } catch (InterruptedException e) { e.printStackTrace(); }
-			
+
+			while(true) {
+				curr_task = pop_from_rbtree(instance, _lock);
+				if (curr_task==null) {
+					continue;	// nothing in run queue
+				}
+				if (g_done_thread_num.get()==TASK)
+					break;
+			}
 			
 			
 if(DD) {
@@ -608,6 +616,8 @@ if(DD) {
 			  		} // expired end
 				} //kernel end
 				//else { // time_slice remains, keep running}
+				if (g_done_thread_num.get()==TASK)
+					break;
 			} //while end
 }
 		}
