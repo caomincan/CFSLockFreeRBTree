@@ -386,10 +386,12 @@ if(DEBUG){
 	}
 	
 	private static void push_to_rbtree(Task _task, AVL<Task> instance) {
+		g_queue_thread_num++;
 		instance.add(_task); // must succeed
 	}
 	
-	public static Task pop_from_rbtree(AVL<Task> instance) { 	
+	public static Task pop_from_rbtree(AVL<Task> instance) {
+		g_queue_thread_num--;
 		return instance.get_leftmost();
 	}
 
