@@ -71,8 +71,8 @@ public class CFS_simulator_multi_thread<T extends Comparable<T>> {
 	  	
 	  	/* dispatch to threads */
 		//this.root = new Node<T>(null);
-	  	Tree<Task> instance = new AVL<Task>();
-		//Tree<Task> instance = new RBTree<Task>();
+	  	//Tree<Task> instance = new AVL<Task>();
+		Tree<Task> instance = new RBTree<Task>();
 		Hashtable<String, String> htable = new Hashtable<>();
 		
 		/** example code - hashtable
@@ -204,13 +204,12 @@ if(DEBUG){
 			/* check any thread should set to run_queue */
 			for(i=0; i<TASK; i++) { // check any thread ready to run
 				//System.out.println("task[i].id=" + task[i].id);
-				if( task[i].id>10 && (task[i].start_time >= (g_time-1)) ) {  // if so, put it to run_queue
+				if( task[i].id>0 && (task[i].start_time >= (g_time-1)) ) {  // if so, put it to run_queue
 					adjust_Vtime(task[i], htable);
 					
 					Task _task = new Task();		// redundant?
 					thread_copy(_task, task[i]);	// redundant?
 					
-					System.out.println("idid=" + _task.id);
 					// 1. enqueue() to run_queue
 					push_to_rbtree(_task, instance, lock);
 					// 2. kill the task in task[] (task table)
@@ -545,7 +544,7 @@ if(DEBUG){
 			  			kill_from_rbtree(curr_task, instance, _lock);
 						System.out.println("queue_num = " + g_queue_thread_num.get());			
 						System.out.println("done_num = " + g_done_thread_num.get());
-			  			System.out.println("why" + ((AVL<Task>)instance).height());
+			  			//System.out.println("why height = " + ((AVL<Task>)instance).height());
 					}
 				}
 				else if (t_time > TimerIntThreshold) { // feature - timer interrupt
