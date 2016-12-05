@@ -592,11 +592,11 @@ if(DEBUG){
 			}
 		}
 		
-		public int GetTotalDeq() { //
+		public int GetTotalDeq() {
 		      return TotalDeq;  
 		}
 
-		public int GetGoodDeq() { //
+		public int GetGoodDeq() {
 		      return GoodDeq;  
 		}
 		   
