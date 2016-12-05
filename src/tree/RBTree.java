@@ -254,7 +254,7 @@ public class RBTree<V extends Comparable<V>> implements Tree<V> {
 			if(y == y.parent.left)
 				y.parent.left = x;
 			else
-				x.parent.right = y;
+				y.parent.right = x;
 		}
 		x.right = y;
 		y.parent = x;

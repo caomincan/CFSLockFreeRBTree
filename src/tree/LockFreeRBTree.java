@@ -27,7 +27,7 @@ public class LockFreeRBTree<V extends Comparable<V>> implements Tree<V> {
 		}
 		return temp==null?null:temp.value;
 	}
-	public void add(V value){
+	public void add(V value) throws NullPointerException{
 		LockFreeRBNode<V> y,z;
 		LockFreeRBNode<V> x = new LockFreeRBNode<V>(value);
 		x.flag.set(true);
@@ -83,7 +83,7 @@ public class LockFreeRBTree<V extends Comparable<V>> implements Tree<V> {
 			uncle = z.parent.right;
 		else
 			uncle = z.parent.left;
-		if(!uncle.flag.compareAndSet(false, true)){
+		if(uncle!= null && !uncle.flag.compareAndSet(false, true)){
 			z.parent.flag.set(false);
 			return false;
 		}
@@ -122,7 +122,7 @@ public class LockFreeRBTree<V extends Comparable<V>> implements Tree<V> {
 			}
 			if(newp == newgp.left) newuncle = newgp.right;
 			else newuncle = newgp.left;
-			if(!newuncle.flag.compareAndSet(false, true)){
+			if(newuncle != null && !newuncle.flag.compareAndSet(false, true)){
 				newgp.flag.set(false);
 				newp.flag.set(false);
 				continue;
@@ -155,9 +155,11 @@ public class LockFreeRBTree<V extends Comparable<V>> implements Tree<V> {
 		while(x.parent!= null && x.parent.isRed){
 			xp = x.parent;
 			gp = xp.parent;
+			//if(gp == null) break;
 			if(x.parent == x.parent.parent.left){
 				y = x.parent.parent.right;
 				uncle = y;
+				//if(uncle == null) continue;
 				// insert 4pos to working array
 				//working.set(0,x);working.set(1,xp);working.set(2,gp);working.set(3,uncle);
 				// just add new node
@@ -182,6 +184,7 @@ public class LockFreeRBTree<V extends Comparable<V>> implements Tree<V> {
 			}else{
 				y = x.parent.parent.left;
 				uncle = y;
+			//	if(uncle == null) continue;
 				// insert 4pos to working array
 				//working.set(0,x);working.set(1,xp);working.set(2,gp);working.set(3,uncle);
 				// just add new node
@@ -368,9 +371,8 @@ public class LockFreeRBTree<V extends Comparable<V>> implements Tree<V> {
 	public synchronized void print(){
 		List<List<String>> res = new LinkedList<List<String>>();
 		res = printHelp(root,0,res);
-		@SuppressWarnings("unchecked")
-		int id = ((test.testThread<V>)Thread.currentThread()).id;
-		System.out.println("Thread "+id+"printing:");
+		//int id = ((test.testThread<V>)Thread.currentThread()).id;
+		//System.out.println("Thread "+id+"printing:");
 		for(List<String> list:res){
 			for(String word: list){
 				System.out.print(word+" ");
