@@ -183,7 +183,7 @@ if(DEBUG){
 	    	myThreads[i] = new CPUThread(i, instance, htable, lock); 
 	    }
 	    for (i = 0; i < THREADS; i ++) {
-	    	myThreads[i].start();
+	    	//myThreads[i].start();
 	    }
 	    
 	  	/* main keeps checks all task start time */
@@ -209,15 +209,18 @@ if(DEBUG){
 			for(i=0; i<TASK; i++) { // check any thread ready to run
 				//System.out.println("task[i].id=" + task[i].id);
 				if( task[i].id>0 && (task[i].start_time >= (g_time-1)) ) {  // if so, put it to run_queue
-					adjust_Vtime(task[i], htable);
+					//adjust_Vtime(task[i], htable);
 					
 					Task _task = new Task();		// redundant?
 					thread_copy(_task, task[i]);	// redundant?
 					
 					// 1. enqueue() to run_queue
-					push_to_rbtree(_task, instance, lock);
+					push_to_rbtree(_task, instance, lock, htable);
 					// 2. kill the task in task[] (task table)
-					thread_clean(task[i]);	// remove from task table	
+					thread_clean(task[i]);	// remove from task table
+					
+					System.out.println("queue_num = " + g_queue_thread_num.get());			
+					System.out.println("done_num = " + g_done_thread_num.get());
 				}
 			}
 
@@ -376,19 +379,22 @@ if(DEBUG){
 	private static void push_to_rbtree(Task _task, Tree<Task> instance, ReentrantLock lock, Hashtable<String, String> _htable) {	
 		//check
 		//while (true) {
-			if (_htable.get(_task.VirtualRunTime.toString()) == null){ // new key
-				System.out.println("good: ");
-				//_htable.put(_task.VirtualRunTime.toString(),_task.VirtualRunTime.toString());
-				//_task.VirtualRunTime= new Integer(_task.VirtualRunTime.intValue());
-				//break;
-			}else { //repeat key
-				System.out.println("bad: ");
-				//_task.VirtualRunTime = new Integer(_task.VirtualRunTime.intValue() + 1); // adjust, ++	
-				//continue;
-			}
+			
 		//}		
-		
-		
+		adjust_Vtime(_task, _htable);
+		//System.out.println("good?: vtime " + _task.VirtualRunTime.toString());
+		/*
+		if (_htable.get(_task.VirtualRunTime.toString()) == null){ // new key
+			System.out.println("good: vtime " + _task.VirtualRunTime.toString());
+			//_htable.put(_task.VirtualRunTime.toString(),_task.VirtualRunTime.toString());
+			//_task.VirtualRunTime= new Integer(_task.VirtualRunTime.intValue());
+			//break;
+		}else { //repeat key
+			System.out.println("bad: vtime " + _task.VirtualRunTime.toString());
+			//_task.VirtualRunTime = new Integer(_task.VirtualRunTime.intValue() + 1); // adjust, ++	
+			//continue;
+		}
+		*/
 		
 		lock.lock();  // block until condition holds
 	    try {
@@ -517,6 +523,9 @@ if(DEBUG){
 
 			try { Thread.sleep(3000); } catch (InterruptedException e) { e.printStackTrace(); }
 			
+			
+			
+if(DD) {
 			while(true) {
 				
 				curr_task = pop_from_rbtree(instance, _lock);
@@ -580,7 +589,7 @@ if(DEBUG){
 			  			temp_int += curr_task.cpu_runtime+curr_task.io_runtime; // + actual run time NOT time_slice 
 						//System.out.println("1.cpu_run. " + curr_task.cpu_runtime + "\t2io_run. " +curr_task.io_runtime + "\t3slice. " + curr_task.time_slice + "\t4new_slice. " + temp_int);
 						curr_task.VirtualRunTime = new Integer(temp_int); 
-			  			adjust_Vtime(curr_task, _htable);
+			  			//adjust_Vtime(curr_task, _htable);
 			  			
 			  			// update nice
 			  			if (curr_task.io_runtime*2 > curr_task.cpu_runtime) {
@@ -600,6 +609,7 @@ if(DEBUG){
 				} //kernel end
 				//else { // time_slice remains, keep running}
 			} //while end
+}
 		}
 		
 		public int GetTotalDeq() {
