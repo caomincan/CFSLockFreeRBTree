@@ -340,4 +340,22 @@ public class AVLTree2<T extends Comparable<T>> implements  Tree<T>{
             this.bf = bf;
         }
     }
+
+	@Override
+	public void print() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public T search(T value) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public T leftMost() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
