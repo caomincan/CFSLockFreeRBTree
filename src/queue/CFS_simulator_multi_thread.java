@@ -31,7 +31,7 @@ public class CFS_simulator_multi_thread<T extends Comparable<T>> {
 	static AtomicInteger g_queue_thread_num = new AtomicInteger(0);		// global number of threads in run_queue
 	static AtomicInteger g_done_thread_num = new AtomicInteger(0);		// global number of threads done
     
-	static boolean DEBUG = true;			
+	static boolean DEBUG = false;			
 	static boolean g_done = false;			
 	static boolean g_is_interrupted = false;
 
@@ -694,8 +694,10 @@ if(DEBUG){
 							if (curr_task.nice < curr_task.ori_nice-dynaic_nice_rang)
 								curr_task.nice = curr_task.ori_nice-dynaic_nice_rang;
 						}
+if(DEBUG){						
 						System.out.println("Thread_id = " + currThread.id + ", slice out: inserting id=" + curr_task.id + 
 											"\t left cpu=" + curr_task.cpu + ", left io=" + curr_task.io );
+}
 						push_to_rbtree(curr_task, instance, _lock, _htable);
 						reschedule=true;
 			  		}  // expired end
