@@ -384,10 +384,12 @@ if(DEBUG){
 	private static void push_to_rbtree(Task _task, AVL<Task> instance) {
 		g_queue_thread_num.getAndIncrement();
 		instance.add(_task); // must succeed
+		System.out.println("height"+instance.height());
+		
 	}
 	
-	public static Node<Task> pop_from_rbtree(AVL<Task> instance) {
-		Node<Task> _task;
+	public static Task pop_from_rbtree(AVL<Task> instance) {
+		Task _task;
 		_task = instance.get_leftmost();
 		if(_task==null)
 			return null;
