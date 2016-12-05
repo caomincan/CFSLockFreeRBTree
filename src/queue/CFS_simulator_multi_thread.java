@@ -661,10 +661,7 @@ if(DEBUG){
 			  								"done_num = " + g_done_thread_num.get() + "\t" +
 			  								"done id = " + curr_task.id );
 }
-						
-
-						finishing_order_queue[finishing_order_queue[0].incrementAndGet()()].set(curr_task.id);
-						//finishing_order_queue[curr_task.id].getAndIncrement();
+						finishing_order_queue[finishing_order_queue[0].incrementAndGet()].set(curr_task.id);
 			  			reschedule=true;
 			  			//System.out.println("why height = " + ((AVL<Task>)instance).height());
 					}
