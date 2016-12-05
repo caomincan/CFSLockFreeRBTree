@@ -122,7 +122,7 @@ public class LockFreeRBTree<V extends Comparable<V>> implements Tree<V> {
 			}
 			if(newp == newgp.left) newuncle = newgp.right;
 			else newuncle = newgp.left;
-			if(!newuncle.flag.compareAndSet(false, true)){
+			if(newuncle != null && !newuncle.flag.compareAndSet(false, true)){
 				newgp.flag.set(false);
 				newp.flag.set(false);
 				continue;
