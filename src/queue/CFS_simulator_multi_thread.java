@@ -210,18 +210,7 @@ if(DEBUG){
 			/* check any thread should set to run_queue */
 			for(i=0; i<TASK; i++) { // check any thread ready to run
 				//System.out.println("task[i].id=" + task[i].id);
-				if( task[i].id>0 && task[i].start_time >= (g_time-1)) {  // if so put it to runqueue
-					
-					// TODO: replace all run_queue with rbtree
-					/* least Vtime */
-					//int least_Vtime=1; 		// Feature: min garauntee
-					//for(k=0; k<TASK; k++) { // assign the least nice value to the new task
-					//	if (run_queue[k].id!=0) {
-					//		if (least_Vtime > run_queue[k].VirtualRunTime)
-					//			least_Vtime = run_queue[k].VirtualRunTime;
-					//	}
-					//}
-					//task[i].VirtualRunTime = least_Vtime;
+				if( task[i].id>0 && task[i].start_time >= (g_time-1)) {  // if so, put it to run_queue
 					adjust_Vtime(task[i], htable);
 					
 					Task _task = new Task();		// redundant?
@@ -243,7 +232,7 @@ if(DEBUG){
 	    	myThreads[i].join();
 	    }
 		
-		if (instance.get_leftmost()!=null)	//TODO
+		if (instance.get_leftmost()!=null)
 			System.out.println("ERROR: tasks not done");
 		else // ==null
 			System.out.println("Good: tasks are all done");
@@ -509,7 +498,7 @@ if(DEBUG){
 				CPUThread currThread = (CPUThread) CPUThread.currentThread();
 				System.out.println("Thread_id = " + currThread.id + ", Task_id = " + curr_task.id);
 				
-				// Load a new task to run
+				/* Load a new task to run */
 				// sched2 - recalculate time_slice 
 				curr_task.time_slice = (int) ((1*1000) * (float)(curr_task.nice / (1024 / Math.pow(1.25, curr_task.nice))));
 										//TODO: nice=0 is wrong => this is wrong

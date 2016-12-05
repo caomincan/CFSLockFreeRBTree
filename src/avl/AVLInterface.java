@@ -108,9 +108,5 @@ public interface AVLInterface<T extends Comparable<T>> {
     int height();
     
     T get_leftmost();
-    //Task get_leftmost();
-    //Node<T> get_leftmost();
-	//void add(Task _task);
 
-	//void add(T data, Task _task);
 }
