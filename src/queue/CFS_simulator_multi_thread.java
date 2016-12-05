@@ -534,13 +534,6 @@ if(DEBUG){
 				// case 1. exit()
 				if(is_exit==true) { // feature - exit() interrupt			
 					if ( ((curr_task.cpu+curr_task.io) <= 0) ) {	// task done
-
-			  			// before cleaning info, record successful done threads
-			  			//g_queue_thread_num--; 					// this is not comprehensive
-			  			//System.out.println("id=?" + running_tasks[i].id + " done?=" + done_queue[running_tasks[i].id]);
-			  //done_queue[running_tasks[i].id]=true; 	// record (before id=0)	1~Task
-			  			//System.out.println("id=?" + running_tasks[i].id + " done?=" + done_queue[running_tasks[i].id]);
-			  			
 			  			g_done_thread_num.getAndIncrement();
 			  			
 			  			/* clean runtime info to record for the next run */
