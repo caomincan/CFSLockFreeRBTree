@@ -550,6 +550,7 @@ if(DEBUG){
 			  			//queue_arrange(running_taks);
 			  		}
 				}
+				
 				// case 2. exit
 				if(is_exit==true) { // feature - exit() interrupt			
 					if ( ((curr_task.cpu+curr_task.io) <= 0) ) {	// task done
