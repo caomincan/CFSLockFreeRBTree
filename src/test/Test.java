@@ -41,6 +41,8 @@ public class Test {
        for(Thread thread: threads) thread.join();
        duration = System.nanoTime() - start;
        System.out.println("RBTree each thread insert "+insert_nodes+" nodes using " +(double)duration/1000.0 + " us");
+       tree.print();
+       System.out.println("");
        
        
        threads.clear();
@@ -58,6 +60,8 @@ public class Test {
        for(Thread thread: threads) thread.join();
        duration = System.nanoTime() - start;
        System.out.println("LockFreeRBTree each thread insert "+insert_nodes+" nodes using " +(double)duration/1000.0 + " us");
+       tree.print();
+       System.out.println("");
 	}
 
 }
