@@ -620,7 +620,8 @@ if(DD) {
 					break;
 			} //while end
 }			
-			thread done
+			CPUThread currThread = (CPUThread) CPUThread.currentThread();
+			System.out.println("Thread_id = " + currThread.id + " DONE");
 		}
 		
 		public int GetTotalDeq() {
