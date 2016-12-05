@@ -1,6 +1,6 @@
 package test;
 
-import java.util.List;
+import java.util.concurrent.locks.Lock;
 
 import tree.Tree;
 
@@ -10,24 +10,29 @@ public class testThread<V> extends Thread {
 	public int id;
 	private Tree<V> tree;
 	private V[] list;
+	private Lock lock;
 	
 	public testThread(Tree<V> tree, V[] list){
 		this.id = ID_GEN++;
 		this.tree = tree;
 		this.list = list;
+		this.lock  = null;
+	}
+	
+	public testThread(Tree<V> tree, V[] list,Lock lock){
+		this.id = ID_GEN++;
+		this.tree = tree;
+		this.list = list;
+		this.lock  = lock;
 	}
 	
 	@Override
 	public void run(){
 		for(V element: list){
 			//System.out.println("Thread "+id+" add "+element.toString());
+			if(lock != null) lock.lock();
 			this.tree.add(element);
-			try {
-				Thread.sleep(3);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			if(lock != null) lock.unlock();
 			//this.tree.print();
 		}
 		System.out.println("Thread "+id+": finished");

@@ -70,7 +70,7 @@ public class CFS_simulator_multi_thread<T extends Comparable<T>> {
 	  	/* dispatch to threads */
 		//this.root = new Node<T>(null);
 	  	//AVL<Task> instance = new AVL<Task>();
-		RBTree<Task> instance = new RBTree<Task>();
+		Tree<Task> instance = new RBTree<Task>();
 		Hashtable<String, String> htable = new Hashtable<>();
 		
 		/** example code - hashtable
@@ -378,7 +378,7 @@ if(DEBUG){
 	}
 	
 	//private static void push_to_rbtree(Task _task, AVL<Task> instance) {
-	private static void push_to_rbtree(Task _task, RBTree<Task> instance) {	
+	private static void push_to_rbtree(Task _task, Tree<Task> instance) {	
 		g_queue_thread_num.getAndIncrement();
 		instance.add(_task); // must succeed
 		//System.out.println("height"+instance.height());
