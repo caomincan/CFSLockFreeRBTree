@@ -118,7 +118,7 @@ class AvlTree<T extends Comparable<? super T>> implements Tree<Task> {
    * @return True - Success, the Element was added. 
    *         False - Error, the element was a duplicate.
    */
-  public boolean insert (T x){
+  public boolean add (T x){
     try {
       root = insert (x, root);
       
@@ -137,7 +137,7 @@ class AvlTree<T extends Comparable<? super T>> implements Tree<Task> {
    * @return New root of the tree
    * @throws Exception 
    */
-  protected AvlNode<T> insert (T x, AvlNode<T> t) throws Exception{
+  protected AvlNode<T> add (T x, AvlNode<T> t) throws Exception{
     if (t == null)
       t = new AvlNode<T> (x);
     else if (x.compareTo (t.element) < 0){
@@ -324,7 +324,7 @@ class AvlTree<T extends Comparable<? super T>> implements Tree<Task> {
      * Find the smallest item in the tree.
      * @return smallest item or null if empty.
      */
-    public T findMin( )
+    public T leftMost( )
     {
         if( isEmpty( ) ) return null;
 
@@ -525,17 +525,17 @@ class AvlTree<T extends Comparable<? super T>> implements Tree<Task> {
     return true;
   }
 
-@Override
-public void add(Task value) {
+
+//public void add(Task value) {
 	// TODO Auto-generated method stub
 	
-}
+//}
 
-@Override
-public Task remove(Task value) {
+
+//public Task remove(Task value) {
 	// TODO Auto-generated method stub
-	return null;
-}
+	//return null;
+//}
 
 @Override
 public void print() {
