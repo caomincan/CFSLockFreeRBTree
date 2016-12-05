@@ -538,7 +538,9 @@ boolean DD=false;
 				
 				Task _task = new Task();
 				
-				id++
+				(id++)
+				int base = 100/THREADS
+				
 				for (i=0; i<100/THREADS ; i++) {
 					_task.id =i;
 					push_to_rbtree(_task, instance, _lock, _htable);
