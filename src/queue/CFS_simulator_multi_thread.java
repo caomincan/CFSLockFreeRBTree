@@ -616,7 +616,6 @@ if(DD) {
 							if (curr_task.nice > curr_task.ori_nice+dynaic_nice_rang)
 								curr_task.nice = curr_task.ori_nice+dynaic_nice_rang;
 						}
-						
 						if (curr_task.io_runtime*2 < curr_task.cpu_runtime) {
 							curr_task.nice--;
 							if (curr_task.nice < curr_task.ori_nice-dynaic_nice_rang)
