@@ -219,8 +219,8 @@ if(DEBUG){
 					// 2. kill the task in task[] (task table)
 					thread_clean(task[i]);	// remove from task table
 					
-					System.out.println("queue_num = " + g_queue_thread_num.get());			
-					System.out.println("done_num = " + g_done_thread_num.get());
+					System.out.println("queue_num = " + g_queue_thread_num.get() + "\t" + 
+										"done_num = " + g_done_thread_num.get());	
 				}
 			}
 
@@ -411,7 +411,7 @@ if(DEBUG){
 		lock.lock();  // block until condition holds
 	    try {
 			instance.remove(_task);
-			g_queue_thread_num.getAndDecrement();	
+			//g_queue_thread_num.getAndDecrement();	
 	    } finally {
 	    	lock.unlock();
 	    }
@@ -506,7 +506,7 @@ if(DEBUG){
 		boolean is_exit=false;
 		private ReentrantLock _lock;
 		private Random random = new Random();
-		boolean reschedule=true;
+		volatile boolean reschedule=true;
 		
 		public CPUThread(int i, Tree<Task> tree, Hashtable<String, String> htable, ReentrantLock lock) {
 			id = i;
@@ -521,7 +521,7 @@ if(DEBUG){
 boolean DD=true;
 		public void run() {
 			int i=0;
-			Task curr_task;
+			Task curr_task = null;
 
 			try { Thread.sleep(3000); } catch (InterruptedException e) { e.printStackTrace(); }
 /*
@@ -532,8 +532,8 @@ boolean DD=true;
 				}
 				if (g_done_thread_num.get()==TASK)
 					break;
-				System.out.println("queue_num = " + g_queue_thread_num.get());			
-				System.out.println("done_num = " + g_done_thread_num.get());
+				System.out.println("queue_num = " + g_queue_thread_num.get() + "\t" + 
+										"done_num = " + g_done_thread_num.get());
 			}
 	*/		
 			
@@ -588,8 +588,9 @@ if(DD) {
 			  			//curr_task.io_runtime=0;
 			  			instance.print();
 			  			kill_from_rbtree(curr_task, instance, _lock);
-						System.out.println("queue_num = " + g_queue_thread_num.get());			
-						System.out.println("done_num = " + g_done_thread_num.get());
+			  			System.out.println("queue_num = " + g_queue_thread_num.get() + "\t" + 
+			  								"done_num = " + g_done_thread_num.get());
+			  			reschedule=true;
 			  			//System.out.println("why height = " + ((AVL<Task>)instance).height());
 					}
 				}
@@ -619,6 +620,7 @@ if(DD) {
 								curr_task.nice = curr_task.ori_nice-dynaic_nice_rang;
 						}
 						push_to_rbtree(curr_task, instance, _lock, _htable);
+						reschedule=true;
 			  			//thread_clean(curr_task);
 			  		} // expired end
 				}
