@@ -273,7 +273,7 @@ if(DEBUG){
 		
 		System.out.println("--------------------parameters------------------------");
 		System.out.println("TASK = " + TASK + "\t" + "THREADS = " + THREADS); // number of workers & simulated CPUs
-		System.out.println("TimerIntThreshold = " + TimerIntThreshold + "min_granunarity = " + min_granunarity); /// minimum granularity // 1ms
+		System.out.println("TimerIntThreshold = " + TimerIntThreshold + ", " + "min_granunarity = " + min_granunarity); /// minimum granularity // 1ms
 		System.out.println("dynaic_nice_rang = " + dynaic_nice_rang); // nice(dynamic) = original_nice +-dynaic_nice_rang	
 		System.out.println("------------------------------------------------------");
 		System.out.println("g_queue_thread_num = " + g_queue_thread_num.get() + "\t" + "g_done_thread_num = " + g_done_thread_num.get());
