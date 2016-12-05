@@ -83,7 +83,7 @@ public class LockFreeRBTree<V extends Comparable<V>> implements Tree<V> {
 			uncle = z.parent.right;
 		else
 			uncle = z.parent.left;
-		if(!uncle.flag.compareAndSet(false, true)){
+		if(uncle!= null && !uncle.flag.compareAndSet(false, true)){
 			z.parent.flag.set(false);
 			return false;
 		}
