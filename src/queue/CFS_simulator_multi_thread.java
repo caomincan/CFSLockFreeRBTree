@@ -501,7 +501,8 @@ if(DEBUG){
 					//System.out.println("curr_task="+curr_task);
 					continue;	// nothing in run queue
 				}
-				
+
+				// sched2 - recalculate time_slice 
 				curr_task.time_slice = (int) ((1*1000) * (float)(curr_task.nice / (1024 / Math.pow(1.25, curr_task.nice))));
 										//TODO: nice=0 is wrong => this is wrong
 				
@@ -509,7 +510,7 @@ if(DEBUG){
 					curr_task.time_slice=min_granunarity;
 				//System.out.println("_task.time_slice = " +_task.time_slice + "\t nice=" + _task.nice);
 
-				// clean(initialize) all runtime info
+				// // sched2 - clean(initialize) all runtime info
 				curr_task.cpu_runtime=0;	// run_time record used for dynamic priority
 				curr_task.io_runtime=0; 	// run_time record used for dynamic priority
 				
@@ -569,16 +570,9 @@ if(DEBUG){
 								curr_task.nice = curr_task.ori_nice-dynaic_nice_rang;
 						}
 
-			  			//if ( push_to_rbtree(curr_task) >=0) {  // this should save all info and calculate time_slice before execute. TODO: rember to clean after calculation
-							//TODO: sched1 - virtual += timslice (before push)
-							//				copy all info hand by hand
-							//Reminder: TODO: sched2 - recalculate time_slice (after pop) 
-							//							clean runtime_info
-							push_to_rbtree(curr_task, instance);
-			  				thread_clean(curr_task);
-			  			//}
-			  			//else { System.out.println("ERROR: push_torbtree failed");}
-			  			//queue_arrange(running_taks);
+						push_to_rbtree(curr_task, instance);
+			  			thread_clean(curr_task);
+
 			  		}
 				}
 				//else { // time_slice remains, keep running}
