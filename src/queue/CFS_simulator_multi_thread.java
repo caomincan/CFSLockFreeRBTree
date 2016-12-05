@@ -47,7 +47,7 @@ public class CFS_simulator_multi_thread<T extends Comparable<T>> {
   	
 	private static Random random = new Random();
 	
-	static //private Node<T> root = null;
+	//static private Node<T> root = null;
 	//AVL<Integer> instance;
 	//AVL<Task> instance;
 	//RBTree<Task> instance;
@@ -68,7 +68,7 @@ public class CFS_simulator_multi_thread<T extends Comparable<T>> {
 		//int data = 1;
 	  	
 		//this.root = new Node<T>(null);
-	  	AVL<Task> instance; = new AVL<Task>();
+	  	AVL<Task> instance = new AVL<Task>();
 		//RBTree<Task> instance = new RBTree<Task>();
 		
 		
