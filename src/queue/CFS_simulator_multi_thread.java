@@ -544,7 +544,7 @@ if(DEBUG){
 				}
 				else if (t_time > TimerIntThreshold) { // feature - timer interrupt
 					// case 1. Job not done BUT time slice is reached. recycle(reclaim).
-					if ( curr_task.time_slice <= (curr_task.cpu_runtime+curr_task.io_runtime) ) { // expired mush deq()	
+					if ( curr_task.time_slice <= (curr_task.cpu_runtime+curr_task.io_runtime) ) { // expired must deq()	
 						// time_slice passed(out) 
 						//System.out.println("1. " + curr_task.cpu_runtime + "\t2. " +curr_task.io_runtime + "\t3. " + curr_task[i].time_slice);
 			  			// sched1 - update Virtual Time - virtual += timslice (before push)
