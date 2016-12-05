@@ -28,7 +28,7 @@ public class CFS_simulator_multi_thread<T extends Comparable<T>> {
 	static int g_time;					// global time
 	static int g_queue_thread_num;		// global number of threads in run_queue
 	//static int g_exec_thread_num; 		// global number of executing threads on simulated CPUs
-	static AtomicInteger g_done_thread_num = new AtomicInteger(0);;		// global number of threads done
+	static AtomicInteger g_done_thread_num = new AtomicInteger(0);		// global number of threads done
 	
 	//static AtomicInteger totalItems;
     //g_done_thread_num.get();
@@ -57,7 +57,7 @@ public class CFS_simulator_multi_thread<T extends Comparable<T>> {
 	
 	public CFS_simulator_multi_thread(String testName, int thread, int duration, int n, int ops) {
 		g_time = 0;
-		g_queue_thread_num = 0;
+		//g_queue_thread_num = 0;
 		//instance = new AVL<Integer>();
 	}
 	
@@ -391,8 +391,14 @@ if(DEBUG){
 	}
 	
 	public static Task pop_from_rbtree(AVL<Task> instance) {
-		g_queue_thread_num--;
-		return instance.get_leftmost();
+		Task _task;
+		_task = instance.get_leftmost();
+		if(_task==null)
+			return null;
+		else {
+			g_queue_thread_num--;
+			return _task;
+		}
 	}
 
 	public static boolean JobTask(Task task, int virtualtime) { 	/* a thread, a task */
