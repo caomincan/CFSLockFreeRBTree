@@ -49,7 +49,7 @@ public class CFS_simulator_multi_thread<T extends Comparable<T>> {
 	
 	static //private Node<T> root = null;
 	//AVL<Integer> instance;
-	AVL<Task> instance;
+	//AVL<Task> instance;
 	//RBTree<Task> instance;
 	
 	public CFS_simulator_multi_thread(String testName, int thread, int duration, int n, int ops) {
@@ -68,8 +68,8 @@ public class CFS_simulator_multi_thread<T extends Comparable<T>> {
 		//int data = 1;
 	  	
 		//this.root = new Node<T>(null);
-		instance = new AVL<Task>();
-		//instance = new RBTree<Task>();
+	  	AVL<Task> instance; = new AVL<Task>();
+		//RBTree<Task> instance = new RBTree<Task>();
 		
 		
 		Hashtable<String, String> htable = new Hashtable<>();
@@ -179,7 +179,7 @@ if(DEBUG){
 		/* after tasks are all enqueued */
 		Thread[] myThreads = new Thread[THREADS];
 	    for (i = 0; i < THREADS; i++) {
-	    	myThreads[i] = new CPUThread(i, instance); 
+	    	myThreads[i] = new CPUThread(i, instance, htable); 
 	    }
 	    for (i = 0; i < THREADS; i ++) {
 	    	myThreads[i].start();
@@ -221,7 +221,7 @@ if(DEBUG){
 					//	}
 					//}
 					//task[i].VirtualRunTime = least_Vtime;
-					adjust_Vtime(task[i]);
+					adjust_Vtime(task[i], htable);
 					
 					Task _task = new Task();		// redundant?
 					thread_copy(_task, task[i]);	// redundant?
@@ -267,53 +267,17 @@ if(DEBUG){
 		System.out.println("");
 	}
 
-
-
 	private static synchronized void adjust_Vtime(Task _task, Hashtable<String, String> _htable) {
 		while (true) {
 			if (_htable.get(_task.VirtualRunTime.toString()) == null){ // new key
 				_htable.put(_task.VirtualRunTime.toString(),_task.VirtualRunTime.toString());
-				_task.VirtualRunTime= new Integer(10);	// adjust
+				_task.VirtualRunTime= new Integer(_task.VirtualRunTime.intValue());
 				break;
 			}else { //repeat key
-				_task.VirtualRunTime = new Integer(_task.VirtualRunTime.intValue() + 1); // adjust, ++
-				
+				_task.VirtualRunTime = new Integer(_task.VirtualRunTime.intValue() + 1); // adjust, ++	
 				continue;
 			}
-			
 		}
-		//Task _task = new Task();
-		//_task.VirtualRunTime= new Integer(10); // set value
-		//_htable.put(_task.VirtualRunTime.toString(), _task.VirtualRunTime.toString());
-		//_task.VirtualRunTime = new Integer(_task.VirtualRunTime.intValue() + 1); // ++
-		//_htable.put(_task.VirtualRunTime.toString(), _task.VirtualRunTime.toString());
-		
-		//_task.VirtualRunTime.intValue(); //get
-		//System.out.println("int = " + _task.VirtualRunTime.intValue()); 
-		
-		//_htable.put(_task.VirtualRunTime.toString(), _task.VirtualRunTime.toString());
-
-		System.out.println("ok key=" + _htable.get(_task.VirtualRunTime.toString())); 
-		System.out.println("bad key=" + _htable.get("123213")); 
-
-		// htable.get(_task.VirtualRunTime)
-/*
-			// remove old time
-			_task.oldVtime
-			
-			// adjust
-			_task.VirtualRunTime
-			
-			for () {
-				// if match, ++ & retry from the head
-				_task.VirtualRunTime++;
-			}
-			
-			add _task.VirtualRunTime to queue;
-			
-			static int[] Vtime_table; 	// Be careful id is from 1~Task
-		  	static int Vtime_num; 	// Be careful id is from 1~Task
-		*/
 	}
 
 	private static int read_file_lines() {
@@ -513,13 +477,15 @@ if(DEBUG){
 		private volatile int GoodDeq=0;
 		private volatile int id=-1;  
 		int t_time=0; // thread run time
+		private Hashtable<String, String> _htable;
 		private AVL<Task> instance;
 		//private RBTree<Task> instance;
 		
 		private Random random = new Random();
-		public CPUThread(int i, AVL<Task> tree) {
+		public CPUThread(int i, AVL<Task> tree, Hashtable<String, String> htable) {
 			id = i;
 			instance=tree;
+			_htable=htable;
 		}
 		
 		public int getrand(int tmp) {
@@ -593,7 +559,7 @@ if(DEBUG){
 			  			temp_int += curr_task.VirtualRunTime.intValue();
 			  			temp_int += curr_task.cpu_runtime+curr_task.io_runtime; // + actual run time NOT time_slice 
 						curr_task.VirtualRunTime = new Integer(temp_int); 
-			  			adjust_Vtime(curr_task);
+			  			adjust_Vtime(curr_task, _htable);
 			  			
 			  			// update nice
 			  			if (curr_task.io_runtime*2 > curr_task.cpu_runtime) {
