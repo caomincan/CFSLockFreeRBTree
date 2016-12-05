@@ -385,15 +385,13 @@ if(DEBUG){
 		return line_num;
 	}
 	
-	// This is FIFO O(1) version //TODO: replace with tree 
 	private static void push_to_rbtree(Task _task, AVL<Task> instance) {
 		instance.add(_task); // must succeed
 	}
 	
 	public static Task pop_from_rbtree(AVL<Task> instance) { 	
-		return instance.get_leftmost(); //TODO
+		return instance.get_leftmost();
 	}
-	
 
 	public static boolean JobTask(Task task, int virtualtime) { 	/* a thread, a task */
 		int rand=-1; // randomly finish jobs (io/cpu)
@@ -492,43 +490,20 @@ if(DEBUG){
 			}
 			
 			while(true) {
-				curr_task = pop_from_rbtree(instance); //TODO
+				curr_task = pop_from_rbtree(instance);
+				System.out.println("curr_task="+curr_task);
 				if (curr_task==null) {
-					System.out.println("");
+					System.out.println("curr_task="+curr_task);
 					continue;	// nothing in run queue
 				}
 				
-				/**
-				calculate timeslice	
-				JobTask
-					if (done) // implement exit() with polling
-				
-				if(timeout)
-				update runtime & nice
-				push_tree();
-				else if (done)
-					done++ //atomically
-				*/
-				
-				// calculate time_slice
-				//TODO: sched2 - recalculate time_slice 
-				//				clean runtime_info
-				
-				// weight = 1024 / (1.25 ^ nice_value)
-				// runtime=(base) 1/allthread
-				// virtual time += runtime * (nice / weight)
-				// 1*1000*1000*1000(1s)
-				// virtual time += (1*1000*1000*1000) * (_task.nice / (1024 / (1.25 ^ _task.nice)))
 				curr_task.time_slice = (int) ((1*1000) * (float)(curr_task.nice / (1024 / Math.pow(1.25, curr_task.nice)))); //TODO: nice=0 is wrong => this is wrong
 				
 				if (curr_task.time_slice <= min_granunarity)
 					curr_task.time_slice=min_granunarity;
 				//System.out.println("_task.time_slice = " +_task.time_slice + "\t nice=" + _task.nice);
 
-				// clean old queue
-				//run_queue[0].id=0;
-
-				// clean(init) all runtime info
+				// clean(initialize) all runtime info
 				curr_task.cpu_runtime=0;	// used for 
 				curr_task.io_runtime=0; 	// used for dy
 				
