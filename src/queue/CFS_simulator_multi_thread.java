@@ -462,7 +462,7 @@ if(DEBUG){
 				Task temp_task;
 				temp_task = instance.remove(_task);
 				if (temp_task == null) 
-					System.out.println("BAD$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+					System.out.println("ERROE: remove failed !!!!!!!!!!!!!!!!!!!");
 				g_queue_thread_num.getAndDecrement();
 				return _task;
 			}
@@ -722,7 +722,7 @@ if(DD) {
 			  			//thread_clean(curr_task);
 			  		}  // expired end
 					else {
-						System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+						System.out.println("ERROR: shouldn't be here@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
 					}
 				}
 				else { // case 3. keep occupying the CPU 
