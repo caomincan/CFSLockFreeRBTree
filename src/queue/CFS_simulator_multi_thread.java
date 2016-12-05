@@ -269,22 +269,28 @@ if(DEBUG){
 
 
 
-	private static synchronized void adjust_Vtime(Task _task) {
-		
-		
-		Task __task = new Task();
-		__task.VirtualRunTime= new Integer(10); // set value
-		htable.put(__task.VirtualRunTime.toString(), __task.VirtualRunTime.toString());
-		__task.VirtualRunTime = new Integer(__task.VirtualRunTime.intValue() + 1); // ++
-		htable.put(__task.VirtualRunTime.toString(), __task.VirtualRunTime.toString());
-		
-		__task.VirtualRunTime.intValue(); //get
-		System.out.println("int = " + __task.VirtualRunTime.intValue()); 
-		
-		htable.put(__task.VirtualRunTime.toString(), __task.VirtualRunTime.toString());
+	private static synchronized void adjust_Vtime(Task _task, Hashtable<String, String> _htable) {
 
-		System.out.println("ok key=" + htable.get(__task.VirtualRunTime.toString())); 
-		System.out.println("bad key=" + htable.get("123213")); 
+		
+		if (_htable.get(_task.VirtualRunTime.toString()) == null){
+				_htable.put(_task.VirtualRunTime.toString(),_task.VirtualRunTime.toString());
+		}else { //repeat key
+		
+		}
+		
+		Task _task = new Task();
+		_task.VirtualRunTime= new Integer(10); // set value
+		_htable.put(_task.VirtualRunTime.toString(), _task.VirtualRunTime.toString());
+		_task.VirtualRunTime = new Integer(_task.VirtualRunTime.intValue() + 1); // ++
+		_htable.put(_task.VirtualRunTime.toString(), _task.VirtualRunTime.toString());
+		
+		_task.VirtualRunTime.intValue(); //get
+		System.out.println("int = " + _task.VirtualRunTime.intValue()); 
+		
+		_htable.put(_task.VirtualRunTime.toString(), _task.VirtualRunTime.toString());
+
+		System.out.println("ok key=" + _htable.get(_task.VirtualRunTime.toString())); 
+		System.out.println("bad key=" + _htable.get("123213")); 
 
 		// htable.get(_task.VirtualRunTime)
 /*
