@@ -20,7 +20,7 @@ import java.io.*;
 
 public class CFS_simulator_multi_thread<T extends Comparable<T>> {
 	/* default values */ /* unit=us */
-	static int THREADS = 4; 					// number of workers (simulated CPUs, not task!!!!!!!!!!!)
+	static int THREADS = 8; 					// number of workers (simulated CPUs, not task!!!!!!!!!!!)
 	static int TimerIntThreshold = 1000*1000;	// timer interrupt ticks 1ms
 	static int min_granunarity = 1000*1000;		// minimum granularity // 1ms
 	static int dynaic_nice_rang = 5;			// nice(dynamic) = original_nice +-dynaic_nice_rang
@@ -468,7 +468,7 @@ if(DEBUG){
 		int t_time=0; // thread run time
 		private Hashtable<String, String> _htable;
 		private Tree<Task> instance;
-		
+		boolean is_exit=false;
 		private ReentrantLock _lock;
 		private Random random = new Random();
 		public CPUThread(int i, Tree<Task> tree, Hashtable<String, String> htable, ReentrantLock lock) {
@@ -485,8 +485,7 @@ if(DEBUG){
 		public void run() {
 			int i=0;
 			Task curr_task;
-			boolean is_exit=false;
-			
+
 			//try { Thread.sleep(1500); } catch (InterruptedException e) { e.printStackTrace(); }
 			
 			while(true) {
