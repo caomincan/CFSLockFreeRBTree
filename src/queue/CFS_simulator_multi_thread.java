@@ -722,6 +722,7 @@ if(DD) {
 			  			//thread_clean(curr_task);
 			  		}  // expired end
 					else {
+						reschedule=false;
 						System.out.println("ERROR: shouldn't be here !!!!!!!!!!!!!!");
 					}
 				}
