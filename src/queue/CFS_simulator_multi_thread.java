@@ -62,15 +62,15 @@ public class CFS_simulator_multi_thread<T extends Comparable<T>> {
 	}
 	
 	public static void main(String[] args) throws Exception {
-	  	int i, j, k;
-	  	int left;
+	  	int i;
+	  	//, j, k;
+	  	//int left;
 	  	boolean is_interrupted[];
-	  	int virtualtime = -1;
-	  	int timer; // timer interrupt cnt
- 	  	
-		int data = 1;
+	  	//int virtualtime = -1;
+	  	//int timer; // timer interrupt cnt
+		//int data = 1;
+	  	
 		//this.root = new Node<T>(null);
-		
 		instance = new AVL<Task>();
 		//instance = new RBTree<Task>();
 		
@@ -95,10 +95,7 @@ public class CFS_simulator_multi_thread<T extends Comparable<T>> {
 		}	
 		p_task.VirtualRunTime = 100;
 		*/
-		
-		
-		
-		
+				
 		/* determine how many threads */
 	  	TASK = read_file_lines();
 	  	if(TASK<=0) {
@@ -109,7 +106,6 @@ public class CFS_simulator_multi_thread<T extends Comparable<T>> {
 		System.out.println("TASK = " + TASK);
 		System.out.println("THREADS = " + THREADS);
 	  	
-
 		/*
 		 * every task will be executed in the threads
 		 * when a thread is done/out of time slice, it enq()/deq() global queue
@@ -134,11 +130,9 @@ public class CFS_simulator_multi_thread<T extends Comparable<T>> {
 	  	for(i=1; i<TASK+1; i++)
 	  		done_queue[i]=false;
 
-	  	
 	  	Vtime_table = new int[Vtime_table_size];
 	  	for(i=1; i<Vtime_table_size; i++)
-	  		Vtime_table[i]=0;
-	  	
+	  		Vtime_table[i]=0;	  	
 	  	
 	  	for(i=0; i<TASK; i++) {
 	  		task[i] = new Task();
@@ -183,7 +177,7 @@ if(DEBUG){
 		/* mimicing external interrupt with polling*/
 		while(true) { // infinite loop until every work is done
 			/* periodically debug */
-			int how_many_int=10000;
+			int how_many_int=1000;
 			g_time++;
 			
 if(DEBUG){
@@ -393,8 +387,6 @@ if(DEBUG){
 	
 	// This is FIFO O(1) version //TODO: replace with tree 
 	private static void push_to_rbtree(Task _task, AVL<Task> instance) {
-		//Integer a = new Integer(_task.VirtualRunTime);
-		System.out.println("_task=" + _task);
 		instance.add(_task); // must succeed
 	}
 	
@@ -404,7 +396,7 @@ if(DEBUG){
 	
 
 	public static boolean JobTask(Task task, int virtualtime) { 	/* a thread, a task */
-		int rand=-1; // randomly finish jobs
+		int rand=-1; // randomly finish jobs (io/cpu)
 		//TODO: check realtime code how to do the periodic check (do we need to do?) 
 		
 		//int cpu=cpu;
@@ -500,10 +492,9 @@ if(DEBUG){
 			}
 			
 			while(true) {
-				//if (instance.get_leftmost()==null) 
-				//if (curr_task＝pop_from_rbtree()==null)
 				curr_task = pop_from_rbtree(instance); //TODO
 				if (curr_task==null) {
+					System.out.println("");
 					continue;	// nothing in run queue
 				}
 				
