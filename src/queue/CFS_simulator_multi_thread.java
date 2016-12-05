@@ -272,11 +272,11 @@ if(DEBUG){
 			System.out.println("[Good]: tasks are all done");
 		
 		System.out.println("--------------------parameters------------------------");
-		System.out.println("TASK = " + TASK + "\t" + "THREADS = " + THREADS); // number of workers & simulated CPUs
-		System.out.println("TimerIntThreshold = " + TimerIntThreshold + ", " + "min_granunarity = " + min_granunarity); /// minimum granularity // 1ms
+		System.out.println("TASK = " + TASK + ",\t" + "THREADS = " + THREADS); // number of workers & simulated CPUs
+		System.out.println("TimerIntThreshold = " + TimerIntThreshold + ",\t" + "min_granunarity = " + min_granunarity); /// minimum granularity // 1ms
 		System.out.println("dynaic_nice_rang = " + dynaic_nice_rang); // nice(dynamic) = original_nice +-dynaic_nice_rang	
 		System.out.println("------------------------------------------------------");
-		System.out.println("g_queue_thread_num = " + g_queue_thread_num.get() + ", " + "g_done_thread_num = " + g_done_thread_num.get());
+		System.out.println("g_queue_thread_num = " + g_queue_thread_num.get() + ",\t" + "g_done_thread_num = " + g_done_thread_num.get());
 		System.out.println("g_time = " + g_time/1000 + " ms (system virtual ticks)");
 		System.out.println("g_time = " + g_time/1000/1000 + " s (system virtual ticks)");
 		
@@ -663,7 +663,7 @@ if(DEBUG){
 			  								"done_num = " + g_done_thread_num.get() + "\t" +
 			  								"done id = " + curr_task.id );
 }
-						finishing_order_queue[curr_task.id].incrementAndGet();
+						finishing_order_queue[curr_task.id].getAndIncrement();
 			  			reschedule=true;
 			  			//System.out.println("why height = " + ((AVL<Task>)instance).height());
 					}
