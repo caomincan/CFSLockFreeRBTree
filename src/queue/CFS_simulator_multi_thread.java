@@ -56,10 +56,11 @@ public class CFS_simulator_multi_thread<T extends Comparable<T>> {
 		  	//Tree<Task> instance = new AVL<Task>(); 			// Wrong 
 		  	//Tree<Task> instance = new AvlTree<Task>(); 		// Wrong
 		  	Tree<Task> instance = new AVLTree2<Task>();		// Correct AVL tree
+	  		System.out.println("AVLtree:");
 	  	}
 	  	else {
 	  		Tree<Task> instance = new RBTree<Task>();
-	  		System.out.println("RBtree");
+	  		System.out.println("RBtree:");
 	  	}
 		ReentrantLock lock = new ReentrantLock();
 		Hashtable<String, String> htable = new Hashtable<>();
