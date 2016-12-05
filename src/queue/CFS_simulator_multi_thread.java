@@ -71,8 +71,13 @@ public class CFS_simulator_multi_thread<T extends Comparable<T>> {
 	  	
 	  	/* dispatch to threads */
 		//this.root = new Node<T>(null);
+<<<<<<< HEAD
 	  	Tree<Task> instance = new AVL<Task>();
 		//Tree<Task> instance = new RBTree<Task>();
+=======
+	  	//AVL<Task> instance = new AVL<Task>();
+		Tree<Task> instance = new RBTree<Task>();
+>>>>>>> 539ba1c91dcf1af88a905011e9e27aca214fd728
 		Hashtable<String, String> htable = new Hashtable<>();
 		
 		/** example code - hashtable
@@ -371,7 +376,12 @@ if(DEBUG){
 		return line_num;
 	}
 	
+<<<<<<< HEAD
 	private static void push_to_rbtree(Task _task, Tree<Task> instance, ReentrantLock lock) {	
+=======
+	//private static void push_to_rbtree(Task _task, AVL<Task> instance) {
+	private static void push_to_rbtree(Task _task, Tree<Task> instance) {	
+>>>>>>> 539ba1c91dcf1af88a905011e9e27aca214fd728
 		g_queue_thread_num.getAndIncrement();
 		lock.lock();  // block until condition holds
 	    try {
