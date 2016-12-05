@@ -152,6 +152,9 @@ public class RBTree<V extends Comparable<V>> {
 		return temp;
 	}
 	
+	get_leftmost
+	
+	
 	protected void deleteHelp(RBNode<V> x){
 		RBNode<V> w;
 		while(x != root && !x.isRed){
