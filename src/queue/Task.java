@@ -38,5 +38,9 @@ public class Task implements Comparable<Task>{
 		return VirtualRunTime-o.VirtualRunTime;
 	}
 	
+	public String toString(){
+		return String.valueOf(id);
+	}
+	
 }
 	

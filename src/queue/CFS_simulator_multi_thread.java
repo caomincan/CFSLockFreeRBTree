@@ -20,7 +20,7 @@ import java.io.*;
 
 public class CFS_simulator_multi_thread<T extends Comparable<T>> {
 	/* default values */ /* unit=us */
-	static int THREADS = 8; 					// number of workers (simulated CPUs, not task!!!!!!!!!!!)
+	static int THREADS =4; 					// number of workers (simulated CPUs, not task!!!!!!!!!!!)
 	static int TimerIntThreshold = 1000*1000;	// timer interrupt ticks 1ms
 	static int min_granunarity = 1000*1000;		// minimum granularity // 1ms
 	static int dynaic_nice_rang = 5;			// nice(dynamic) = original_nice +-dynaic_nice_rang
@@ -61,6 +61,14 @@ public class CFS_simulator_multi_thread<T extends Comparable<T>> {
 	  	//int timer; // timer interrupt cnt
 		//int data = 1;
 	  	
+	  	/* dispatch to threads */
+	  	//Tree<Task> instance = new AVL<Task>();
+	  	//Tree<Task> instance = new AvlTree<Task>();
+	  	Tree<Task> instance = new AVLTree2<Task>();
+		//Tree<Task> instance = new RBTree<Task>();
+		ReentrantLock lock = new ReentrantLock();
+		Hashtable<String, String> htable = new Hashtable<>();
+		
 		ReentrantLock lock = new ReentrantLock();
 		lock.lock();  // block until condition holds
 	    try {
@@ -71,9 +79,13 @@ public class CFS_simulator_multi_thread<T extends Comparable<T>> {
 	  	
 	  	/* dispatch to threads */
 		//this.root = new Node<T>(null);
-	  	Tree<Task> instance = new AVL<Task>();
-		//Tree<Task> instance = new RBTree<Task>();
+	  	//AVL<Task> instance = new AVL<Task>();
+		Tree<Task> instance = new RBTree<Task>();
 		Hashtable<String, String> htable = new Hashtable<>();
+		
+		
+		
+		
 		
 		/** example code - hashtable
 		Task __task = new Task();
@@ -142,14 +154,14 @@ public class CFS_simulator_multi_thread<T extends Comparable<T>> {
 
 	  	//Vtime_table = new int[Vtime_table_size];
 	  	//for(i=1; i<Vtime_table_size; i++)
-	  	//	Vtime_table[i]=0;	  	
+	  	//Vtime_table[i]=0;	  	
 	  	
 	  	for(i=0; i<TASK; i++) {
 	  		task[i] = new Task();
 	  		finishing_order_queue[i] = new Task();	
 	  	}
 	
-	  	// initilize threads (task[i])
+	  	// initialize threads (task[i])
 	  	read_file_lines2();
 	  			
 if(DEBUG){  	
@@ -173,6 +185,59 @@ if(DEBUG){
 		}
 }
 
+
+		/* test 1. concurrent addition */
+		/*
+		ReentrantLock lock1 = new ReentrantLock();
+		Tree<Task> instance1 = new RBTree<Task>();
+		Hashtable<String, String> htable1 = new Hashtable<>();
+		Thread[] myThreads1 = new Thread[THREADS];
+		int add_num = 24;
+		for (i = 0; i < THREADS; i++) {
+			myThreads1[i] = new ADDThread(i, instance1, htable1, lock1, add_num); 
+		}
+		for (i = 0; i < THREADS; i ++) {
+			myThreads1[i].start();
+		}
+		for (i = 0; i < THREADS; i ++) {
+	    	myThreads1[i].join();
+		}
+		System.out.println("THREADS=" + THREADS + "\tadd_num=" + add_num);
+		instance1.print();
+
+		Thread.sleep(5*1000);
+		for (i = 0; i < 5; i++) {
+			System.out.println(""); 
+		}
+		*/
+		/* test 2. concurrent deletion*/
+		/*
+		ReentrantLock lock2 = new ReentrantLock();
+		Tree<Task> instance2 = new RBTree<Task>();
+		Hashtable<String, String> htable2 = new Hashtable<>();
+		
+		int del_num = 24;
+		for (i = 0; i < del_num; i++) { // sequentially add for deletion
+			Task _task = new Task(); 
+			_task.id=i; _task.VirtualRunTime=i;
+			push_to_rbtree(_task, instance2, lock2, htable2);
+		}
+		Thread[] myThreads2 = new Thread[THREADS];
+		for (i = 0; i < THREADS; i++) {
+			myThreads2[i] = new DELThread(i, instance2, htable2, lock2, del_num);
+		}
+		for (i = 0; i < THREADS; i ++) {
+			myThreads2[i].start();
+		}
+		for (i = 0; i < THREADS; i ++) {
+	    	myThreads2[i].join();
+		}
+		instance2.print();
+		
+		Thread.sleep(5*1000);
+		*/
+		g_queue_thread_num.set(0);
+
 		/* after tasks are all enqueued */
 		Thread[] myThreads = new Thread[THREADS];
 	    for (i = 0; i < THREADS; i++) {
@@ -181,7 +246,7 @@ if(DEBUG){
 	    for (i = 0; i < THREADS; i ++) {
 	    	myThreads[i].start();
 	    }
-	    
+	    long start_time = System.currentTimeMillis();
 	  	/* main keeps checks all task start time */
 		/* main thread only check whether should I place a Task from pool to the run_queue(rbtree) */
 		/* mimicking external interrupt with polling*/
@@ -204,15 +269,19 @@ if(DEBUG){
 			/* check any thread should set to run_queue */
 			for(i=0; i<TASK; i++) { // check any thread ready to run
 				//System.out.println("task[i].id=" + task[i].id);
-				if( task[i].id>0 && task[i].start_time >= (g_time-1)) {  // if so, put it to run_queue
-					adjust_Vtime(task[i], htable);
+				if( task[i].id>0 && (task[i].start_time >= (g_time-1)) ) {  // if so, put it to run_queue
+					//adjust_Vtime(task[i], htable);
 					
 					Task _task = new Task();		// redundant?
 					thread_copy(_task, task[i]);	// redundant?
+					
 					// 1. enqueue() to run_queue
-					push_to_rbtree(_task, instance, lock);
+					push_to_rbtree(_task, instance, lock, htable);
 					// 2. kill the task in task[] (task table)
-					thread_clean(task[i]);	// remove from task table	
+					thread_clean(task[i]);	// remove from task table
+					
+					System.out.println("queue_num = " + g_queue_thread_num.get() + "\t" + 
+										"done_num = " + g_done_thread_num.get());	
 				}
 			}
 
@@ -225,6 +294,10 @@ if(DEBUG){
 	    	myThreads[i].join();
 	    }
 		
+		long end_time = System.currentTimeMillis();
+		System.out.println( "Total execution time = " + (end_time - start_time) );
+		
+		/*
 		if (instance.leftMost()!=null)
 			System.out.println("ERROR: tasks not done");
 		else // ==null
@@ -247,6 +320,7 @@ if(DEBUG){
 			System.out.print(finishing_order_queue[i].id + " ");			
 		}
 		System.out.println("");
+		*/
 	}
 
 	private static synchronized void adjust_Vtime(Task _task, Hashtable<String, String> _htable) {
@@ -259,7 +333,7 @@ if(DEBUG){
 				_task.VirtualRunTime = new Integer(_task.VirtualRunTime.intValue() + 1); // adjust, ++	
 				continue;
 			}
-		}		
+		}
 	}
 
 	private static int read_file_lines() {
@@ -325,14 +399,11 @@ if(DEBUG){
 			line = in.readLine();
 			while(line!=null)
 			{
-				String line22 = "";
-				//String line22 = new String;
 				String delims_space = "[ \t]+"; //target: "the it   hard        concentrate";
 				String[] tokens = line.split(delims_space);
 				String[] args = new String[100];
 				for (i=1; i < tokens.length; i++) {
 					//System.out.println(tokens[i]);
-					line22 += tokens[i];
 					args[i] = tokens[i];
 				}
 
@@ -371,23 +442,26 @@ if(DEBUG){
 		return line_num;
 	}
 	
-	private static void push_to_rbtree(Task _task, Tree<Task> instance, ReentrantLock lock) {	
-		g_queue_thread_num.getAndIncrement();
+	private static void push_to_rbtree(Task _task, Tree<Task> instance, ReentrantLock lock, Hashtable<String, String> _htable) {	
+		//adjust_Vtime(_task, _htable);
 		lock.lock();  // block until condition holds
 	    try {
+	    	adjust_Vtime(_task, _htable);
 	    	instance.add(_task); // must succeed
+	    	g_queue_thread_num.getAndIncrement();
 			//System.out.println("height"+instance.height());
 	    	//instance.print();
 	    } finally {
 	    	lock.unlock();
 	    }
+	    //instance.print();
 	}
 	
 	public static void kill_from_rbtree(Task _task, Tree<Task> instance, ReentrantLock lock) {
 		lock.lock();  // block until condition holds
 	    try {
 			instance.remove(_task);
-			g_queue_thread_num.getAndDecrement();	
+			g_done_thread_num.getAndIncrement();
 	    } finally {
 	    	lock.unlock();
 	    }
@@ -395,6 +469,7 @@ if(DEBUG){
 	
 	public static Task pop_from_rbtree(Tree<Task> instance, ReentrantLock lock) {
 		Task _task;
+		//= new Task();
 		lock.lock();  // block until condition holds
 	    try {
 	    	//instance.print();
@@ -402,7 +477,10 @@ if(DEBUG){
 			if(_task==null)
 				return null;
 			else {
-				instance.remove(_task);
+				Task temp_task;
+				temp_task = instance.remove(_task);
+				if (temp_task == null) 
+					System.out.println("ERROE: remove failed !!!!!!!!!!!!!!!!!!!");
 				g_queue_thread_num.getAndDecrement();
 				return _task;
 			}
@@ -471,6 +549,76 @@ if(DEBUG){
 		task1.id = 0;
 	}
 	
+	
+	static class ADDThread extends Thread {
+		private volatile int TotalDeq=0; //not used
+		private volatile int GoodDeq=0;
+		private volatile int id=-1;  
+		int t_time=0; // thread run time
+		private Hashtable<String, String> _htable;
+		private Tree<Task> instance;
+		boolean is_exit=false;
+		private ReentrantLock _lock;
+		private Random random = new Random();
+		volatile boolean reschedule=true;
+		int add_num;
+		
+		public ADDThread(int i, Tree<Task> tree, Hashtable<String, String> htable, ReentrantLock lock, int _add_num) {
+			id = i;
+			instance=tree;
+			_htable=htable;
+			_lock=lock;
+			add_num = _add_num;
+		}
+	
+		public void run() {
+			int i=0;
+			try { Thread.sleep(1000); } catch (InterruptedException e) { e.printStackTrace(); }
+			int base = (id++ * add_num/THREADS);
+			for (i=base; i<base+(add_num/THREADS) ; i++) {
+				Task _task = new Task();
+				_task.id =i;
+				_task.VirtualRunTime=id;
+				push_to_rbtree(_task, instance, _lock, _htable);
+				System.out.println("test1: inserting id=" + _task.id);
+			}
+
+		}
+	}
+		
+	static class DELThread extends Thread {
+		private volatile int TotalDeq=0; //not used
+		private volatile int GoodDeq=0;
+		private volatile int id=-1;  
+		int t_time=0; // thread run time
+		private Hashtable<String, String> _htable;
+		private Tree<Task> instance;
+		boolean is_exit=false;
+		private ReentrantLock _lock;
+		private Random random = new Random();
+		volatile boolean reschedule=true;
+		int del_num;
+		
+		public DELThread(int i, Tree<Task> tree, Hashtable<String, String> htable, ReentrantLock lock, int _del_num) {
+			id = i;
+			instance=tree;
+			_htable=htable;
+			_lock=lock;
+			del_num = _del_num;
+		}
+	
+		public void run() {
+			int i=0;
+			try { Thread.sleep(2000); } catch (InterruptedException e) { e.printStackTrace(); }
+			int base = (id++ * del_num/THREADS);
+			for (i=base; i<base+(del_num/THREADS) ; i++) {
+				Task _task;
+				_task = pop_from_rbtree(instance, _lock);
+				System.out.println("i=" + i+ "\ttest2: deleting id=" + _task.id);
+			}
+		}
+	}
+	
 	static class CPUThread extends Thread {
 		private volatile int TotalDeq=0; //not used
 		private volatile int GoodDeq=0;
@@ -481,6 +629,8 @@ if(DEBUG){
 		boolean is_exit=false;
 		private ReentrantLock _lock;
 		private Random random = new Random();
+		volatile boolean reschedule=true;
+		
 		public CPUThread(int i, Tree<Task> tree, Hashtable<String, String> htable, ReentrantLock lock) {
 			id = i;
 			instance=tree;
@@ -491,21 +641,32 @@ if(DEBUG){
 		public int getrand(int tmp) {
 			return random.nextInt(tmp);
 		}
-		
+boolean DD=true;
 		public void run() {
 			int i=0;
-			Task curr_task;
-
-			//try { Thread.sleep(1500); } catch (InterruptedException e) { e.printStackTrace(); }
+			Task curr_task = null;
+			//try { Thread.sleep(3000); } catch (InterruptedException e) { e.printStackTrace(); }
 			
+if(DD) {
 			while(true) {
-				curr_task = pop_from_rbtree(instance, _lock);
-				//System.out.println("curr_task="+curr_task);
-				if (curr_task==null) {
-					//System.out.println("curr_task="+curr_task);
-					continue;	// nothing in run queue
-				}
 				
+				if(reschedule==true) {
+					//System.out.println("original tree: ");
+					//instance.print();
+					curr_task = pop_from_rbtree(instance, _lock);
+					
+					//System.out.println("curr_task="+curr_task);
+					if (curr_task==null) {
+						//System.out.println("curr_task="+curr_task);
+						if (g_done_thread_num.get() == TASK ) 
+							break;
+						continue;	// nothing in run queue
+					}
+					//System.out.println("Pop out: id = " + curr_task.id);
+					//instance.print();
+					
+				}
+				reschedule=true;
 				CPUThread currThread = (CPUThread) CPUThread.currentThread();
 				System.out.println("Thread_id = " + currThread.id + ", Task_id = " + curr_task.id);
 
@@ -523,10 +684,14 @@ if(DEBUG){
 				
 				t_time=0;		// initialize thread timer
 				is_exit=false; 	// clear exit flag
+				if ( ((curr_task.cpu+curr_task.io) <= 0) ) {
+					System.out.println("ERROR: finished before runing");
+				}
 				do {
 						t_time++;
 						is_exit = JobTask(curr_task, 0); 
-					if (t_time > TimerIntThreshold || is_exit==true)
+					if (t_time > TimerIntThreshold || is_exit==true) // case1 + case2
+					//if (t_time > 100000000 || is_exit==true) // case1 + case2
 						break;
 				}while(true);
 				
@@ -534,25 +699,33 @@ if(DEBUG){
 				// case 1. exit()
 				if(is_exit==true) { // feature - exit() interrupt			
 					if ( ((curr_task.cpu+curr_task.io) <= 0) ) {	// task done
-			  			g_done_thread_num.getAndIncrement();
+						//System.out.println("curr id=" +curr_task.id + ", cpu=" + curr_task.cpu + ", io=" + curr_task.io);			
+			  			
 			  			/* clean runtime info to record for the next run */
-			  			curr_task.cpu_runtime=0;
-			  			curr_task.io_runtime=0;
+			  			//curr_task.cpu_runtime=0;
+			  			//curr_task.io_runtime=0;
+			  			//instance.print();
 			  			kill_from_rbtree(curr_task, instance, _lock);
-			  			//System.out.println(((AVL<Task>)instance).height());
+						System.out.println("Thread_id = " + currThread.id + ", task done =" + curr_task.id);
+
+			  			System.out.println("queue_num = " + g_queue_thread_num.get() + "\t" + 
+			  								"done_num = " + g_done_thread_num.get() + "\t" +
+			  								"done id = " + curr_task.id );
+			  			reschedule=true;
+			  			//System.out.println("why height = " + ((AVL<Task>)instance).height());
 					}
 				}
 				else if (t_time > TimerIntThreshold) { // feature - timer interrupt
-					// case 1. Job not done BUT time slice is reached. recycle(reclaim).
-					if ( curr_task.time_slice <= (curr_task.cpu_runtime+curr_task.io_runtime) ) { // expired must deq()	
-						// time_slice passed(out) 
+					// case 1. Job not done BUT time_slice is out. recycle(reclaim).
+					if ( curr_task.time_slice <= (curr_task.cpu_runtime+curr_task.io_runtime) ) { // time_slice expired must deq()	
 						//System.out.println("1. " + curr_task.cpu_runtime + "\t2. " +curr_task.io_runtime + "\t3. " + curr_task[i].time_slice);
-			  			// sched1 - update Virtual Time - virtual += timslice (before push)
+			  			// sched1 - update Virtual Time - virtual += time_slice (before push)
 			  			int temp_int=0;
 			  			temp_int += curr_task.VirtualRunTime.intValue();
 			  			temp_int += curr_task.cpu_runtime+curr_task.io_runtime; // + actual run time NOT time_slice 
+						//System.out.println("1.cpu_run. " + curr_task.cpu_runtime + "\t2io_run. " +curr_task.io_runtime + "\t3slice. " + curr_task.time_slice + "\t4new_slice. " + temp_int);
 						curr_task.VirtualRunTime = new Integer(temp_int); 
-			  			adjust_Vtime(curr_task, _htable);
+			  			//adjust_Vtime(curr_task, _htable);
 			  			
 			  			// update nice
 			  			if (curr_task.io_runtime*2 > curr_task.cpu_runtime) {
@@ -560,18 +733,32 @@ if(DEBUG){
 							if (curr_task.nice > curr_task.ori_nice+dynaic_nice_rang)
 								curr_task.nice = curr_task.ori_nice+dynaic_nice_rang;
 						}
-						
 						if (curr_task.io_runtime*2 < curr_task.cpu_runtime) {
 							curr_task.nice--;
 							if (curr_task.nice < curr_task.ori_nice-dynaic_nice_rang)
 								curr_task.nice = curr_task.ori_nice-dynaic_nice_rang;
 						}
-						push_to_rbtree(curr_task, instance, _lock);
+						System.out.println("Thread_id = " + currThread.id + ", slice out: inserting id=" + curr_task.id + 
+											"\t left cpu=" + curr_task.cpu + ", left io=" + curr_task.io );
+						push_to_rbtree(curr_task, instance, _lock, _htable);
+						reschedule=true;
 			  			//thread_clean(curr_task);
-			  		} // expired end
-				} //kernel end
-				//else { // time_slice remains, keep running}
+			  		}  // expired end
+					else {
+						reschedule=false;
+						System.out.println("ERROR: shouldn't be here !!!!!!!!!!!!!!");
+					}
+				}
+				else { // case 3. keep occupying the CPU 
+					reschedule=false;
+					// time_slice remains, keep running}
+				} // kernel ends
+				if (g_done_thread_num.get()==TASK)
+					break;
 			} //while end
+}			
+			CPUThread currThread = (CPUThread) CPUThread.currentThread();
+			System.out.println("Thread_id = " + currThread.id + " DONE");
 		}
 		
 		public int GetTotalDeq() {
