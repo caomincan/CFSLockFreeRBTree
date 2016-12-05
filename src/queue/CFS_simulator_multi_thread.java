@@ -219,7 +219,7 @@ if(DEBUG){
 		}
 		instance2.print();
 		
-		Thread.sleep(100*1000);
+		//Thread.sleep(20*1000);
 
 
 
