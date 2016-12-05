@@ -20,7 +20,7 @@ import java.io.*;
 
 public class CFS_simulator_multi_thread<T extends Comparable<T>> {
 	/* default values */ /* unit=us */
-	static int THREADS = 8; 					// number of workers (simulated CPUs, not task!!!!!!!!!!!)
+	static int THREADS = 1; 					// number of workers (simulated CPUs, not task!!!!!!!!!!!)
 	static int TimerIntThreshold = 1000*1000;	// timer interrupt ticks 1ms
 	static int min_granunarity = 1000*1000;		// minimum granularity // 1ms
 	static int dynaic_nice_rang = 5;			// nice(dynamic) = original_nice +-dynaic_nice_rang
@@ -370,10 +370,11 @@ if(DEBUG){
 	}
 	
 	private static void push_to_rbtree(Task _task, Tree<Task> instance, ReentrantLock lock) {	
-		g_queue_thread_num.getAndIncrement();
+		
 		lock.lock();  // block until condition holds
 	    try {
 	    	instance.add(_task); // must succeed
+	    	g_queue_thread_num.getAndIncrement();
 			//System.out.println("height"+instance.height());
 	    	//instance.print();
 	    } finally {
@@ -393,6 +394,7 @@ if(DEBUG){
 	
 	public static Task pop_from_rbtree(Tree<Task> instance, ReentrantLock lock) {
 		Task _task;
+		//= new Task();
 		lock.lock();  // block until condition holds
 	    try {
 	    	//instance.print();
