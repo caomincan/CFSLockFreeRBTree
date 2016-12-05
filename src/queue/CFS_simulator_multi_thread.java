@@ -31,7 +31,9 @@ public class CFS_simulator_multi_thread<T extends Comparable<T>> {
 	static AtomicInteger g_queue_thread_num = new AtomicInteger(0);		// global number of threads in run_queue
 	static AtomicInteger g_done_thread_num = new AtomicInteger(0);		// global number of threads done
     
-	static boolean DEBUG = false;			
+	static boolean DEBUG = false;	
+	static boolean TEST1 = false;		// concurrent addition
+	static boolean TEST2 = false;		// concurrent deletion
 	static boolean g_done = false;			
 	static boolean g_is_interrupted = false;
 
@@ -251,9 +253,10 @@ if(DEBUG){
 					push_to_rbtree(_task, instance, lock, htable);
 					// 2. kill the task in task[] (task table)
 					thread_clean(task[i]);	// remove from task table
-					
+if(DEBUG){					
 					System.out.println("queue_num = " + g_queue_thread_num.get() + "\t" + 
-										"done_num = " + g_done_thread_num.get());	
+										"done_num = " + g_done_thread_num.get());
+}
 				}
 			}
 
