@@ -256,17 +256,8 @@ if(DEBUG){
 		System.out.println( "Total execution time = " + (end_time - start_time) + " ms (time in reality)");
 		System.out.println( "Total execution time = " + (end_time - start_time)/1000 + " s (time in reality)");
 		
-		System.out.println();
+		System.out.println( ((108*10000)+ (9*1000)) );
 
-		
-		Name	#ofT	cpu(ms)		io(ms)		prio	nice	start_time(ms)	note->
-		T1	8*10000			1000			100	1	0			1~4     	4
-		T2	9*1000				0			100	1	1000			5~7		1	
-		
-		T6	50*	1000				10000		100	1	0			19~68
-		T7	50	10000			1000			100	1	0			69~118
-
-		
 	}
 
 	/* adjust_Vtime() are all embedded in push_to_tree(). Automatically done. */
