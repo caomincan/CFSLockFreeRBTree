@@ -202,7 +202,6 @@ if(DEBUG){
 					System.out.println("TASK=" + TASK);		// main() is the only one access TASK table
 					System.out.println("g_queue_thread_num=" + g_queue_thread_num.get());
 					System.out.println("g_done_thread_num=" + g_done_thread_num.get());
-					//TODO: done_queue
 				}
 			}
 }	
