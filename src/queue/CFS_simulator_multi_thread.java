@@ -560,7 +560,7 @@ adjust_Vtime(_task, _htable);
 			
 			try { Thread.sleep(2000); } catch (InterruptedException e) { e.printStackTrace(); }
 	
-			while(true) {
+			//while(true) {
 				int ppp=16;
 				int base = (id++ * ppp/THREADS);
 				for (i=base; i<base+(ppp/THREADS) ; i++) {
@@ -570,11 +570,57 @@ adjust_Vtime(_task, _htable);
 					push_to_rbtree(_task, instance, _lock, _htable);
 					System.out.println("test 1: inserting id=" + _task.id);
 				}
-				break;
-			}
+			//	break;
+			//}
 		}
 	}
 		
+	
+	static class DELThread extends Thread {
+		private volatile int TotalDeq=0; //not used
+		private volatile int GoodDeq=0;
+		private volatile int id=-1;  
+		int t_time=0; // thread run time
+		private Hashtable<String, String> _htable;
+		private Tree<Task> instance;
+		boolean is_exit=false;
+		private ReentrantLock _lock;
+		private Random random = new Random();
+		volatile boolean reschedule=true;
+		
+		public DELThread(int i, Tree<Task> tree, Hashtable<String, String> htable, ReentrantLock lock) {
+			id = i;
+			instance=tree;
+			_htable=htable;
+			_lock=lock;
+		}
+	
+		public void run() {
+			int i=0;
+			
+			try { Thread.sleep(2000); } catch (InterruptedException e) { e.printStackTrace(); }
+	
+			//while(true) {
+				int ppp=16;
+				int base = (id++ * ppp/THREADS);
+				for (i=base; i<base+(ppp/THREADS) ; i++) {
+					Task _task;
+					//= new Task();
+					//_task.id =i;
+					//_task.VirtualRunTime=id;
+					
+					//push_to_rbtree(_task, instance, _lock, _htable);
+					_task = pop_from_rbtree(instance, _lock);
+					System.out.println("test 2: deleting id=" + _task.id);
+				}
+			//	break;
+			//}
+		}
+	}
+	
+	
+	
+	
 	static class CPUThread extends Thread {
 		private volatile int TotalDeq=0; //not used
 		private volatile int GoodDeq=0;
