@@ -23,8 +23,8 @@ public class Task implements Comparable<Task>{
 	public int prio;				//
 	public int nice;				// dynamic priority
 	public int ori_nice;			// user defined
-	public int VirtualRunTime; 	// accumulated =   TimerIntThreshold * (time_slice/weight) 
-	public int time_slice; 		// chose one = prio + nice  = 100ms  suppose to run
+	public int VirtualRunTime; 		// accumulated =   TimerIntThreshold * (time_slice/weight) 
+	public int time_slice; 			// chose one = prio + nice  = 100ms  suppose to run
 	public int weight;				// chose one = prio + nice 
 	public int start_time;
 	
@@ -37,5 +37,6 @@ public class Task implements Comparable<Task>{
 		// TODO Auto-generated method stub
 		return VirtualRunTime-o.VirtualRunTime;
 	}
+	
 }
 	
