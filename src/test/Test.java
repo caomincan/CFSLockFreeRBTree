@@ -11,8 +11,8 @@ public class Test {
 
 	public static void main(String[] args) throws InterruptedException {
 	   long start= 0,duration = 0;
-	   int num_threads = 8;
-       int insert_nodes = 30;
+	   int num_threads = 4;
+       int insert_nodes = 20;
        if(args.length == 2){
     	   if(args[0].matches("^[0-9]+$")){
     		   num_threads = Integer.valueOf(args[0]);
