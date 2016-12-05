@@ -540,6 +540,24 @@ adjust_Vtime(_task, _htable);
 			_lock=lock;
 		}
 	
+		public void run() {
+			int i=0;
+			
+			try { Thread.sleep(2000); } catch (InterruptedException e) { e.printStackTrace(); }
+	
+			while(true) {
+				int ppp=16;
+				int base = (id++ * ppp/THREADS);
+				for (i=base; i<base+(ppp/THREADS) ; i++) {
+					Task _task = new Task();
+					_task.id =i;
+					_task.VirtualRunTime=id;
+					push_to_rbtree(_task, instance, _lock, _htable);
+					System.out.println("slice out: inserting id=" + _task.id);
+				}
+				break;
+			}
+		}
 	}
 		
 	static class CPUThread extends Thread {
@@ -564,34 +582,11 @@ adjust_Vtime(_task, _htable);
 		public int getrand(int tmp) {
 			return random.nextInt(tmp);
 		}
-boolean DD=false;
+boolean DD=true;
 		public void run() {
 			int i=0;
 			Task curr_task = null;
-
 			try { Thread.sleep(3000); } catch (InterruptedException e) { e.printStackTrace(); }
-
-			while(true) {
-				//curr_task = pop_from_rbtree(instance, _lock);
-				//if (curr_task==null) {
-				//	continue;	// nothing in run queue
-				//}
-				//if (g_done_thread_num.get()==TASK)
-				//	break;
-				//System.out.println("queue_num = " + g_queue_thread_num.get() + "\t" + 
-				//						"done_num = " + g_done_thread_num.get());
-				int ppp=16;
-				int base = (id++ * ppp/THREADS);
-				for (i=base; i<base+(ppp/THREADS) ; i++) {
-					Task _task = new Task();
-					_task.id =i;
-					_task.VirtualRunTime=id;
-					push_to_rbtree(_task, instance, _lock, _htable);
-					System.out.println("slice out: inserting id=" + _task.id);
-				}
-				break;
-			}
-		
 			
 if(DD) {
 			while(true) {
