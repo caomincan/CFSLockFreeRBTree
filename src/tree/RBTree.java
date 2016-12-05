@@ -152,7 +152,16 @@ public class RBTree<V extends Comparable<V>> {
 		return temp;
 	}
 	
-	get_leftmost
+	public synchronized RBNode<V> get_leftmost(RBNode<V> node){
+		node = root;
+		if(node == null) return null;
+		RBNode<V> temp = node;
+		while(temp.left.value!= null){
+			temp = temp.left;
+		}
+		return temp;
+	}
+	
 	
 	
 	protected void deleteHelp(RBNode<V> x){
