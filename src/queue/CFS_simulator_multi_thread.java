@@ -209,6 +209,8 @@ if(DEBUG){
 					
 					Task _task = new Task();		// redundant?
 					thread_copy(_task, task[i]);	// redundant?
+					
+					System.out.println("idid=" + _task.id);
 					// 1. enqueue() to run_queue
 					push_to_rbtree(_task, instance, lock);
 					// 2. kill the task in task[] (task table)
@@ -493,7 +495,7 @@ if(DEBUG){
 			int i=0;
 			Task curr_task;
 
-			//try { Thread.sleep(1500); } catch (InterruptedException e) { e.printStackTrace(); }
+			try { Thread.sleep(1500); } catch (InterruptedException e) { e.printStackTrace(); }
 			
 			while(true) {
 				curr_task = pop_from_rbtree(instance, _lock);
@@ -533,8 +535,8 @@ if(DEBUG){
 					if ( ((curr_task.cpu+curr_task.io) <= 0) ) {	// task done
 			  			g_done_thread_num.getAndIncrement();
 			  			/* clean runtime info to record for the next run */
-			  			curr_task.cpu_runtime=0;
-			  			curr_task.io_runtime=0;
+			  			//curr_task.cpu_runtime=0;
+			  			//curr_task.io_runtime=0;
 			  			kill_from_rbtree(curr_task, instance, _lock);
 			  			System.out.println(((AVL<Task>)instance).height());
 					}
