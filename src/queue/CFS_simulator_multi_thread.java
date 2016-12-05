@@ -525,7 +525,7 @@ if(DEBUG){
 				do {
 						t_time++;
 						is_exit = JobTask(curr_task, 0); 
-					if (t_time > TimerIntThreshold || is_exit==true) // case1 +case2
+					if (t_time > TimerIntThreshold || is_exit==true) // case1 + case2
 						break;
 				}while(true);
 				
