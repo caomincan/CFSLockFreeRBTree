@@ -621,13 +621,11 @@ if(DD) {
 						push_to_rbtree(curr_task, instance, _lock, _htable);
 			  			//thread_clean(curr_task);
 			  		} // expired end
-				} //kernel end
-				else { // case 3. keep occupying CPU 
+				}
+				else { // case 3. keep occupying the CPU 
 					reschedule=false;
 					// time_slice remains, keep running}
-				}
-				
-				
+				} // kernel ends
 				if (g_done_thread_num.get()==TASK)
 					break;
 			} //while end
