@@ -40,7 +40,7 @@ public class CFS_simulator_multi_thread<T extends Comparable<T>> {
 
 	static Task[] task; 			// all tasks going to run in this simulation
   	public static Task[] run_queue; // tasks should be ran
-  	static Task[] running_tasks; 	// running on simulated CPU
+  	static Tree<Task> instance=null;
   	static AtomicInteger[] finished_order_queue; // check finishing order // Be careful id is from 1~Task
 	private static Random random = new Random(); 
 	
@@ -55,11 +55,11 @@ public class CFS_simulator_multi_thread<T extends Comparable<T>> {
 	  	if (IS_RBTREE==false) {
 		  	//Tree<Task> instance = new AVL<Task>(); 			// Wrong 
 		  	//Tree<Task> instance = new AvlTree<Task>(); 		// Wrong
-		  	Tree<Task> instance = new AVLTree2<Task>();		// Correct AVL tree
+		  	instance = new AVLTree2<Task>();		// Correct AVL tree
 	  		System.out.println("AVLtree:");
 	  	}
 	  	else {
-	  		Tree<Task> instance = new RBTree<Task>();
+	  		instance = new RBTree<Task>();
 	  		System.out.println("RBtree:");
 	  	}
 		ReentrantLock lock = new ReentrantLock();
