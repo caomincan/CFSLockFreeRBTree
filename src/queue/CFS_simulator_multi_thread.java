@@ -136,7 +136,7 @@ public class CFS_simulator_multi_thread<T extends Comparable<T>> {
 
 	  	
 	  	Vtime_table = new int[Vtime_table_size];
-	  	for(i=1; i<Vtime_table_size+1; i++)
+	  	for(i=1; i<Vtime_table_size; i++)
 	  		Vtime_table[i]=0;
 	  	
 	  	
@@ -183,17 +183,16 @@ if(DEBUG){
 		/* mimicing external interrupt with polling*/
 		while(true) { // infinite loop until every work is done
 			/* periodically debug */
-			int how_many_int=100;
+			int how_many_int=10000;
 			g_time++;
 			
 if(DEBUG){
 			if(g_time>0 && TimerIntThreshold>0 && g_time>TimerIntThreshold) {
 				if (how_many_int/(g_time/TimerIntThreshold)==0) {
+					System.out.println("c" + how_many_int/(g_time/TimerIntThreshold));
 					System.out.println("--------------------------------------------");
 					System.out.println("g_time=" + g_time);
 					System.out.println("TASK=" + TASK);		// main() is the only one access TASK table
-					//System.out.println("g_queue_thread_num=" + g_queue_thread_num);
-					//System.out.println("g_exec_thread_num=" + g_exec_thread_num);
 					System.out.println("g_done_thread_num=" + g_done_thread_num.get());
 					//TODO: done_queue
 				}
@@ -219,9 +218,8 @@ if(DEBUG){
 					
 					Task _task = new Task();		// redundant?
 					thread_copy(_task, task[i]);	// redundant?
-					System.out.println("_task=" + _task);
 					// 1. enqueue() to run_queue
-					push_to_rbtree(_task);
+					push_to_rbtree(_task, instance);
 					
 					// 2. kill the task in task[] (task table)
 					thread_clean(task[i]);	// remove from task table	
@@ -394,21 +392,19 @@ if(DEBUG){
 	}
 	
 	// This is FIFO O(1) version //TODO: replace with tree 
-	private static void push_to_rbtree(Task _task) {
+	private static void push_to_rbtree(Task _task, AVL<Task> instance) {
 		//Integer a = new Integer(_task.VirtualRunTime);
 		System.out.println("_task=" + _task);
 		instance.add(_task); // must succeed
 	}
 	
-	public static Task pop_from_rbtree() { 	
+	public static Task pop_from_rbtree(AVL<Task> instance) { 	
 		return instance.get_leftmost(); //TODO
 	}
 	
-	/* Thread */
-	public static boolean JobTask(Task task, int virtualtime) { //單一task
-		// pass in the fake thread, virtualtime
-		int weight=0; //used for kernel for determine this is a io or cpu bound task
-		int rand=-1;
+
+	public static boolean JobTask(Task task, int virtualtime) { 	/* a thread, a task */
+		int rand=-1; // randomly finish jobs
 		//TODO: check realtime code how to do the periodic check (do we need to do?) 
 		
 		//int cpu=cpu;
@@ -485,7 +481,7 @@ if(DEBUG){
 			id = i;
 			instance=tree;
 		}
-
+		
 		public int getrand(int tmp) {
 			return random.nextInt(tmp);
 		}
@@ -506,7 +502,7 @@ if(DEBUG){
 			while(true) {
 				//if (instance.get_leftmost()==null) 
 				//if (curr_task＝pop_from_rbtree()==null)
-				curr_task = pop_from_rbtree(); //TODO
+				curr_task = pop_from_rbtree(instance); //TODO
 				if (curr_task==null) {
 					continue;	// nothing in run queue
 				}
@@ -587,7 +583,7 @@ if(DEBUG){
 							//				copy all info hand by hand
 							//Reminder: TODO: sched2 - recalculate time_slice (after pop) 
 							//							clean runtime_info
-							push_to_rbtree(curr_task);
+							push_to_rbtree(curr_task, instance);
 			  					
 			  				//g_exec_thread_num--;
 			  				//g_queue_thread_num++;
