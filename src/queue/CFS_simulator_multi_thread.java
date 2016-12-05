@@ -177,6 +177,27 @@ if(DEBUG){
 		}
 }
 
+
+		/* test 1. concurrent addition */
+		Thread[] myThreads = new Thread[THREADS];
+		for (i = 0; i < THREADS; i++) {
+			myThreads[i] = new ADDThread(i, instance, htable, lock); 
+		}
+		for (i = 0; i < THREADS; i ++) {
+			myThreads[i].start();
+		}
+		for (i = 0; i < THREADS; i ++) {
+	    	myThreads[i].join();
+	    }
+		instance.print();
+
+
+
+		/* test 2. concurrent deletion*/
+
+
+
+
 		/* after tasks are all enqueued */
 		Thread[] myThreads = new Thread[THREADS];
 	    for (i = 0; i < THREADS; i++) {
@@ -215,7 +236,7 @@ if(DEBUG){
 					thread_copy(_task, task[i]);	// redundant?
 					
 					// 1. enqueue() to run_queue
-//push_to_rbtree(_task, instance, lock, htable);
+					push_to_rbtree(_task, instance, lock, htable);
 					// 2. kill the task in task[] (task table)
 					thread_clean(task[i]);	// remove from task table
 					
@@ -224,7 +245,7 @@ if(DEBUG){
 				}
 			}
 
-//if(g_done_thread_num.get()==TASK) // all TASK are done
+			if(g_done_thread_num.get()==TASK) // all TASK are done
 				break;
 			
 		} // while(1) end
@@ -232,7 +253,6 @@ if(DEBUG){
 		for (i = 0; i < THREADS; i ++) {
 	    	myThreads[i].join();
 	    }
-		instance.print();
 		/*
 		if (instance.leftMost()!=null)
 			System.out.println("ERROR: tasks not done");
