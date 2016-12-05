@@ -538,6 +538,7 @@ boolean DD=true;
 	*/		
 			
 if(DD) {
+			
 			while(true) {
 				
 				if(reschedule==true) {
@@ -548,7 +549,7 @@ if(DD) {
 						continue;	// nothing in run queue
 					}
 				}
-			
+				reschedule=true;
 				CPUThread currThread = (CPUThread) CPUThread.currentThread();
 				System.out.println("Thread_id = " + currThread.id + ", Task_id = " + curr_task.id);
 
