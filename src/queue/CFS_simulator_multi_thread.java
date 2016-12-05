@@ -522,7 +522,7 @@ if(DEBUG){
 				
 				t_time=0;		// initialize thread timer
 				is_exit=false; 	// clear exit flag
-				if ( ((curr_task.cpu+curr_task.io) <= 0) ) {}
+				if ( ((curr_task.cpu+curr_task.io) <= 0) ) {= =}
 				do {
 						t_time++;
 						is_exit = JobTask(curr_task, 0); 
