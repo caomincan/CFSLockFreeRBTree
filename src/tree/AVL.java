@@ -1,10 +1,7 @@
-package avl;
+package tree;
 
 import java.util.LinkedList;
 import java.util.List;
-
-import queue.Task;
-import tree.RBNode;
 
 import java.util.ArrayList;
 
@@ -15,7 +12,7 @@ import java.util.ArrayList;
  * @author Christopher Tam
  */
 
-public class AVL<T extends Comparable<T>> implements AVLInterface<T> {
+public class AVL<T extends Comparable<T>> implements  Tree<T> {
     // Do not add additional instance variables
     private Node<T> root = null;
     private int size = 0;
@@ -327,7 +324,7 @@ public class AVL<T extends Comparable<T>> implements AVLInterface<T> {
         return result;
     }
 
-    @Override
+
     public synchronized T get(T data) {
         if (data == null) {
             throw new IllegalArgumentException("Argument cannot be null.");
@@ -346,22 +343,22 @@ public class AVL<T extends Comparable<T>> implements AVLInterface<T> {
         return null;
     }
 
-    @Override
+
     public synchronized boolean contains(T data) {
         return this.get(data) != null;
     }
 
-    @Override
+
     public synchronized boolean isEmpty() {
         return this.size == 0 && this.root == null;
     }
 
-    @Override
+
     public synchronized int size() {
         return this.size;
     }
 
-    @Override
+
     public synchronized List<T> preorder() {
         List<T> results = new ArrayList<T>(size);
         if (root != null) {
@@ -388,7 +385,6 @@ public class AVL<T extends Comparable<T>> implements AVLInterface<T> {
         }
     }
 
-    @Override
     public synchronized List<T> postorder() {
         List<T> results = new ArrayList<T>(size);
         if (root != null) {
@@ -415,7 +411,6 @@ public class AVL<T extends Comparable<T>> implements AVLInterface<T> {
         existing.add(current.getData());
     }
 
-    @Override
     public synchronized List<T> inorder() {
         List<T> results = new ArrayList<T>(size);
         if (root != null) {
@@ -442,7 +437,6 @@ public class AVL<T extends Comparable<T>> implements AVLInterface<T> {
         }
     }
 
-    @Override
     public synchronized List<T> levelorder() {
         List<T> results = new ArrayList<T>(this.size);
         LinkedList<Node<T>> nodes = new LinkedList<Node<T>>();
@@ -461,13 +455,11 @@ public class AVL<T extends Comparable<T>> implements AVLInterface<T> {
         return results;
     }
 
-    @Override
     public synchronized void clear() {
         this.root = null;
         this.size = 0;
     }
 
-    @Override
     public synchronized int height() {
         return (this.isEmpty() ? -1 : this.root.getHeight());
     }
@@ -500,41 +492,27 @@ public class AVL<T extends Comparable<T>> implements AVLInterface<T> {
 
 	
 	@Override
-    public synchronized T get_leftmost() {
-        //if (data == null) {
-        //    throw new IllegalArgumentException("Argument cannot be null.");
-        //}
+    public synchronized T leftMost() {
         Node<T> current = root;
         if ( current != null) {
 	        while (current.getLeft() != null) {
 	        	current = current.getLeft();
-	        	/*
-	            int comp = data.compareTo(current.getData());
-	            if (comp == 0) {
-	                return current.getData();
-	            } else if (comp < 0) {
-	                current = current.getLeft();
-	            } else {
-	                current = current.getRight();
-	            }
-	            */
 	        }
 	        return current.getData();
         }
         return null;
     }
-	/**
-	protected RBNode<V> findMin(RBNode<V> node){
-		if(node == null) return null;
-		RBNode<V> temp = node;
-		while(temp.left.value!= null){
-			temp = temp.left;
-		}
-		return temp;
+
+	@Override
+	public void print() {
+		// TODO Auto-generated method stub
+		
 	}
-	*/
-	
-	
-	
-	
+
+	@Override
+	public T search(T value) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

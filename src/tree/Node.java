@@ -3,8 +3,7 @@
  * @version 1.0
  */
 
-package avl;
-import queue.Task;
+package tree;
 
 public class Node<T extends Comparable<T>> {
     private T data;

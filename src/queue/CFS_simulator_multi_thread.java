@@ -14,8 +14,7 @@ import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.locks.ReentrantLock;
 
-import avl.*;
-import tree.RBTree;
+import tree.*;
 
 import java.io.*;  
 
