@@ -570,14 +570,13 @@ if(DEBUG){
 				
 				if (curr_task.time_slice <= min_granunarity)
 					curr_task.time_slice=min_granunarity;
-				//System.out.println("_task.time_slice = " +_task.time_slice + "\t nice=" + _task.nice);
 
 				// sched2. - clean(initialize) all runtime info
 				curr_task.cpu_runtime=0;	// run_time record used for dynamic priority
 				curr_task.io_runtime=0; 	// run_time record used for dynamic priority
 				
-				t_time=0;		// initialize thread timer
-				is_exit=false; 	// clear exit flag
+				t_time=0;					// initialize thread timer
+				is_exit=false; 				// clear exit flag
 				if ( ((curr_task.cpu+curr_task.io) <= 0) ) {
 					System.out.println("ERROR: finished before runing");
 				}
@@ -591,9 +590,7 @@ if(DEBUG){
 				// kernel space - context switch:
 				// case 1. exit()
 				if(is_exit==true) { // feature - exit() interrupt			
-					if ( ((curr_task.cpu+curr_task.io) <= 0) ) {	// task done
-						//System.out.println("curr id=" +curr_task.id + ", cpu=" + curr_task.cpu + ", io=" + curr_task.io);			
-			  			
+					if ( ((curr_task.cpu+curr_task.io) <= 0) ) {	// task done			  			
 			  			/* clean runtime info to record for the next run */
 			  			kill_from_rbtree(curr_task, instance, _lock);
 if(DEBUG){						
@@ -604,21 +601,19 @@ if(DEBUG){
 }
 						finished_order_queue[finished_order_queue[0].incrementAndGet()].set(curr_task.id);
 			  			reschedule=true;
-			  			//System.out.println("why height = " + ((AVL<Task>)instance).height());
 					}
 				}
 				else if (t_time > TimerIntThreshold) { // feature - timer interrupt
 					// case 1. Job not done BUT time_slice is out. recycle(reclaim).
 					if ( curr_task.time_slice <= (curr_task.cpu_runtime+curr_task.io_runtime) ) { // time_slice expired must deq()	
 						//System.out.println("1. " + curr_task.cpu_runtime + "\t2. " +curr_task.io_runtime + "\t3. " + curr_task[i].time_slice);
-			  			// sched1. - update Virtual Time - virtual += time_slice (before push)
+			  			// sched1. update Virtual Time - virtual += time_slice (before push)
 			  			int temp_int=0;
 			  			temp_int += curr_task.VirtualRunTime.intValue();
 			  			temp_int += curr_task.cpu_runtime+curr_task.io_runtime; // + actual run time NOT time_slice 
-						//System.out.println("1.cpu_run. " + curr_task.cpu_runtime + "\t2io_run. " +curr_task.io_runtime + "\t3slice. " + curr_task.time_slice + "\t4new_slice. " + temp_int);
 						curr_task.VirtualRunTime = new Integer(temp_int); 
 			  			
-			  			// update nice
+			  			// sched1. update nice
 			  			if (curr_task.io_runtime*2 > curr_task.cpu_runtime) {
 			  				curr_task.nice++;
 							if (curr_task.nice > curr_task.ori_nice+dynaic_nice_rang)
