@@ -67,13 +67,14 @@ public class CFS_simulator_multi_thread<T extends Comparable<T>> {
 	  	//int timer; // timer interrupt cnt
 		//int data = 1;
 	  	
+	  	
+	  	/* dispatch to threads */
 		//this.root = new Node<T>(null);
 	  	AVL<Task> instance = new AVL<Task>();
 		//RBTree<Task> instance = new RBTree<Task>();
-		
-		
 		Hashtable<String, String> htable = new Hashtable<>();
 		
+		/** example code - hashtable
 		Task __task = new Task();
 		__task.VirtualRunTime= new Integer(10); // set value
 		htable.put(__task.VirtualRunTime.toString(), __task.VirtualRunTime.toString());
@@ -87,8 +88,9 @@ public class CFS_simulator_multi_thread<T extends Comparable<T>> {
 
 		System.out.println("ok key=" + htable.get(__task.VirtualRunTime.toString())); 
 		System.out.println("bad key=" + htable.get("123213")); 
+		*/	
 
-		/*
+		/** example code - tree operation
 		Task _task = new Task();
 		
 		_task.VirtualRunTime=12;
@@ -108,7 +110,7 @@ public class CFS_simulator_multi_thread<T extends Comparable<T>> {
 		}	
 		p_task.VirtualRunTime = 100;
 		*/
-				
+		
 		/* determine how many threads */
 	  	TASK = read_file_lines();
 	  	if(TASK<=0) {
@@ -122,7 +124,6 @@ public class CFS_simulator_multi_thread<T extends Comparable<T>> {
 		/*
 		 * every task will be executed in the threads
 		 * when a thread is done/out of time slice, it enq()/deq() global queue
-		 * 
 		 * */
 		
 		// Create THREADS threads
@@ -277,7 +278,7 @@ if(DEBUG){
 				_task.VirtualRunTime = new Integer(_task.VirtualRunTime.intValue() + 1); // adjust, ++	
 				continue;
 			}
-		}
+		}		
 	}
 
 	private static int read_file_lines() {
@@ -408,12 +409,6 @@ if(DEBUG){
 
 	public static boolean JobTask(Task task, int virtualtime) { 	/* a thread, a task */
 		int rand=-1; // randomly finish jobs (io/cpu)
-		//TODO: check realtime code how to do the periodic check (do we need to do?) 
-		
-		//int cpu=cpu;
-		//int io=io;
-		//randomly chose io/cpu and do it until time slice ends
-		
 		if(task.cpu<=0 && task.io<=0) {
 			// PROBLEM: time was up but didn't report
 			return true;
@@ -596,8 +591,6 @@ if(DEBUG){
 				
 			}
 		}
-	
-
 		public int GetTotalDeq() { //
 		      return TotalDeq;  
 		}
