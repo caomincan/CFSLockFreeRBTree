@@ -114,25 +114,20 @@ public class CFS_simulator_multi_thread<T extends Comparable<T>> {
 
 		//  Create THREADS threads(CPUs)
 		task = new Task[TASK];					// all tasks in this simulation
-	  	
-	  	
-	  	is_interrupted = new boolean[THREADS];	
-	  	for(i=0; i<THREADS; i++)
-	  		is_interrupted[i]=false;
+		finishing_order_queue = new AtomicInteger[TASK]; // check finishing order // for record
+	  	for(i=0; i<TASK; i++) {
+	  		task[i] = new Task();
+	  		finishing_order_queue[i] = new AtomicInteger(0);
+	  	}
 	  	
 	  	done_queue = new boolean[TASK+1]; 	// Be careful id is from 1~Task
 	  	for(i=1; i<TASK+1; i++)
 	  		done_queue[i]=false;
-
-	  	//Vtime_table = new int[Vtime_table_size];
-	  	//for(i=1; i<Vtime_table_size; i++)
-	  	//Vtime_table[i]=0;	  	
 	  	
-	  	for(i=0; i<TASK; i++) {
-	  		task[i] = new Task();
-	  		finishing_order_queue[i] = new AtomicInteger(0); // check finishing order // for record
-	  	}
-	
+	  	is_interrupted = new boolean[THREADS];	
+	  	for(i=0; i<THREADS; i++)
+	  		is_interrupted[i]=false;
+	 
 	  	// initialize threads (task[i])
 	  	read_file_lines2();
 	  			
@@ -288,7 +283,7 @@ if(DEBUG){
 		// TODO:
 		System.out.print("TODO finishing order:");
 		for(i=0; i<TASK; i++) {
-			System.out.print(finishing_order_queue[i].intValue()+ " "); eee			
+			System.out.print(finishing_order_queue[i].intValue()+ " ");		
 		}
 		System.out.println("");
 		
