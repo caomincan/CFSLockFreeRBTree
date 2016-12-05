@@ -340,18 +340,14 @@ if(DEBUG){
 					args[i] = tokens[i];
 				}
 				
-				//System.out.println("-->" + tokens[0] +  "\t");
-		
-				//just cnt thread numbers
+				//just count thread numbers
 				if(Integer.parseInt(tokens[1])>0)
 					line_num += Integer.parseInt(tokens[1]);
 				//System.out.println("-->num " + Integer.parseInt(tokens[1]) +  "\t");
 
-				// read the next line
-				line = in.readLine();
+				line = in.readLine();	// read the next line
 			} //file ends 
-			//close the "pipe"
-			in.close();
+			in.close();	//close the "pipe"
 		
 		} catch(IOException iox) {
 			System.out.println("FILE_NOT_FOUND: ERROR cannot open file " + fileName);
@@ -397,12 +393,12 @@ if(DEBUG){
 			  		// read from txt
 					task[i].id = i+1; // from 0 to Task
 					System.out.print ((i+1) + " ");
-					//= Integer.parseInt(tokens[1]);	// number of thread
-					task[i].cpu = Integer.parseInt(tokens[2])*1000;	// cpu (ms) need to *1000
-					task[i].io = Integer.parseInt(tokens[3])*1000;	// io (ms) need to * 1000
-					task[i].prio = Integer.parseInt(tokens[4]);	// prio
-					task[i].nice = Integer.parseInt(tokens[5]);	// nice 
-					task[i].ori_nice = Integer.parseInt(tokens[5]);	// ori_nice 
+					//= Integer.parseInt(tokens[1]);					// number of thread
+					task[i].cpu = Integer.parseInt(tokens[2])*1000;		// cpu (ms) need to *1000
+					task[i].io = Integer.parseInt(tokens[3])*1000;		// io (ms) need to * 1000
+					task[i].prio = Integer.parseInt(tokens[4]);			// prio
+					task[i].nice = Integer.parseInt(tokens[5]);			// nice 
+					task[i].ori_nice = Integer.parseInt(tokens[5]);		// ori_nice 
 					task[i].start_time = Integer.parseInt(tokens[6]);	// start_time (used for interrupt or mimicing preemptive tasks) 
 					
 					task[i].VirtualRunTime = new Integer(0); 
@@ -531,15 +527,12 @@ if(DEBUG){
 	
 	
 	static class ADDThread extends Thread {
-		private volatile int TotalDeq=0; //not used
-		private volatile int GoodDeq=0;
 		private volatile int id=-1;  
 		int t_time=0; // thread run time
 		private Hashtable<String, String> _htable;
 		private Tree<Task> instance;
 		boolean is_exit=false;
 		private ReentrantLock _lock;
-		private Random random = new Random();
 		volatile boolean reschedule=true;
 		int add_num;
 		
@@ -567,22 +560,17 @@ if(DEBUG){
 	}
 		
 	static class DELThread extends Thread {
-		private volatile int TotalDeq=0; //not used
-		private volatile int GoodDeq=0;
 		private volatile int id=-1;  
 		int t_time=0; // thread run time
-		private Hashtable<String, String> _htable;
 		private Tree<Task> instance;
 		boolean is_exit=false;
 		private ReentrantLock _lock;
-		private Random random = new Random();
 		volatile boolean reschedule=true;
 		int del_num;
 		
 		public DELThread(int i, Tree<Task> tree, Hashtable<String, String> htable, ReentrantLock lock, int _del_num) {
 			id = i;
 			instance=tree;
-			_htable=htable;
 			_lock=lock;
 			del_num = _del_num;
 		}
@@ -621,13 +609,10 @@ if(DEBUG){
 		public int getrand(int tmp) {
 			return random.nextInt(tmp);
 		}
-boolean DD=true;
+
 		public void run() {
-			int i=0;
 			Task curr_task = null;
 			//try { Thread.sleep(3000); } catch (InterruptedException e) { e.printStackTrace(); }
-			
-if(DD) {
 			while(true) {
 				
 				if(reschedule==true) {
@@ -736,7 +721,7 @@ if(DD) {
 				if (g_done_thread_num.get()==TASK)
 					break;
 			} //while end
-}			
+			
 			CPUThread currThread = (CPUThread) CPUThread.currentThread();
 			System.out.println("Thread_id = " + currThread.id + " DONE");
 		}
@@ -750,6 +735,5 @@ if(DD) {
 		}
 		   
 	}
-
 
 }
