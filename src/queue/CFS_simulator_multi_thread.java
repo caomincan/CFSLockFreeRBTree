@@ -397,8 +397,8 @@ if(DEBUG){
 		//System.out.println("height"+instance.height());
 	}
 	
-	//public static Task pop_from_rbtree(AVL<Task> instance) {
-	public static Task pop_from_rbtree(RBTree<Task> instance) {
+	public static Task pop_from_rbtree(AVL<Task> instance) {
+	//public static Task pop_from_rbtree(RBTree<Task> instance) {
 		Task _task;
 		_task = instance.get_leftmost();
 		if(_task==null)
