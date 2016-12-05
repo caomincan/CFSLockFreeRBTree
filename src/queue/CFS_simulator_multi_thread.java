@@ -623,7 +623,7 @@ if(DD) {
 			  		} // expired end
 				} //kernel end
 				else { 
-					reschedule=true;
+					reschedule=false;
 					// time_slice remains, keep running}
 				}
 				
