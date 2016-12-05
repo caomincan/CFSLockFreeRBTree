@@ -344,7 +344,7 @@ if(DEBUG){
 	
 	private static int read_file_lines() {
 		int line_num = 0; 
-		String fileName ="in.txt";
+		String fileName ="in_single.txt";
 		File currentDir = new File("").getAbsoluteFile();
 		System.out.println(currentDir);
 		String line;
@@ -391,7 +391,7 @@ if(DEBUG){
 		int line_num = 0;
 		int old_line_num = 0;
 
-		String fileName ="in.txt";
+		String fileName ="in_single.txt";
 		File currentDir = new File("").getAbsoluteFile();
 		System.out.println(currentDir);
 		String line;
@@ -665,25 +665,10 @@ if(DEBUG){
 
 		task1.io_runtime = task2.io_runtime;
 		task1.cpu_runtime = task2.cpu_runtime;
-
 	}
 
 	private static void thread_clean(Task task1) {
 		task1.id = 0;
-
-		/*
-		int cpu;
-		int prio;				//
-		int nice;
-		int VirtualRunTime; 	// accumulated =   TimerIntThreshold * (time_slice/weight) 
-		float time_slice; 		// chose one = prio + nice  = 100ms 
-		int weight;				// chose one = prio + nice 
-		int start_time;
-
-		int io_runtime;
-		int cpu_runtime;
-		 
-		 */
 	}
 
   

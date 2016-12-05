@@ -1,46 +1,93 @@
 /*
- * LockFreeQueueTest.java
- * JUnit based test
+ * CFS_simulator_multi_thread.java
  *
- * Created on December 27, 2005, 11:15 PM
+ * Created on December 5, 2016, 11:15 PM
  */
+
+/*
+TASK = 200,	THREADS = 3
+700
+rb
+7422
+6583
+7883
+7643
+8340
+7933
+7421
+avl
+6793
+6513
+6
+
+
+TASK = 160,	THREADS = 3 
+760
+avl
+8776
+10045
+9144
+10123
+9862
+10324
+86493
+9055
+9800
+8520
+9782
+rb
+9300
+100074
+9338
+8868
+8755
+8954
+8115
+8785
+ */
+ 
+
 package queue;
 
-import java.io.BufferedReader;
+import tree.*;
+import java.io.*;
+import java.util.Random;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Hashtable;
-import java.util.Random;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.io.BufferedReader;
 import java.util.concurrent.locks.ReentrantLock;
-
-import tree.*;
-
-import java.io.*;  
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class CFS_simulator_multi_thread<T extends Comparable<T>> {
+	static boolean IS_RBTREE = false; 	// RBTree/AVLTree
+	//static boolean IS_RBTREE = true; 	// RBTree/AVLTree
+
+	
 	/* default values */ /* unit=us */
-	static int THREADS =4; 						// number of workers (simulated CPUs, not task!!!!!!!!!!!)
+	static int THREADS = 3; 					// number of workers (simulated CPUs, not task!!!!!!!!!!!)
 	static int TimerIntThreshold = 1000*1000;	// timer interrupt ticks 1ms
 	static int min_granunarity = 1000*1000;		// minimum granularity // 1ms
 	static int dynaic_nice_rang = 5;			// nice(dynamic) = original_nice +-dynaic_nice_rang
-	static int how_many_int=10*1000; 			// periodically debug
+	static int how_many_int = 10*1000; 			// periodically debug
 	
 	static int TASK = -1; 				// global number of tasks (threads) assigned by in.txt
 	static int g_time;					// global time
+  	static AtomicInteger[] finished_order_queue; // check finishing order // Be careful id is from 1~Task
 	static AtomicInteger g_queue_thread_num = new AtomicInteger(0);		// global number of threads in run_queue
 	static AtomicInteger g_done_thread_num = new AtomicInteger(0);		// global number of threads done
-    
-	static boolean DEBUG = false;	
-	static boolean TEST1 = false;		// concurrent addition
-	static boolean TEST2 = false;		// concurrent deletion
-	static boolean g_done = false;			
+	static AtomicInteger g_add_num = new AtomicInteger(0);		// global number of addition
+	static AtomicInteger g_del_num = new AtomicInteger(0);		// global number of deletion
+	
+	static boolean DEBUG = false;		
+	static boolean TEST1 = false;		// concurrent addition test
+	static boolean TEST2 = false;		// concurrent deletion test
+	static boolean g_done = false;		
 	static boolean g_is_interrupted = false;
 
-	static Task[] task; 			// all tasks going to run in this simulation
-  	public static Task[] run_queue; // tasks should be ran
-  	static Task[] running_tasks; 	// running on simulated CPU
-  	static AtomicInteger[] finished_order_queue; // check finishing order // Be careful id is from 1~Task
+	static Task[] task; 				// all tasks going to run in this simulation
+  	public static Task[] run_queue; 	// tasks should be ran
+  	static Tree<Task> instance=null;
 	private static Random random = new Random(); 
 	
 	public CFS_simulator_multi_thread(String testName, int thread, int duration, int n, int ops) {
@@ -50,11 +97,17 @@ public class CFS_simulator_multi_thread<T extends Comparable<T>> {
 	public static void main(String[] args) throws Exception {
 	  	int i;
 
-	  	/* dispatch to threads */
-	  	//Tree<Task> instance = new AVL<Task>(); 			// Wrong 
-	  	//Tree<Task> instance = new AvlTree<Task>(); 		// Wrong
-	  	//Tree<Task> instance = new AVLTree2<Task>();		// Correct AVL tree
-		Tree<Task> instance = new RBTree<Task>();
+	  	/* Initialization */
+	  	if (IS_RBTREE==false) {
+		  	//Tree<Task> instance = new AVL<Task>(); 			// Wrong 
+		  	//Tree<Task> instance = new AvlTree<Task>(); 		// Wrong
+		  	instance = new AVLTree2<Task>();					// Correct AVL tree
+	  		System.out.println("AVLtree:");
+	  	}
+	  	else {
+	  		instance = new RBTree<Task>();
+	  		System.out.println("RBtree:");
+	  	}
 		ReentrantLock lock = new ReentrantLock();
 		Hashtable<String, String> htable = new Hashtable<>();
 		
@@ -281,18 +334,28 @@ if(DEBUG){
 		System.out.println("TimerIntThreshold = " + TimerIntThreshold + ",\t" + "min_granunarity = " + min_granunarity); /// minimum granularity // 1ms
 		System.out.println("dynaic_nice_rang = " + dynaic_nice_rang); // nice(dynamic) = original_nice +-dynaic_nice_rang	
 		System.out.println("------------------------------------------------------");
+		if (IS_RBTREE==false) {
+	  		System.out.println("AVLtree:");
+	  	}
+	  	else {
+	  		System.out.println("RBtree:");
+	  	}
 		System.out.println("g_queue_thread_num = " + g_queue_thread_num.get() + ",\t" + "g_done_thread_num = " + g_done_thread_num.get());
 		System.out.println("g_time = " + g_time/1000 + " ms (system virtual ticks)");
 		System.out.println("g_time = " + g_time/1000/1000 + " s (system virtual ticks)");
 		
-		System.out.print("Finished order:");
+		System.out.print("Finished order: ");
 		for(i=1; i<TASK+1; i++) {
 			System.out.print(finished_order_queue[i].intValue() + " ");		
 		}
 		System.out.println("");
-		
 		System.out.println( "Total execution time = " + (end_time - start_time) + " ms (time in reality)");
 		System.out.println( "Total execution time = " + (end_time - start_time)/1000 + " s (time in reality)");
+		
+		System.out.println("g_add_num=" + g_add_num.intValue());
+		System.out.println("g_del_num=" + g_del_num.intValue()); 
+		//System.out.println( "add happens " + ((108*10000)+ (9*1000)) );
+		//System.out.println( "add happens " + ((80*10000)+ (2*90*1000)) );
 	}
 
 	/* adjust_Vtime() are all embedded in push_to_tree(). Automatically done. */
@@ -415,6 +478,7 @@ if(DEBUG){
 	    	adjust_Vtime(_task, _htable);
 	    	instance.add(_task); // must succeed
 	    	g_queue_thread_num.getAndIncrement();
+	    	g_add_num.getAndIncrement();
 			//System.out.println("height"+instance.height());
 	    	//instance.print();
 	    } finally {
@@ -448,6 +512,7 @@ if(DEBUG){
 				if (temp_task == null) 
 					System.out.println("ERROE: remove failed !!!!!!!!!!!!!!!!!!!");
 				g_queue_thread_num.getAndDecrement();
+				g_del_num.getAndIncrement();
 				return _task;
 			}
 	    } finally {
