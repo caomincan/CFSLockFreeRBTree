@@ -519,7 +519,7 @@ public class AVL<T extends Comparable<T>> implements AVLInterface<T> {
 	            }
 	            */
 	        }
-	        return (Node<T>) current;
+	        return current;
 	        //return current.getTask();
         }
         return null;
