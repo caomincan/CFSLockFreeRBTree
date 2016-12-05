@@ -405,7 +405,7 @@ if(DEBUG){
 	    } finally {
 	    	lock.unlock();
 	    }
-	    instance.print();
+	    //instance.print();
 	}
 	
 	public static void kill_from_rbtree(Task _task, Tree<Task> instance, ReentrantLock lock) {
@@ -519,15 +519,15 @@ if(DEBUG){
 		public int getrand(int tmp) {
 			return random.nextInt(tmp);
 		}
-boolean DD=true;
+boolean DD=false;
 		public void run() {
 			int i=0;
 			Task curr_task = null;
 
 			try { Thread.sleep(3000); } catch (InterruptedException e) { e.printStackTrace(); }
-/*
+
 			while(true) {
-				curr_task = pop_from_rbtree(instance, _lock);
+				//curr_task = pop_from_rbtree(instance, _lock);
 				if (curr_task==null) {
 					continue;	// nothing in run queue
 				}
@@ -535,20 +535,35 @@ boolean DD=true;
 					break;
 				System.out.println("queue_num = " + g_queue_thread_num.get() + "\t" + 
 										"done_num = " + g_done_thread_num.get());
+				
+				Task _task = new Task();
+				
+				id++
+				for (i=0; i<100/THREADS ; i++) {
+					_task.id =i;
+					push_to_rbtree(_task, instance, _lock, _htable);
+					System.out.println("slice out: inserting id=" + curr_task.id);
+				}
 			}
-	*/		
+		
 			
 if(DD) {
 			
 			while(true) {
 				
 				if(reschedule==true) {
+					System.out.println("original tree: ");
+					instance.print();
 					curr_task = pop_from_rbtree(instance, _lock);
+					
 					//System.out.println("curr_task="+curr_task);
 					if (curr_task==null) {
 						//System.out.println("curr_task="+curr_task);
 						continue;	// nothing in run queue
 					}
+					System.out.println("Pop out: id = " + curr_task.id);
+					instance.print();
+					
 				}
 				reschedule=true;
 				CPUThread currThread = (CPUThread) CPUThread.currentThread();
