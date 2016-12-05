@@ -541,7 +541,7 @@ if(DEBUG){
 			  			System.out.println(((AVL<Task>)instance).height());
 					}
 				}
-				else if (t_time >= TimerIntThreshold) { // feature - timer interrupt
+				else if (t_time > TimerIntThreshold) { // feature - timer interrupt
 					// case 1. Job not done BUT time slice is reached. recycle(reclaim).
 					if ( curr_task.time_slice <= (curr_task.cpu_runtime+curr_task.io_runtime) ) { // expired must deq()	
 						// time_slice passed(out) 
