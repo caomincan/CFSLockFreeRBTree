@@ -153,7 +153,7 @@ public class RBTree<V extends Comparable<V>> {
 	}
 	
 	public synchronized RBNode<V> get_leftmost(){
-		RBNode<V> node node = root;
+		RBNode<V> node = root;
 		if(node == null) return null;
 		RBNode<V> temp = node;
 		while(temp.left.value!= null){
