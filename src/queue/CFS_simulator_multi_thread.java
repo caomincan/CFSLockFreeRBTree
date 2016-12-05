@@ -20,7 +20,7 @@ import java.io.*;
 
 public class CFS_simulator_multi_thread<T extends Comparable<T>> {
 	/* default values */ /* unit=us */
-	static int THREADS =2; 					// number of workers (simulated CPUs, not task!!!!!!!!!!!)
+	static int THREADS =4; 					// number of workers (simulated CPUs, not task!!!!!!!!!!!)
 	static int TimerIntThreshold = 1000*1000;	// timer interrupt ticks 1ms
 	static int min_granunarity = 1000*1000;		// minimum granularity // 1ms
 	static int dynaic_nice_rang = 5;			// nice(dynamic) = original_nice +-dynaic_nice_rang
@@ -179,7 +179,7 @@ if(DEBUG){
 		Tree<Task> instance1 = new RBTree<Task>();
 		Hashtable<String, String> htable1 = new Hashtable<>();
 		Thread[] myThreads1 = new Thread[THREADS];
-		int add_num = 16;
+		int add_num = 24;
 		for (i = 0; i < THREADS; i++) {
 			myThreads1[i] = new ADDThread(i, instance1, htable1, lock1, add_num); 
 		}
@@ -201,7 +201,7 @@ if(DEBUG){
 		Tree<Task> instance2 = new RBTree<Task>();
 		Hashtable<String, String> htable2 = new Hashtable<>();
 		// sequential add
-		int del_num = TASK;
+		int del_num = 24;
 		for (i = 0; i < del_num; i++) {
 			Task _task = new Task();
 			_task.id=i; _task.VirtualRunTime=i;
@@ -610,7 +610,7 @@ adjust_Vtime(_task, _htable);
 			for (i=base; i<base+(del_num/THREADS) ; i++) {
 				Task _task;
 				_task = pop_from_rbtree(instance, _lock);
-				System.out.println("test2: deleting id=" + _task.id);
+				System.out.println("i=" + i+ "\ttest2: deleting id=" + _task.id);
 			}
 		}
 	}
