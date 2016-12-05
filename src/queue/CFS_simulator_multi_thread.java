@@ -568,7 +568,7 @@ if(DEBUG){
 						}
 						push_to_rbtree(curr_task, instance, _lock);
 			  			//thread_clean(curr_task);
-			  		} // expire
+			  		} // expired end
 				} //kernel end
 				//else { // time_slice remains, keep running}
 			} //while end
