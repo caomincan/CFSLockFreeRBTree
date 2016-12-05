@@ -540,7 +540,9 @@ if(DEBUG){
 			  			curr_task.cpu_runtime=0;
 			  			curr_task.io_runtime=0;
 			  			//curr_task.id=0; 			// kill!! the task so that it will not be pushed back to the tree		
+			  			
 			  			instance.remove(curr_task);
+			  			
 			  			System.out.println(((AVL<Task>)instance).height());
 					}
 				}
