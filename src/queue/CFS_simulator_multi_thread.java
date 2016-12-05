@@ -404,6 +404,7 @@ if(DEBUG){
 		if(_task==null)
 			return null;
 		else {
+			instance.remove(_task);
 			g_queue_thread_num.getAndDecrement();
 			return _task;
 		}
@@ -537,7 +538,7 @@ if(DEBUG){
 			  			// before cleaning info, record successful done threads
 			  			//g_queue_thread_num--; 					// this is not comprehensive
 			  			//System.out.println("id=?" + running_tasks[i].id + " done?=" + done_queue[running_tasks[i].id]);
-			  			done_queue[running_tasks[i].id]=true; 	// record (before id=0)	1~Task
+			  //done_queue[running_tasks[i].id]=true; 	// record (before id=0)	1~Task
 			  			//System.out.println("id=?" + running_tasks[i].id + " done?=" + done_queue[running_tasks[i].id]);
 			  				
 			  			thread_copy(finishing_order_queue[g_done_thread_num.get()], curr_task);
