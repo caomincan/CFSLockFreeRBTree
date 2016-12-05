@@ -503,18 +503,16 @@ if(DEBUG){
 				curr_task.io_runtime=0; 	// run_time record used for dynamic priority
 				
 				t_time=0;		// initialize thread timer
-				is_exit=false; 	// clear
+				is_exit=false; 	// clear exit flag
 				do {
 						t_time++;
-						
 						is_exit = JobTask(curr_task, 0); 
 					if (t_time > TimerIntThreshold || is_exit==true)
 						break;
 				}while(true);
 				
 				if (t_time > TimerIntThreshold) { // feature - timer interrupt
-					//check time_slice passed?
-					// 3. not done but time slice is reached. recycle(reclaim).
+					// Job not done BUT time slice is reached. recycle(reclaim).
 					if ( curr_task.time_slice <= (curr_task.cpu_runtime+curr_task.io_runtime) ) { // expired mush deq()	
 						// time_slice passed(out)
 						System.out.println("1. " + curr_task.cpu_runtime + "\t2. " +curr_task.io_runtime + "\t3. " + running_tasks[i].time_slice);
