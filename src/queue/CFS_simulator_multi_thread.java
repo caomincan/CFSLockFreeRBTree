@@ -373,7 +373,22 @@ if(DEBUG){
 		return line_num;
 	}
 	
-	private static void push_to_rbtree(Task _task, Tree<Task> instance, ReentrantLock lock) {	
+	private static void push_to_rbtree(Task _task, Tree<Task> instance, ReentrantLock lock, Hashtable<String, String> _htable) {	
+		//check
+		//while (true) {
+			if (_htable.get(_task.VirtualRunTime.toString()) == null){ // new key
+				System.out.println("good: ");
+				//_htable.put(_task.VirtualRunTime.toString(),_task.VirtualRunTime.toString());
+				//_task.VirtualRunTime= new Integer(_task.VirtualRunTime.intValue());
+				//break;
+			}else { //repeat key
+				System.out.println("bad: ");
+				//_task.VirtualRunTime = new Integer(_task.VirtualRunTime.intValue() + 1); // adjust, ++	
+				//continue;
+			}
+		//}		
+		
+		
 		
 		lock.lock();  // block until condition holds
 	    try {
@@ -579,7 +594,7 @@ if(DEBUG){
 							if (curr_task.nice < curr_task.ori_nice-dynaic_nice_rang)
 								curr_task.nice = curr_task.ori_nice-dynaic_nice_rang;
 						}
-						push_to_rbtree(curr_task, instance, _lock);
+						push_to_rbtree(curr_task, instance, _lock, _htable);
 			  			//thread_clean(curr_task);
 			  		} // expired end
 				} //kernel end
