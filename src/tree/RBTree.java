@@ -261,7 +261,7 @@ public class RBTree<V extends Comparable<V>> implements Tree<V> {
 	}
 	
 	public void print(){
-		Interger jack = 0;
+		Integer jack;
 		List<List<String>> res = new LinkedList<List<String>>();
 		res = printHelp(root,0,res,jack);
 		for(List<String> list:res){
