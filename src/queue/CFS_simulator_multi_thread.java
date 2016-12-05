@@ -40,9 +40,8 @@ public class CFS_simulator_multi_thread<T extends Comparable<T>> {
 	static Task[] task; 			// all tasks going to run in this simulation
   	public static Task[] run_queue; // tasks should be ran
   	static Task[] running_tasks; 	// running on simulated CPU
-  	static boolean[] done_queue; 	// Be careful id is from 1~Task
-  	static AtomicInteger[] finishing_order_queue;
-	private static Random random = new Random();
+  	static AtomicInteger[] finishing_order_queue; // check finishing order // Be careful id is from 1~Task
+	private static Random random = new Random(); 
 	
 	public CFS_simulator_multi_thread(String testName, int thread, int duration, int n, int ops) {
 		g_time = 0;
@@ -114,19 +113,14 @@ public class CFS_simulator_multi_thread<T extends Comparable<T>> {
 
 		//  Create THREADS threads(CPUs)
 		task = new Task[TASK];					// all tasks in this simulation
-		finishing_order_queue = new AtomicInteger[TASK+1]; // check finishing order // for record
 	  	for(i=0; i<TASK; i++) {
 	  		task[i] = new Task();
-	  		if (i==0)
-		  		finishing_order_queue[i] = new AtomicInteger(999);
-	  		else
-	  			finishing_order_queue[i] = new AtomicInteger(0);
 	  	}
 	  	
-	  	done_queue = new boolean[TASK+1]; 	// Be careful id is from 1~Task
-	  	for(i=1; i<TASK+1; i++)
-	  		done_queue[i]=false;
-	  	
+		finishing_order_queue = new AtomicInteger[TASK+1]; // check finishing order // Be careful id is from 1~Task
+	  	for(i=1; i<TASK+1; i++) {
+	  		finishing_order_queue[i] = new AtomicInteger(0);
+	  	}
 	  	is_interrupted = new boolean[THREADS];	
 	  	for(i=0; i<THREADS; i++)
 	  		is_interrupted[i]=false;
@@ -286,7 +280,7 @@ if(DEBUG){
 		// TODO:
 		System.out.print("TODO finishing order:");
 		for(i=1; i<TASK+1; i++) {
-			System.out.print("i=", finishing_order_queue[i].intValue()+ " ");		
+			System.out.print(i+"=" + finishing_order_queue[i].intValue() + " ");		
 		}
 		System.out.println("");
 		
@@ -322,12 +316,12 @@ if(DEBUG){
 			line = in.readLine();
 			while(line!=null)
 			{
-				String line22 = "";
+				//String line22 = "";
 				String delims_space = "[ \t]+"; //target: "the it   hard        concentrate";
 				String[] tokens = line.split(delims_space);
 				String[] args = new String[100];
 				for (int i = 1; i < tokens.length; i++) {
-					line22 += tokens[i];
+					//line22 += tokens[i];
 					args[i] = tokens[i];
 				}
 				
@@ -660,14 +654,14 @@ if(DEBUG){
 			  			/* clean runtime info to record for the next run */
 			  			//instance.print();
 			  			kill_from_rbtree(curr_task, instance, _lock);
-//if(DEBUG){						
+if(DEBUG){						
 			  			System.out.println("Thread_id = " + currThread.id + ", task done =" + curr_task.id);
 			  			System.out.println("queue_num = " + g_queue_thread_num.get() + "\t" + 
 			  								"done_num = " + g_done_thread_num.get() + "\t" +
 			  								"done id = " + curr_task.id );
-//}
+}
 						
-						//finishing_order_queue[curr_task.id].getAndIncrement();
+						finishing_order_queue[curr_task.id].getAndIncrement();
 			  			reschedule=true;
 			  			//System.out.println("why height = " + ((AVL<Task>)instance).height());
 					}
