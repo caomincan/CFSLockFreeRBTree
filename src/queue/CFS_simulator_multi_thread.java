@@ -522,7 +522,9 @@ if(DEBUG){
 				
 				t_time=0;		// initialize thread timer
 				is_exit=false; 	// clear exit flag
-				if ( ((curr_task.cpu+curr_task.io) <= 0) ) {= =}
+				if ( ((curr_task.cpu+curr_task.io) <= 0) ) {
+					System.out.println("ERROR: finished before runing");
+				}
 				do {
 						t_time++;
 						is_exit = JobTask(curr_task, 0); 
