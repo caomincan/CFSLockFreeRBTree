@@ -62,19 +62,11 @@ public class CFS_simulator_multi_thread<T extends Comparable<T>> {
 		//int data = 1;
 	  	
 	  	/* dispatch to threads */
-		//this.root = new Node<T>(null);
 	  	//Tree<Task> instance = new AVL<Task>();
 		Tree<Task> instance = new RBTree<Task>();
+		ReentrantLock lock = new ReentrantLock();
 		Hashtable<String, String> htable = new Hashtable<>();
 		
-		ReentrantLock lock = new ReentrantLock();
-		lock.lock();  // block until condition holds
-	    try {
-	    	// ... method body
-	    } finally {
-	    	lock.unlock();
-	    }
-	
 		/** example code - hashtable
 		Task __task = new Task();
 		__task.VirtualRunTime= new Integer(10); // set value
@@ -175,6 +167,7 @@ if(DEBUG){
 
 
 		/* test 1. concurrent addition */
+		/*
 		ReentrantLock lock1 = new ReentrantLock();
 		Tree<Task> instance1 = new RBTree<Task>();
 		Hashtable<String, String> htable1 = new Hashtable<>();
@@ -196,8 +189,9 @@ if(DEBUG){
 		for (i = 0; i < 5; i++) {
 			System.out.println(""); 
 		}
-		
+		*/
 		/* test 2. concurrent deletion*/
+		/*
 		ReentrantLock lock2 = new ReentrantLock();
 		Tree<Task> instance2 = new RBTree<Task>();
 		Hashtable<String, String> htable2 = new Hashtable<>();
@@ -216,12 +210,12 @@ if(DEBUG){
 			myThreads2[i].start();
 		}
 		for (i = 0; i < THREADS; i ++) {
-	    	myThreads1[i].join();
+	    	myThreads2[i].join();
 		}
 		instance2.print();
 		
 		//Thread.sleep(20*1000);
-
+		*/
 		g_queue_thread_num.set(0);
 
 		/* after tasks are all enqueued */
@@ -684,7 +678,7 @@ if(DD) {
 			  			/* clean runtime info to record for the next run */
 			  			//curr_task.cpu_runtime=0;
 			  			//curr_task.io_runtime=0;
-			  			instance.print();
+			  			//instance.print();
 			  			kill_from_rbtree(curr_task, instance, _lock);
 			  			System.out.println("queue_num = " + g_queue_thread_num.get() + "\t" + 
 			  								"done_num = " + g_done_thread_num.get());
