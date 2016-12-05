@@ -547,9 +547,9 @@ if(DEBUG){
 				else if (t_time > TimerIntThreshold) { // feature - timer interrupt
 					// case 1. Job not done BUT time slice is reached. recycle(reclaim).
 					if ( curr_task.time_slice <= (curr_task.cpu_runtime+curr_task.io_runtime) ) { // expired mush deq()	
-						// time_slice passed(out)
+						// time_slice passed(out) 
 						System.out.println("1. " + curr_task.cpu_runtime + "\t2. " +curr_task.io_runtime + "\t3. " + running_tasks[i].time_slice);
-			  			// update Virtual Time
+			  			// sched1 - update Virtual Time - virtual += timslice (before push)
 			  			int temp_int=0;
 			  			temp_int += curr_task.VirtualRunTime.intValue();
 			  			temp_int += curr_task.cpu_runtime+curr_task.io_runtime; // + actual run time NOT time_slice 
@@ -571,7 +571,6 @@ if(DEBUG){
 
 			  			// enq()
 			  			//if ( push_to_rbtree(curr_task) >=0) {  // this should save all info and calculate time_slice before execute. TODO: rember to clean after calculation
-							
 							//TODO: sched1 - virtual += timslice (before push)
 							//				copy all info hand by hand
 							//Reminder: TODO: sched2 - recalculate time_slice (after pop) 
