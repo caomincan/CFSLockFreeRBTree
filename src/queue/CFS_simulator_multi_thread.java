@@ -505,10 +505,9 @@ if(DEBUG){
 					continue;	// nothing in run queue
 				}
 
-				
 				CPUThread currThread = (CPUThread) CPUThread.currentThread();
-				currThread.id;
-				System.out.println("Tid = " + CPUThread.currentThread().getId() + ", Task id = " + curr_task.id);
+				System.out.println("Thread_id = " + currThread.id + ", Task_id = " + curr_task.id);
+				
 				// Load a new task to run
 				// sched2 - recalculate time_slice 
 				curr_task.time_slice = (int) ((1*1000) * (float)(curr_task.nice / (1024 / Math.pow(1.25, curr_task.nice))));
