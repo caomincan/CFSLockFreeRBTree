@@ -611,7 +611,7 @@ if(DEBUG){
 					// case 1. Job not done BUT time_slice is out. recycle(reclaim).
 					if ( curr_task.time_slice <= (curr_task.cpu_runtime+curr_task.io_runtime) ) { // time_slice expired must deq()	
 						//System.out.println("1. " + curr_task.cpu_runtime + "\t2. " +curr_task.io_runtime + "\t3. " + curr_task[i].time_slice);
-			  			// sched1 - update Virtual Time - virtual += time_slice (before push)
+			  			// sched1. - update Virtual Time - virtual += time_slice (before push)
 			  			int temp_int=0;
 			  			temp_int += curr_task.VirtualRunTime.intValue();
 			  			temp_int += curr_task.cpu_runtime+curr_task.io_runtime; // + actual run time NOT time_slice 
@@ -648,7 +648,6 @@ if(DEBUG){
 				if (g_done_thread_num.get()==TASK)
 					break;
 			} //while end
-
 			System.out.println("Thread_id = " + currThread.id + " DONE");
 		}
 		
