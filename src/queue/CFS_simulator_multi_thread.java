@@ -522,6 +522,7 @@ if(DEBUG){
 				
 				t_time=0;		// initialize thread timer
 				is_exit=false; 	// clear exit flag
+				if ( ((curr_task.cpu+curr_task.io) <= 0) ) {}
 				do {
 						t_time++;
 						is_exit = JobTask(curr_task, 0); 
@@ -533,7 +534,7 @@ if(DEBUG){
 				// case 1. exit()
 				if(is_exit==true) { // feature - exit() interrupt			
 					if ( ((curr_task.cpu+curr_task.io) <= 0) ) {	// task done
-						System.out.println("curr id=" +curr_task.id + ", cpu=" + curr_task.cpu + ", io=" + curr_task.io " + g_queue_thread_num.get());			
+						System.out.println("curr id=" +curr_task.id + ", cpu=" + curr_task.cpu + ", io=" + curr_task.io);			
 
 			  			g_done_thread_num.getAndIncrement();
 			  			/* clean runtime info to record for the next run */
