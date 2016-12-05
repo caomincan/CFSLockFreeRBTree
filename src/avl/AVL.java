@@ -245,7 +245,7 @@ public class AVL<T extends Comparable<T>> implements AVLInterface<T> {
         }
 
         // Make sure to get result from node
-        T result = current.getTask();
+        T result = current.getData();
 
         // Get children of deleted node
         Node<T> left = current.getLeft();
