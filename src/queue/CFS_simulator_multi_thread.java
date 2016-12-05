@@ -569,16 +569,12 @@ if(DEBUG){
 								curr_task.nice = curr_task.ori_nice-dynaic_nice_rang;
 						}
 
-			  			// enq()
 			  			//if ( push_to_rbtree(curr_task) >=0) {  // this should save all info and calculate time_slice before execute. TODO: rember to clean after calculation
 							//TODO: sched1 - virtual += timslice (before push)
 							//				copy all info hand by hand
 							//Reminder: TODO: sched2 - recalculate time_slice (after pop) 
 							//							clean runtime_info
 							push_to_rbtree(curr_task, instance);
-			  					
-			  				//g_exec_thread_num--;
-			  				//g_queue_thread_num++;
 			  				thread_clean(curr_task);
 			  			//}
 			  			//else { System.out.println("ERROR: push_torbtree failed");}
