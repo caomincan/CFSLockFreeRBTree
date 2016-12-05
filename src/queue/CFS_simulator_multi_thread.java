@@ -75,6 +75,10 @@ public class CFS_simulator_multi_thread<T extends Comparable<T>> {
 		Tree<Task> instance = new RBTree<Task>();
 		Hashtable<String, String> htable = new Hashtable<>();
 		
+		
+		
+		
+		
 		/** example code - hashtable
 		Task __task = new Task();
 		__task.VirtualRunTime= new Integer(10); // set value
@@ -496,7 +500,7 @@ if(DEBUG){
 			int i=0;
 			Task curr_task;
 
-			try { Thread.sleep(1500); } catch (InterruptedException e) { e.printStackTrace(); }
+			try { Thread.sleep(3000); } catch (InterruptedException e) { e.printStackTrace(); }
 			
 			while(true) {
 				curr_task = pop_from_rbtree(instance, _lock);
