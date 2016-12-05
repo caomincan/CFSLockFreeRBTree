@@ -20,7 +20,7 @@ import java.io.*;
 public class CFS_simulator_multi_thread<T extends Comparable<T>> {
 	/* default values */ /* unit=us */
 	static int THREADS = 8; 					// number of workers (simulated CPUs, not task!!!!!!!!!!!)
-	static int TimerIntThreshold = 1000*1000; 	// here time is ns
+	static int TimerIntThreshold = 1000*1000;	// timer interrupt ticks 1ms
 	static int min_granunarity = 1000*1000;		// minimum granularity // 1ms
 	static int dynaic_nice_rang = 5;			// nice(dynamic) = original_nice +-dynaic_nice_rang
 	
@@ -29,16 +29,12 @@ public class CFS_simulator_multi_thread<T extends Comparable<T>> {
 	static AtomicInteger g_queue_thread_num = new AtomicInteger(0);		// global number of threads in run_queue
 	//static int g_exec_thread_num; 		// global number of executing threads on simulated CPUs
 	static AtomicInteger g_done_thread_num = new AtomicInteger(0);		// global number of threads done
-	
-	//static AtomicInteger totalItems;
-    //g_done_thread_num.get();
-    //g_done_thread_num.getAndIncrement();
     
 	static boolean DEBUG = true;			
 	static boolean g_done = false;			
 	static boolean g_is_interrupted = false;
 
-	static Task[] task; 			// all tasks gonna run in this simulation
+	static Task[] task; 			// all tasks going to run in this simulation
   	public static Task[] run_queue; // tasks should be ran
   	static Task[] running_tasks; 	// running on simulated CPU
   	static boolean[] done_queue; 	// Be careful id is from 1~Task
@@ -173,11 +169,10 @@ if(DEBUG){
 	    }
 	    
 	  	/* main keeps checks all task start time */
-		/* main thead only check whether should I place a Task from pool to the run_queue(rbtree) */
-		/* mimicing external interrupt with polling*/
+		/* main thread only check whether should I place a Task from pool to the run_queue(rbtree) */
+		/* mimicking external interrupt with polling*/
 		while(true) { // infinite loop until every work is done
-			/* periodically debug */
-			int how_many_int=1000;
+			int how_many_int=1000; /* periodically debug */
 			g_time++;
 			
 if(DEBUG){
@@ -391,8 +386,8 @@ if(DEBUG){
 		instance.add(_task); // must succeed
 	}
 	
-	public static Task pop_from_rbtree(AVL<Task> instance) {
-		Task _task;
+	public static Node<Task> pop_from_rbtree(AVL<Task> instance) {
+		Node<Task> _task;
 		_task = instance.get_leftmost();
 		if(_task==null)
 			return null;

@@ -4,6 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import queue.Task;
+import tree.RBNode;
 
 import java.util.ArrayList;
 
@@ -499,7 +500,7 @@ public class AVL<T extends Comparable<T>> implements AVLInterface<T> {
 
 	
 	@Override
-    public synchronized T get_leftmost() {
+    public synchronized Node<T> get_leftmost() {
         //if (data == null) {
         //    throw new IllegalArgumentException("Argument cannot be null.");
         //}
@@ -518,11 +519,22 @@ public class AVL<T extends Comparable<T>> implements AVLInterface<T> {
 	            }
 	            */
 	        }
-	        return (T) current;
+	        return (Node<T>) current;
 	        //return current.getTask();
         }
         return null;
     }
+	/**
+	protected RBNode<V> findMin(RBNode<V> node){
+		if(node == null) return null;
+		RBNode<V> temp = node;
+		while(temp.left.value!= null){
+			temp = temp.left;
+		}
+		return temp;
+	}
+	*/
+	
 	
 	
 	
