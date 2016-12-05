@@ -215,7 +215,7 @@ if(DEBUG){
 					thread_copy(_task, task[i]);	// redundant?
 					
 					// 1. enqueue() to run_queue
-					push_to_rbtree(_task, instance, lock, htable);
+//push_to_rbtree(_task, instance, lock, htable);
 					// 2. kill the task in task[] (task table)
 					thread_clean(task[i]);	// remove from task table
 					
@@ -267,7 +267,7 @@ if(DEBUG){
 				_task.VirtualRunTime = new Integer(_task.VirtualRunTime.intValue() + 1); // adjust, ++	
 				continue;
 			}
-		}		
+		}
 	}
 
 	private static int read_file_lines() {
@@ -381,7 +381,7 @@ if(DEBUG){
 		//while (true) {
 			
 		//}		
-//adjust_Vtime(_task, _htable);
+adjust_Vtime(_task, _htable);
 		//System.out.println("good?: vtime " + _task.VirtualRunTime.toString());
 		/*
 		if (_htable.get(_task.VirtualRunTime.toString()) == null){ // new key
@@ -398,6 +398,7 @@ if(DEBUG){
 		
 		lock.lock();  // block until condition holds
 	    try {
+	    	//adjust_Vtime(_task, _htable);
 	    	instance.add(_task); // must succeed
 	    	g_queue_thread_num.getAndIncrement();
 			//System.out.println("height"+instance.height());
@@ -540,8 +541,9 @@ boolean DD=false;
 				for (i=base; i<base+(100/THREADS)-1 ; i++) {
 					Task _task = new Task();
 					_task.id =i;
+					_task.VirtualRunTime=id;
 					push_to_rbtree(_task, instance, _lock, _htable);
-					System.out.println("slice out: inserting id=" + curr_task.id);
+					System.out.println("slice out: inserting id=" + _task.id);
 					
 				}
 				instance.print();
