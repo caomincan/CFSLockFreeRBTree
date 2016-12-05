@@ -233,6 +233,12 @@ if(DEBUG){
 		System.out.println("TimerIntThreshold = " + TimerIntThreshold + ",\t" + "min_granunarity = " + min_granunarity); /// minimum granularity // 1ms
 		System.out.println("dynaic_nice_rang = " + dynaic_nice_rang); // nice(dynamic) = original_nice +-dynaic_nice_rang	
 		System.out.println("------------------------------------------------------");
+		if (IS_RBTREE==false) {
+	  		System.out.println("AVLtree:");
+	  	}
+	  	else {
+	  		System.out.println("RBtree:");
+	  	}
 		System.out.println("g_queue_thread_num = " + g_queue_thread_num.get() + ",\t" + "g_done_thread_num = " + g_done_thread_num.get());
 		System.out.println("g_time = " + g_time/1000 + " ms (system virtual ticks)");
 		System.out.println("g_time = " + g_time/1000/1000 + " s (system virtual ticks)");
@@ -242,7 +248,6 @@ if(DEBUG){
 			System.out.print(finished_order_queue[i].intValue() + " ");		
 		}
 		System.out.println("");
-		
 		System.out.println( "Total execution time = " + (end_time - start_time) + " ms (time in reality)");
 		System.out.println( "Total execution time = " + (end_time - start_time)/1000 + " s (time in reality)");
 	}
