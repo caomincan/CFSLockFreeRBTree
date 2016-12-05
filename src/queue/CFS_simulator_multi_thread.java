@@ -710,7 +710,7 @@ if(DD) {
 							if (curr_task.nice < curr_task.ori_nice-dynaic_nice_rang)
 								curr_task.nice = curr_task.ori_nice-dynaic_nice_rang;
 						}
-						System.out.println("thread " + Thread_id+ "\tslice out: inserting id=" + curr_task.id);
+						System.out.println("thread " + Thread_id + "\tslice out: inserting id=" + curr_task.id);
 						push_to_rbtree(curr_task, instance, _lock, _htable);
 						reschedule=true;
 			  			//thread_clean(curr_task);
