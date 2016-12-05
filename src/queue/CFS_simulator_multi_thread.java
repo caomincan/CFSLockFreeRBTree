@@ -277,17 +277,17 @@ if(DEBUG){
 			System.out.println("[Good]: tasks are all done");
 		
 		System.out.println("--------------------parameters------------------------");
-		System.out.println("TASK=" + TASK);
-		System.out.println("THREADS" + THREADS); // number of workers (simulated CPUs, not task!!!!!!!!!!!)
-		System.out.println("TimerIntThreshold" + TimerIntThreshold); // here time is ns
-		System.out.println("min_granunarity" + min_granunarity); // minimum granularity // 1ms
-		System.out.println("dynaic_nice_rang" + dynaic_nice_rang); // nice(dynamic) = original_nice +-dynaic_nice_rang	
+		System.out.println("TASK = " + TASK);
+		System.out.println("THREADS = " + THREADS); // number of workers (simulated CPUs, not task!!!!!!!!!!!)
+		System.out.println("TimerIntThreshold = " + TimerIntThreshold); // here time is ns
+		System.out.println("min_granunarity = " + min_granunarity); // minimum granularity // 1ms
+		System.out.println("dynaic_nice_rang = " + dynaic_nice_rang); // nice(dynamic) = original_nice +-dynaic_nice_rang	
 		System.out.println("------------------------------------------------------");
-		System.out.println("g_queue_thread_num=" + g_queue_thread_num.get());
-		System.out.println("g_done_thread_num=" + g_done_thread_num.get());
-		System.out.println("g_time=" + g_time + " us");
-		System.out.println("g_time=" + g_time/1000 + " ms");
-		System.out.println("g_time=" + g_time/1000/1000 + " s");
+		System.out.println("g_queue_thread_num = " + g_queue_thread_num.get());
+		System.out.println("g_done_thread_num = " + g_done_thread_num.get());
+		System.out.println("g_time = " + g_time + " us");
+		System.out.println("g_time = " + g_time/1000 + " ms");
+		System.out.println("g_time = " + g_time/1000/1000 + " s");
 		
 		// TODO:
 		System.out.print("TODO finishing order:");
