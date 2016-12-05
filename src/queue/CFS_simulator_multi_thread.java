@@ -222,7 +222,7 @@ if(DEBUG){
 		
 		//Thread.sleep(20*1000);
 
-
+		g_queue_thread_num.set(0);
 
 		/* after tasks are all enqueued */
 		Thread[] myThreads = new Thread[THREADS];
@@ -425,28 +425,10 @@ if(DEBUG){
 	}
 	
 	private static void push_to_rbtree(Task _task, Tree<Task> instance, ReentrantLock lock, Hashtable<String, String> _htable) {	
-		//check
-		//while (true) {
-			
-		//}		
-adjust_Vtime(_task, _htable);
-		//System.out.println("good?: vtime " + _task.VirtualRunTime.toString());
-		/*
-		if (_htable.get(_task.VirtualRunTime.toString()) == null){ // new key
-			System.out.println("good: vtime " + _task.VirtualRunTime.toString());
-			//_htable.put(_task.VirtualRunTime.toString(),_task.VirtualRunTime.toString());
-			//_task.VirtualRunTime= new Integer(_task.VirtualRunTime.intValue());
-			//break;
-		}else { //repeat key
-			System.out.println("bad: vtime " + _task.VirtualRunTime.toString());
-			//_task.VirtualRunTime = new Integer(_task.VirtualRunTime.intValue() + 1); // adjust, ++	
-			//continue;
-		}
-		*/
-		
+		//adjust_Vtime(_task, _htable);
 		lock.lock();  // block until condition holds
 	    try {
-	    	//adjust_Vtime(_task, _htable);
+	    	adjust_Vtime(_task, _htable);
 	    	instance.add(_task); // must succeed
 	    	g_queue_thread_num.getAndIncrement();
 			//System.out.println("height"+instance.height());
@@ -461,7 +443,7 @@ adjust_Vtime(_task, _htable);
 		lock.lock();  // block until condition holds
 	    try {
 			instance.remove(_task);
-			//g_queue_thread_num.getAndDecrement();	
+			g_done_thread_num.getAndIncrement();
 	    } finally {
 	    	lock.unlock();
 	    }
@@ -657,8 +639,8 @@ if(DD) {
 						//System.out.println("curr_task="+curr_task);
 						continue;	// nothing in run queue
 					}
-					System.out.println("Pop out: id = " + curr_task.id);
-					instance.print();
+					//System.out.println("Pop out: id = " + curr_task.id);
+					//instance.print();
 					
 				}
 				reschedule=true;
@@ -695,7 +677,7 @@ if(DD) {
 				if(is_exit==true) { // feature - exit() interrupt			
 					if ( ((curr_task.cpu+curr_task.io) <= 0) ) {	// task done
 						//System.out.println("curr id=" +curr_task.id + ", cpu=" + curr_task.cpu + ", io=" + curr_task.io);			
-			  			g_done_thread_num.getAndIncrement();
+			  			
 			  			/* clean runtime info to record for the next run */
 			  			//curr_task.cpu_runtime=0;
 			  			//curr_task.io_runtime=0;
