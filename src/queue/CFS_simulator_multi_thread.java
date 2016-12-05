@@ -683,7 +683,8 @@ if(DD) {
 						System.out.println("Thread_id = " + currThread.id + ", task done =" + curr_task.id);
 
 			  			System.out.println("queue_num = " + g_queue_thread_num.get() + "\t" + 
-			  								"done_num = " + g_done_thread_num.get());
+			  								"done_num = " + g_done_thread_num.get() + "\t" +
+			  								"done id = " + curr_task.id );
 			  			reschedule=true;
 			  			//System.out.println("why height = " + ((AVL<Task>)instance).height());
 					}
