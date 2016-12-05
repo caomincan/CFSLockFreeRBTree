@@ -42,9 +42,9 @@ public class CFS_simulator_multi_thread<T extends Comparable<T>> {
   	static boolean[] done_queue; 	// Be careful id is from 1~Task
   	static Task[] finishing_order_queue;
 
-  	static int[] Vtime_table; 	
-  	static int Vtime_num; 	
-  	static int Vtime_table_size = 1000000;
+  	//static int[] Vtime_table; 	
+  	//static int Vtime_num; 	
+  	//static int Vtime_table_size = 1000000;
   	
 	private static Random random = new Random();
 	
@@ -140,9 +140,9 @@ public class CFS_simulator_multi_thread<T extends Comparable<T>> {
 	  	for(i=1; i<TASK+1; i++)
 	  		done_queue[i]=false;
 
-	  	Vtime_table = new int[Vtime_table_size];
-	  	for(i=1; i<Vtime_table_size; i++)
-	  		Vtime_table[i]=0;	  	
+	  	//Vtime_table = new int[Vtime_table_size];
+	  	//for(i=1; i<Vtime_table_size; i++)
+	  	//	Vtime_table[i]=0;	  	
 	  	
 	  	for(i=0; i<TASK; i++) {
 	  		task[i] = new Task();
@@ -495,9 +495,12 @@ if(DEBUG){
 					//System.out.println("curr_task="+curr_task);
 					continue;	// nothing in run queue
 				}
-				instance.print();
+				
 				CPUThread currThread = (CPUThread) CPUThread.currentThread();
 				System.out.println("Thread_id = " + currThread.id + ", Task_id = " + curr_task.id);
+				if(curr_task.id==0)
+					System.out.println(((AVL<Task>)instance).height());
+				
 				
 				/* Load a new task to run */
 				// sched2 - recalculate time_slice 
@@ -539,7 +542,7 @@ if(DEBUG){
 			  			/* clean runtime info to record for the next run */
 			  			curr_task.cpu_runtime=0;
 			  			curr_task.io_runtime=0;
-			  			curr_task.id=0; 			// kill!! the task so that it will not be pushed back to the tree		
+			  			//curr_task.id=0; 			// kill!! the task so that it will not be pushed back to the tree		
 			  		}
 				}
 				else if (t_time > TimerIntThreshold) { // feature - timer interrupt
