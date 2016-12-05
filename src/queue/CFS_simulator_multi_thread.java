@@ -204,7 +204,7 @@ if(DEBUG){
 			/* check any thread should set to run_queue */
 			for(i=0; i<TASK; i++) { // check any thread ready to run
 				//System.out.println("task[i].id=" + task[i].id);
-				if( task[i].id>0 && task[i].start_time >= (g_time-1)) {  // if so, put it to run_queue
+				if( task[i].id>10 && (task[i].start_time >= (g_time-1)) ) {  // if so, put it to run_queue
 					adjust_Vtime(task[i], htable);
 					
 					Task _task = new Task();		// redundant?
@@ -536,7 +536,7 @@ if(DEBUG){
 			  			curr_task.cpu_runtime=0;
 			  			curr_task.io_runtime=0;
 			  			kill_from_rbtree(curr_task, instance, _lock);
-			  			//System.out.println(((AVL<Task>)instance).height());
+			  			System.out.println(((AVL<Task>)instance).height());
 					}
 				}
 				else if (t_time > TimerIntThreshold) { // feature - timer interrupt
