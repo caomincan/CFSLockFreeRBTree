@@ -3,3 +3,4 @@
 *.txt
 .classpath
 .project
+!sources.txt
