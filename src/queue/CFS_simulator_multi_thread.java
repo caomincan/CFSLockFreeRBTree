@@ -192,18 +192,19 @@ if(DEBUG){
 		System.out.println("THREADS=" + THREADS + "\tadd_num=" + add_num);
 		instance1.print();
 
-		Thread.sleep(20*1000);
+		//Thread.sleep(20*1000);
 		for (i = 0; i < 5; i++) {
 			System.out.println(""); 
 		}
+		
 		/* test 2. concurrent deletion*/
 		ReentrantLock lock2 = new ReentrantLock();
 		Tree<Task> instance2 = new RBTree<Task>();
 		Hashtable<String, String> htable2 = new Hashtable<>();
-		// sequential add
+		
 		int del_num = 24;
-		for (i = 0; i < del_num; i++) {
-			Task _task = new Task();
+		for (i = 0; i < del_num; i++) { // sequentially add for deletion
+			Task _task = new Task(); 
 			_task.id=i; _task.VirtualRunTime=i;
 			push_to_rbtree(_task, instance2, lock2, htable2);
 		}
@@ -647,8 +648,8 @@ if(DD) {
 			while(true) {
 				
 				if(reschedule==true) {
-					System.out.println("original tree: ");
-					instance.print();
+					//System.out.println("original tree: ");
+					//instance.print();
 					curr_task = pop_from_rbtree(instance, _lock);
 					
 					//System.out.println("curr_task="+curr_task);
