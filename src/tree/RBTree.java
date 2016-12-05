@@ -272,7 +272,7 @@ public class RBTree<V extends Comparable<V>> implements Tree<V> {
 		}
 	}
 	
-	protected List<List<String>> printHelp(RBNode<V> root,int height,List<List<String>> res, int jack){
+	protected List<List<String>> printHelp(RBNode<V> root,int height,List<List<String>> res, Integer jack){
 		if(root == null) return res;
 		List<String> list;
 		if(height >= res.size()){
@@ -285,7 +285,7 @@ public class RBTree<V extends Comparable<V>> implements Tree<V> {
 			list.add(" _ ");
 		}else{
 			list.add(root.value.toString()+(root.isRed?"_R":"_B"));
-			jack++;
+			jack = new Integer(jack.intValue() + 1);
 		}
 		printHelp(root.left,height+1,res, jack);
 		printHelp(root.right,height+1,res, jack);
