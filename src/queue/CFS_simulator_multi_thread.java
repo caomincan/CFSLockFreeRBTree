@@ -63,8 +63,8 @@ public class CFS_simulator_multi_thread<T extends Comparable<T>> {
 	  	
 	  	/* dispatch to threads */
 		//this.root = new Node<T>(null);
-	  	Tree<Task> instance = new AVL<Task>();
-		//Tree<Task> instance = new RBTree<Task>();
+	  	//Tree<Task> instance = new AVL<Task>();
+		Tree<Task> instance = new RBTree<Task>();
 		Hashtable<String, String> htable = new Hashtable<>();
 		
 		ReentrantLock lock = new ReentrantLock();
