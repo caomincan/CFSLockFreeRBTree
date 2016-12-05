@@ -156,7 +156,7 @@ if(DEBUG){
 }
 
 		/* test 1. concurrent addition */
-		/*
+if(TEST1){
 		ReentrantLock lock1 = new ReentrantLock();
 		Tree<Task> instance1 = new RBTree<Task>();
 		Hashtable<String, String> htable1 = new Hashtable<>();
@@ -178,10 +178,10 @@ if(DEBUG){
 		for (i = 0; i < 5; i++) {
 			System.out.println(""); 
 		}
-		*/
+}
 
 		/* test 2. concurrent deletion*/
-		/*
+if(TEST2){
 		ReentrantLock lock2 = new ReentrantLock();
 		Tree<Task> instance2 = new RBTree<Task>();
 		Hashtable<String, String> htable2 = new Hashtable<>();
@@ -205,7 +205,7 @@ if(DEBUG){
 		instance2.print();
 		
 		Thread.sleep(5*1000);
-		*/
+}
 
 
 
@@ -627,8 +627,9 @@ if(DEBUG){
 				}
 				reschedule=true;
 				CPUThread currThread = (CPUThread) CPUThread.currentThread();
+if(DEBUG){				
 				System.out.println("Thread_id = " + currThread.id + ", Task_id = " + curr_task.id);
-
+}
 				/* Load a new task to run */
 				// sched2 - recalculate time_slice 
 				curr_task.time_slice = (int) ((1*1000) * (float)(curr_task.nice / (1024 / Math.pow(1.25, curr_task.nice))));
@@ -662,11 +663,12 @@ if(DEBUG){
 			  			/* clean runtime info to record for the next run */
 			  			//instance.print();
 			  			kill_from_rbtree(curr_task, instance, _lock);
-						System.out.println("Thread_id = " + currThread.id + ", task done =" + curr_task.id);
-
+if(DEBUG){						
+			  			System.out.println("Thread_id = " + currThread.id + ", task done =" + curr_task.id);
 			  			System.out.println("queue_num = " + g_queue_thread_num.get() + "\t" + 
 			  								"done_num = " + g_done_thread_num.get() + "\t" +
 			  								"done id = " + curr_task.id );
+}
 			  			reschedule=true;
 			  			//System.out.println("why height = " + ((AVL<Task>)instance).height());
 					}
