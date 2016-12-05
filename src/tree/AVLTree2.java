@@ -2,7 +2,13 @@ package tree;
 
 import java.util.Collection;
 
-
+/** 
+ * Copyright on https://github.com/steven41292/AVL-Tree/blob/master/AVL.java and Ho-Ren(Jack) Chuang
+ * @author https://github.com/steven41292
+ * @author Jack
+ *
+ * @param <T>
+ */
 
 public class AVLTree2<T extends Comparable<T>> implements  Tree<T>{
     
@@ -343,8 +349,7 @@ public class AVLTree2<T extends Comparable<T>> implements  Tree<T>{
 
 	@Override
 	public void print() {
-		// TODO Auto-generated method stub
-		
+		// TODO Auto-generated method stub	
 	}
 
 	@Override
@@ -356,16 +361,11 @@ public class AVLTree2<T extends Comparable<T>> implements  Tree<T>{
 	@Override
 	public T leftMost() {
 		// TODO Auto-generated method stub
-		//public Node<T> getRoot() {
-	    //    return root;
-	    //}
-		
 		Node<T> temp = getRoot();
 		if(temp == null || temp.data == null) return null;
 			while(temp.left!= null){
 				temp = temp.left;
 			}
 			return temp.data;
-
 	}
 }
