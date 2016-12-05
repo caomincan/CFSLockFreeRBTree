@@ -15,7 +15,7 @@ import queue.Task;
  *
  * @author Justin Ethier
  */
-class AvlTree<T extends Comparable<? super T>> implements Tree<Task> {
+class AvlTree<T extends Comparable<T>> implements  Tree<T> {
   /** 
    * AvlNode is a container class that is used to store each element 
    * (node) of an AVL tree. 
@@ -137,7 +137,7 @@ class AvlTree<T extends Comparable<? super T>> implements Tree<Task> {
    * @return New root of the tree
    * @throws Exception 
    */
-  protected AvlNode<T> add (T x, AvlNode<T> t) throws Exception{
+protected AvlNode<T> insert (T x, AvlNode<T> t) throws Exception{
     if (t == null)
       t = new AvlNode<T> (x);
     else if (x.compareTo (t.element) < 0){
@@ -379,8 +379,9 @@ class AvlTree<T extends Comparable<? super T>> implements Tree<Task> {
    * Remove from the tree. Nothing is done if x is not found.
    * @param x the item to remove.
    */
-  public void remove( T x ) {
+  public T remove( T x ) {
       root = remove(x, root);
+      return x;
   }
 
   public AvlNode<T> remove(T x, AvlNode<T> t) {
@@ -549,11 +550,28 @@ public Task search(Task value) {
 	return null;
 }
 
+//@Override
+//public void add(T value) {
+	// TODO Auto-generated method stub
+	
+//}
+
+//@Override
+//public T remove(T value) {
+	// TODO Auto-generated method stub
+	//return null;
+//}
+
 @Override
-public Task leftMost() {
+public T search(T value) {
 	// TODO Auto-generated method stub
 	return null;
 }
+
+//public Task leftMost() {
+	// TODO Auto-generated method stub
+//	return null;
+//}
 
   /**
    * Main entry point; contains test code for the tree.
