@@ -6,17 +6,15 @@
  */
 package queue;
 
-import java.io.BufferedReader;
+import tree.*;
+import java.io.*;
+import java.util.Random;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Hashtable;
-import java.util.Random;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.io.BufferedReader;
 import java.util.concurrent.locks.ReentrantLock;
-
-import tree.*;
-
-import java.io.*;  
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class CFS_simulator_multi_thread<T extends Comparable<T>> {
 	/* default values */ /* unit=us */
@@ -31,7 +29,6 @@ public class CFS_simulator_multi_thread<T extends Comparable<T>> {
   	static AtomicInteger[] finished_order_queue; // check finishing order // Be careful id is from 1~Task
 	static AtomicInteger g_queue_thread_num = new AtomicInteger(0);		// global number of threads in run_queue
 	static AtomicInteger g_done_thread_num = new AtomicInteger(0);		// global number of threads done
-
     
 	static boolean IS_RBTREE = false; 	// RBTree/AVLTree
 	static boolean DEBUG = false;		
@@ -56,7 +53,7 @@ public class CFS_simulator_multi_thread<T extends Comparable<T>> {
 	  	if (IS_RBTREE==false) {
 		  	//Tree<Task> instance = new AVL<Task>(); 			// Wrong 
 		  	//Tree<Task> instance = new AvlTree<Task>(); 		// Wrong
-		  	instance = new AVLTree2<Task>();		// Correct AVL tree
+		  	instance = new AVLTree2<Task>();					// Correct AVL tree
 	  		System.out.println("AVLtree:");
 	  	}
 	  	else {
