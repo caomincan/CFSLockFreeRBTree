@@ -31,10 +31,11 @@ public class CFS_simulator_multi_thread<T extends Comparable<T>> {
 	static AtomicInteger g_queue_thread_num = new AtomicInteger(0);		// global number of threads in run_queue
 	static AtomicInteger g_done_thread_num = new AtomicInteger(0);		// global number of threads done
     
-	static boolean DEBUG = false;	
-	static boolean TEST1 = false;		// concurrent addition
-	static boolean TEST2 = false;		// concurrent deletion
-	static boolean g_done = false;			
+	static boolean IS_RBTREE = false; 	// RBTree/AVLTree
+	static boolean DEBUG = false;		
+	static boolean TEST1 = false;		// concurrent addition test
+	static boolean TEST2 = false;		// concurrent deletion test
+	static boolean g_done = false;		
 	static boolean g_is_interrupted = false;
 
 	static Task[] task; 			// all tasks going to run in this simulation
@@ -51,10 +52,15 @@ public class CFS_simulator_multi_thread<T extends Comparable<T>> {
 	  	int i;
 
 	  	/* dispatch to threads */
-	  	//Tree<Task> instance = new AVL<Task>(); 			// Wrong 
-	  	//Tree<Task> instance = new AvlTree<Task>(); 		// Wrong
-	  	//Tree<Task> instance = new AVLTree2<Task>();		// Correct AVL tree
-		Tree<Task> instance = new RBTree<Task>();
+	  	if (IS_RBTREE==false) {
+		  	//Tree<Task> instance = new AVL<Task>(); 			// Wrong 
+		  	//Tree<Task> instance = new AvlTree<Task>(); 		// Wrong
+		  	Tree<Task> instance = new AVLTree2<Task>();		// Correct AVL tree
+	  	}
+	  	else {
+	  		Tree<Task> instance = new RBTree<Task>();
+	  		System.out.println("RBtree");
+	  	}
 		ReentrantLock lock = new ReentrantLock();
 		Hashtable<String, String> htable = new Hashtable<>();
 		
