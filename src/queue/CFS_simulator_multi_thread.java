@@ -567,7 +567,7 @@ if(DEBUG){
 								curr_task.nice = curr_task.ori_nice-dynaic_nice_rang;
 						}
 						push_to_rbtree(curr_task, instance, _lock);
-			  			thread_clean(curr_task);
+			  			//thread_clean(curr_task);
 			  		}
 				}
 				//else { // time_slice remains, keep running}
