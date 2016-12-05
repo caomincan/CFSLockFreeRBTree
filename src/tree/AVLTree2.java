@@ -356,6 +356,12 @@ public class AVLTree2<T extends Comparable<T>> implements  Tree<T>{
 	@Override
 	public T leftMost() {
 		// TODO Auto-generated method stub
+		public Node<T> getRoot() {
+	        return root;
+	    }
+		
+		
+		
 		return null;
 	}
 }
