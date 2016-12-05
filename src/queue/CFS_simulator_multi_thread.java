@@ -183,7 +183,7 @@ if(DEBUG){
 	    	myThreads[i] = new CPUThread(i, instance, htable, lock); 
 	    }
 	    for (i = 0; i < THREADS; i ++) {
-	    	//myThreads[i].start();
+	    	myThreads[i].start();
 	    }
 	    
 	  	/* main keeps checks all task start time */
@@ -506,6 +506,8 @@ if(DEBUG){
 		boolean is_exit=false;
 		private ReentrantLock _lock;
 		private Random random = new Random();
+		boolean reschedule=true;
+		
 		public CPUThread(int i, Tree<Task> tree, Hashtable<String, String> htable, ReentrantLock lock) {
 			id = i;
 			instance=tree;
@@ -516,13 +518,13 @@ if(DEBUG){
 		public int getrand(int tmp) {
 			return random.nextInt(tmp);
 		}
-boolean DD=false;
+boolean DD=true;
 		public void run() {
 			int i=0;
 			Task curr_task;
 
 			try { Thread.sleep(3000); } catch (InterruptedException e) { e.printStackTrace(); }
-
+/*
 			while(true) {
 				curr_task = pop_from_rbtree(instance, _lock);
 				if (curr_task==null) {
@@ -530,17 +532,21 @@ boolean DD=false;
 				}
 				if (g_done_thread_num.get()==TASK)
 					break;
+				System.out.println("queue_num = " + g_queue_thread_num.get());			
+				System.out.println("done_num = " + g_done_thread_num.get());
 			}
-			
+	*/		
 			
 if(DD) {
 			while(true) {
 				
-				curr_task = pop_from_rbtree(instance, _lock);
-				//System.out.println("curr_task="+curr_task);
-				if (curr_task==null) {
+				if(reschedule==true) {
+					curr_task = pop_from_rbtree(instance, _lock);
 					//System.out.println("curr_task="+curr_task);
-					continue;	// nothing in run queue
+					if (curr_task==null) {
+						//System.out.println("curr_task="+curr_task);
+						continue;	// nothing in run queue
+					}
 				}
 			
 				CPUThread currThread = (CPUThread) CPUThread.currentThread();
