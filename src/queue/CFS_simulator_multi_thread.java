@@ -591,6 +591,7 @@ if(DEBUG){
 				
 			}
 		}
+		
 		public int GetTotalDeq() { //
 		      return TotalDeq;  
 		}
