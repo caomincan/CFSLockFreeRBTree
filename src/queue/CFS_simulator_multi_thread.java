@@ -644,17 +644,13 @@ if(DEBUG){
 			} //while end
 			System.out.println("Thread_id = " + currThread.id + " DONE");
 		}
-		
 		public int GetTotalDeq() {
 		      return TotalDeq;  
 		}
-
 		public int GetGoodDeq() {
 		      return GoodDeq;  
 		}
-		   
 	}
-
 }
 
 /** example code - hashtable
