@@ -383,6 +383,16 @@ if(DEBUG){
 	    }
 	}
 	
+	public static void kill_from_rbtree(Task _task, Tree<Task> instance, ReentrantLock lock) {
+		lock.lock();  // block until condition holds
+	    try {
+			instance.remove(_task);
+			g_queue_thread_num.getAndDecrement();	
+	    } finally {
+	    	lock.unlock();
+	    }
+	}
+	
 	public static Task pop_from_rbtree(Tree<Task> instance, ReentrantLock lock) {
 		Task _task;
 		lock.lock();  // block until condition holds
