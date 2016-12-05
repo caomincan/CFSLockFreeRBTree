@@ -503,6 +503,7 @@ if(DEBUG){
 			try { Thread.sleep(3000); } catch (InterruptedException e) { e.printStackTrace(); }
 			
 			while(true) {
+				
 				curr_task = pop_from_rbtree(instance, _lock);
 				//System.out.println("curr_task="+curr_task);
 				if (curr_task==null) {
@@ -541,8 +542,7 @@ if(DEBUG){
 				// case 1. exit()
 				if(is_exit==true) { // feature - exit() interrupt			
 					if ( ((curr_task.cpu+curr_task.io) <= 0) ) {	// task done
-						System.out.println("curr id=" +curr_task.id + ", cpu=" + curr_task.cpu + ", io=" + curr_task.io);			
-
+						//System.out.println("curr id=" +curr_task.id + ", cpu=" + curr_task.cpu + ", io=" + curr_task.io);			
 			  			g_done_thread_num.getAndIncrement();
 			  			/* clean runtime info to record for the next run */
 			  			//curr_task.cpu_runtime=0;
