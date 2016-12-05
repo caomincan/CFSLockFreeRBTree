@@ -622,7 +622,12 @@ if(DD) {
 			  			//thread_clean(curr_task);
 			  		} // expired end
 				} //kernel end
-				//else { // time_slice remains, keep running}
+				else { 
+					reschedule=true;
+					// time_slice remains, keep running}
+				}
+				
+				
 				if (g_done_thread_num.get()==TASK)
 					break;
 			} //while end
