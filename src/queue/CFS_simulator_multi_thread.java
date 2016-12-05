@@ -549,8 +549,6 @@ if(DEBUG){
 			  			/* clean runtime info to record for the next run */
 			  			curr_task.cpu_runtime=0;
 			  			curr_task.io_runtime=0;
-			  			//curr_task.id=0; 			// kill!! the task so that it will not be pushed back to the tree		
-			  			
 			  			kill_from_rbtree(curr_task, instance, _lock);
 			  			System.out.println(((AVL<Task>)instance).height());
 					}
