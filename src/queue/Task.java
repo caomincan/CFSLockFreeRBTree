@@ -17,7 +17,7 @@ import java.util.Random;
 
 public class Task implements Comparable<Task>{
 	/* Task info - cfs entity */
-	public int id=0; // from 1 to TASK. So Tak[0]==0 is wrong!
+	public int id=-1; // from 1 to TASK. So Tak[0]==0 is wrong!
 	public int io;
 	public int cpu;
 	public int prio;				//
