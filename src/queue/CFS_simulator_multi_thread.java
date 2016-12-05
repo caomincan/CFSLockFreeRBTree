@@ -532,7 +532,7 @@ if(DEBUG){
 			  //done_queue[running_tasks[i].id]=true; 	// record (before id=0)	1~Task
 			  			//System.out.println("id=?" + running_tasks[i].id + " done?=" + done_queue[running_tasks[i].id]);
 			  				
-			  			thread_copy(finishing_order_queue[g_done_thread_num.get()], curr_task);
+			  			//thread_copy(finishing_order_queue[g_done_thread_num.get()], curr_task);
 			  			//g_done_thread_num++;
 			  			g_done_thread_num.getAndIncrement();
 			  			//g_exec_thread_num--;
