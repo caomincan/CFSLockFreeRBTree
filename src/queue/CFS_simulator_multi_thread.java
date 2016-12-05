@@ -26,7 +26,7 @@ public class CFS_simulator_multi_thread<T extends Comparable<T>> {
 	
 	static int TASK = -1; 				// global number of tasks (threads) assigned by in.txt
 	static int g_time;					// global time
-	static int g_queue_thread_num;		// global number of threads in run_queue
+	static AtomicInteger g_queue_thread_num = new AtomicInteger(0);		// global number of threads in run_queue
 	//static int g_exec_thread_num; 		// global number of executing threads on simulated CPUs
 	static AtomicInteger g_done_thread_num = new AtomicInteger(0);		// global number of threads done
 	
@@ -187,6 +187,7 @@ if(DEBUG){
 					System.out.println("--------------------------------------------");
 					System.out.println("g_time=" + g_time);
 					System.out.println("TASK=" + TASK);		// main() is the only one access TASK table
+					System.out.println("g_queue_thread_num=" + g_queue_thread_num.get());
 					System.out.println("g_done_thread_num=" + g_done_thread_num.get());
 					//TODO: done_queue
 				}
@@ -241,7 +242,7 @@ if(DEBUG){
 		System.out.println("dynaic_nice_rang" + dynaic_nice_rang); // nice(dynamic) = original_nice +-dynaic_nice_rang	
 		System.out.println("--------------------------------------------");
 		System.out.println("TASK=" + TASK);
-		//System.out.println("g_queue_thread_num=" + g_queue_thread_num);
+		System.out.println("g_queue_thread_num=" + g_queue_thread_num.get());
 		//System.out.println("g_exec_thread_num=" + g_exec_thread_num);
 		System.out.println("g_done_thread_num=" + g_done_thread_num.get());
 		System.out.println("g_time=" + g_time + " us");
@@ -386,7 +387,7 @@ if(DEBUG){
 	}
 	
 	private static void push_to_rbtree(Task _task, AVL<Task> instance) {
-		g_queue_thread_num++;
+		g_queue_thread_num.getAndIncrement();
 		instance.add(_task); // must succeed
 	}
 	
@@ -396,7 +397,7 @@ if(DEBUG){
 		if(_task==null)
 			return null;
 		else {
-			g_queue_thread_num--;
+			g_queue_thread_num.getAndDecrement();
 			return _task;
 		}
 	}
