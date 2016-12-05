@@ -547,10 +547,10 @@ if(DEBUG){
 			  			/* clean runtime info to record for the next run */
 			  			//curr_task.cpu_runtime=0;
 			  			//curr_task.io_runtime=0;
+			  			instance.print();
 			  			kill_from_rbtree(curr_task, instance, _lock);
 						System.out.println("queue_num = " + g_queue_thread_num.get());			
 						System.out.println("done_num = " + g_done_thread_num.get());
-						instance.print();
 			  			//System.out.println("why height = " + ((AVL<Task>)instance).height());
 					}
 				}
