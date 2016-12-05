@@ -41,7 +41,7 @@ public class CFS_simulator_multi_thread<T extends Comparable<T>> {
   	public static Task[] run_queue; // tasks should be ran
   	static Task[] running_tasks; 	// running on simulated CPU
   	static boolean[] done_queue; 	// Be careful id is from 1~Task
-  	static Task[] finishing_order_queue;
+  	static AtomicInteger[] finishing_order_queue;
 	private static Random random = new Random();
 	
 	public CFS_simulator_multi_thread(String testName, int thread, int duration, int n, int ops) {
@@ -114,7 +114,7 @@ public class CFS_simulator_multi_thread<T extends Comparable<T>> {
 
 		//  Create THREADS threads(CPUs)
 		task = new Task[TASK];					// all tasks in this simulation
-	  	finishing_order_queue = new Task[TASK]; // check finishing order // for record
+	  	
 	  	
 	  	is_interrupted = new boolean[THREADS];	
 	  	for(i=0; i<THREADS; i++)
@@ -130,7 +130,7 @@ public class CFS_simulator_multi_thread<T extends Comparable<T>> {
 	  	
 	  	for(i=0; i<TASK; i++) {
 	  		task[i] = new Task();
-	  		finishing_order_queue[i] = new Task();	
+	  		finishing_order_queue[i] = new AtomicInteger(0); // check finishing order // for record
 	  	}
 	
 	  	// initialize threads (task[i])
@@ -277,27 +277,23 @@ if(DEBUG){
 			System.out.println("[Good]: tasks are all done");
 		
 		System.out.println("--------------------parameters------------------------");
-		System.out.println("TASK = " + TASK);
-		System.out.println("THREADS = " + THREADS); // number of workers (simulated CPUs, not task!!!!!!!!!!!)
-		System.out.println("TimerIntThreshold = " + TimerIntThreshold); // here time is ns
-		System.out.println("min_granunarity = " + min_granunarity); // minimum granularity // 1ms
+		System.out.println("TASK = " + TASK + "\t" + "THREADS = " + THREADS); // number of workers & simulated CPUs
+		System.out.println("TimerIntThreshold = " + TimerIntThreshold + "min_granunarity = " + min_granunarity); /// minimum granularity // 1ms
 		System.out.println("dynaic_nice_rang = " + dynaic_nice_rang); // nice(dynamic) = original_nice +-dynaic_nice_rang	
 		System.out.println("------------------------------------------------------");
-		System.out.println("g_queue_thread_num = " + g_queue_thread_num.get());
-		System.out.println("g_done_thread_num = " + g_done_thread_num.get());
-		System.out.println("g_time = " + g_time + " us");
-		System.out.println("g_time = " + g_time/1000 + " ms");
-		System.out.println("g_time = " + g_time/1000/1000 + " s");
+		System.out.println("g_queue_thread_num = " + g_queue_thread_num.get() + "\t" + "g_done_thread_num = " + g_done_thread_num.get());
+		System.out.println("g_time = " + g_time/1000 + " ms (system virtual ticks)");
+		System.out.println("g_time = " + g_time/1000/1000 + " s (system virtual ticks)");
 		
 		// TODO:
 		System.out.print("TODO finishing order:");
 		for(i=0; i<TASK; i++) {
-			System.out.print(finishing_order_queue[i].id + " ");			
+			System.out.print(finishing_order_queue[i].intValue()+ " "); eee			
 		}
 		System.out.println("");
 		
-		System.out.println( "Total execution time = " + (end_time - start_time) + " ms");
-		System.out.println( "Total execution time = " + (end_time - start_time)/1000 + " s");
+		System.out.println( "Total execution time = " + (end_time - start_time) + " ms (time in reality)");
+		System.out.println( "Total execution time = " + (end_time - start_time)/1000 + " s (time in reality)");
 	}
 
 	private static synchronized void adjust_Vtime(Task _task, Hashtable<String, String> _htable) {
@@ -672,6 +668,7 @@ if(DEBUG){
 			  								"done_num = " + g_done_thread_num.get() + "\t" +
 			  								"done id = " + curr_task.id );
 }
+						finishing_order_queue[curr_task.id].incrementAndGet();
 			  			reschedule=true;
 			  			//System.out.println("why height = " + ((AVL<Task>)instance).height());
 					}
