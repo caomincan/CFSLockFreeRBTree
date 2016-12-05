@@ -46,6 +46,7 @@ public class CFS_simulator_multi_thread<T extends Comparable<T>> {
 
   	static int[] Vtime_table; 	
   	static int Vtime_num; 	
+  	static int Vtime_table_size = 1000000;
   	
 	private static Random random = new Random();
 	
@@ -58,8 +59,6 @@ public class CFS_simulator_multi_thread<T extends Comparable<T>> {
 		g_time = 0;
 		g_queue_thread_num = 0;
 		//instance = new AVL<Integer>();
-		instance = new AVL<Task>();
-		//instance = new RBTree<Task>();
 	}
 	
 	public static void main(String[] args) throws Exception {
@@ -71,6 +70,10 @@ public class CFS_simulator_multi_thread<T extends Comparable<T>> {
  	  	
 		int data = 1;
 		//this.root = new Node<T>(null);
+		
+		instance = new AVL<Task>();
+		//instance = new RBTree<Task>();
+		
 		
 		/*
 		Task _task = new Task();
@@ -131,6 +134,12 @@ public class CFS_simulator_multi_thread<T extends Comparable<T>> {
 	  	for(i=1; i<TASK+1; i++)
 	  		done_queue[i]=false;
 
+	  	
+	  	Vtime_table = new int[Vtime_table_size];
+	  	for(i=1; i<Vtime_table_size+1; i++)
+	  		Vtime_table[i]=0;
+	  	
+	  	
 	  	for(i=0; i<TASK; i++) {
 	  		task[i] = new Task();
 	  		finishing_order_queue[i] = new Task();	
@@ -163,7 +172,7 @@ if(DEBUG){
 		/* after tasks are all enqueued */
 		Thread[] myThreads = new Thread[THREADS];
 	    for (i = 0; i < THREADS; i++) {
-	    	myThreads[i] = new CPUThread(i); 
+	    	myThreads[i] = new CPUThread(i, instance); 
 	    }
 	    for (i = 0; i < THREADS; i ++) {
 	    	myThreads[i].start();
@@ -212,7 +221,7 @@ if(DEBUG){
 					thread_copy(_task, task[i]);	// redundant?
 					System.out.println("_task=" + _task);
 					// 1. enqueue() to run_queue
-					//push_to_rbtree(_task);
+					push_to_rbtree(_task);
 					
 					// 2. kill the task in task[] (task table)
 					thread_clean(task[i]);	// remove from task table	
@@ -253,6 +262,27 @@ if(DEBUG){
 		System.out.println("");
 	}
 
+
+
+	private static synchronized void adjust_Vtime(Task _task) {
+/*
+			// remove old time
+			_task.oldVtime
+			
+			// adjust
+			_task.VirtualRunTime
+			
+			for () {
+				// if match, ++ & retry from the head
+				_task.VirtualRunTime++;
+			}
+			
+			add _task.VirtualRunTime to queue;
+			
+			static int[] Vtime_table; 	// Be careful id is from 1~Task
+		  	static int Vtime_num; 	// Be careful id is from 1~Task
+			*/
+	}
 
 	private static int read_file_lines() {
 		int line_num = 0; 
@@ -327,7 +357,7 @@ if(DEBUG){
 					line22 += tokens[i];
 					args[i] = tokens[i];
 				}
-		
+
 				old_line_num = line_num;
 				// count # of threads
 				if(Integer.parseInt(tokens[1])>0)
@@ -447,11 +477,13 @@ if(DEBUG){
 		private volatile int GoodDeq=0;
 		private volatile int id=-1;  
 		int t_time=0; // thread run time
-		
+		private AVL<Task> instance;
+		//private RBTree<Task> instance;
 		
 		private Random random = new Random();
-		public CPUThread(int i) {
+		public CPUThread(int i, AVL<Task> tree) {
 			id = i;
+			instance=tree;
 		}
 
 		public int getrand(int tmp) {
@@ -535,7 +567,6 @@ if(DEBUG){
 			  			curr_task.VirtualRunTime += (curr_task.cpu_runtime+curr_task.io_runtime); // + actual run time NOT time_slice  // TODO: check time_slice is > 0
 			  			adjust_Vtime(curr_task);
 			  			
-			  			
 			  			// update nice
 			  			if (curr_task.io_runtime*2 > curr_task.cpu_runtime) {
 			  				curr_task.nice++;
@@ -590,33 +621,7 @@ if(DEBUG){
 				
 			}
 		}
-		      
-
-		private static synchronized voidadjust_Vtime(Task _task) {
-			// TODO Auto-generated method stub
-			
-		}
-
-		private static synchronized void adjust_Vtime(Task _task) {
-
-			// remove old time
-			_task.oldVtime
-			
-			// adjust
-			_task.VirtualRunTime
-			
-			for () {
-				// if match, ++ & retry from the head
-				_task.VirtualRunTime++;
-			}
-			
-			add _task.VirtualRunTime to queue;
-			
-			static int[] Vtime_table; 	// Be careful id is from 1~Task
-		  	static int Vtime_num; 	// Be careful id is from 1~Task
-			
-			
-		}
+	
 
 		public int GetTotalDeq() { //
 		      return TotalDeq;  
