@@ -192,7 +192,7 @@ if(DEBUG){
 		System.out.println("THREADS=" + THREADS + "\tadd_num=" + add_num);
 		instance1.print();
 
-		Thread.sleep(10*1000);
+		Thread.sleep(20*1000);
 		for (i = 0; i < 5; i++) {
 			System.out.println(""); 
 		}
