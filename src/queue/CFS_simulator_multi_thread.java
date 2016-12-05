@@ -538,10 +538,8 @@ boolean DD=false;
 				
 				Task _task = new Task();
 				
-				(id++)
-				int base = (id++ * 100/THREADS)
-				
-				for (i=base; i<base+(100/THREADS) -1 ; i++) {
+				int base = (id++ * 100/THREADS);
+				for (i=base; i<base+(100/THREADS)-1 ; i++) {
 					_task.id =i;
 					push_to_rbtree(_task, instance, _lock, _htable);
 					System.out.println("slice out: inserting id=" + curr_task.id);
