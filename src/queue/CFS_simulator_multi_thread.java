@@ -571,7 +571,7 @@ if(DEBUG){
 			  		}
 				}
 				//else { // time_slice remains, keep running}
-			}
+			} //while end
 		}
 		
 		public int GetTotalDeq() {
