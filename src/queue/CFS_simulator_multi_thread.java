@@ -520,6 +520,28 @@ adjust_Vtime(_task, _htable);
 		task1.id = 0;
 	}
 	
+	
+	static class ADDThread extends Thread {
+		private volatile int TotalDeq=0; //not used
+		private volatile int GoodDeq=0;
+		private volatile int id=-1;  
+		int t_time=0; // thread run time
+		private Hashtable<String, String> _htable;
+		private Tree<Task> instance;
+		boolean is_exit=false;
+		private ReentrantLock _lock;
+		private Random random = new Random();
+		volatile boolean reschedule=true;
+		
+		public ADDThread(int i, Tree<Task> tree, Hashtable<String, String> htable, ReentrantLock lock) {
+			id = i;
+			instance=tree;
+			_htable=htable;
+			_lock=lock;
+		}
+	
+	}
+		
 	static class CPUThread extends Thread {
 		private volatile int TotalDeq=0; //not used
 		private volatile int GoodDeq=0;
