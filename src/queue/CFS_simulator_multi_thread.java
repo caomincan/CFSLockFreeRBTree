@@ -63,7 +63,8 @@ public class CFS_simulator_multi_thread<T extends Comparable<T>> {
 	  	
 	  	/* dispatch to threads */
 	  	//Tree<Task> instance = new AVL<Task>();
-		Tree<Task> instance = new RBTree<Task>();
+	  	Tree<Task> instance = new AvlTree<Task>();
+		//Tree<Task> instance = new RBTree<Task>();
 		ReentrantLock lock = new ReentrantLock();
 		Hashtable<String, String> htable = new Hashtable<>();
 		
@@ -274,7 +275,8 @@ if(DEBUG){
 	    	myThreads[i].join();
 	    }
 		
-		System.currentTimeMillis()-start_time
+		long end_time = System.currentTimeMillis();
+		System.out.println( "Total execution time = " + (end_time - start_time) );
 		
 		/*
 		if (instance.leftMost()!=null)
