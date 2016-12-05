@@ -459,7 +459,9 @@ if(DEBUG){
 			if(_task==null)
 				return null;
 			else {
-				instance.remove(_task);
+				Task temp_task;
+				temp_task = instance.remove(_task);
+				if (temp_task == null) System.out.println("BAD$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
 				g_queue_thread_num.getAndDecrement();
 				return _task;
 			}
