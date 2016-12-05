@@ -114,10 +114,13 @@ public class CFS_simulator_multi_thread<T extends Comparable<T>> {
 
 		//  Create THREADS threads(CPUs)
 		task = new Task[TASK];					// all tasks in this simulation
-		finishing_order_queue = new AtomicInteger[TASK]; // check finishing order // for record
+		finishing_order_queue = new AtomicInteger[TASK+1]; // check finishing order // for record
 	  	for(i=0; i<TASK; i++) {
 	  		task[i] = new Task();
-	  		finishing_order_queue[i] = new AtomicInteger(0);
+	  		if (i==0)
+		  		finishing_order_queue[i] = new AtomicInteger(999);
+	  		else
+	  			finishing_order_queue[i] = new AtomicInteger(0);
 	  	}
 	  	
 	  	done_queue = new boolean[TASK+1]; 	// Be careful id is from 1~Task
@@ -282,7 +285,7 @@ if(DEBUG){
 		
 		// TODO:
 		System.out.print("TODO finishing order:");
-		for(i=0; i<TASK; i++) {
+		for(i=0; i<TASK+1; i++) {
 			System.out.print(finishing_order_queue[i].intValue()+ " ");		
 		}
 		System.out.println("");
@@ -657,12 +660,13 @@ if(DEBUG){
 			  			/* clean runtime info to record for the next run */
 			  			//instance.print();
 			  			kill_from_rbtree(curr_task, instance, _lock);
-if(DEBUG){						
+//if(DEBUG){						
 			  			System.out.println("Thread_id = " + currThread.id + ", task done =" + curr_task.id);
 			  			System.out.println("queue_num = " + g_queue_thread_num.get() + "\t" + 
 			  								"done_num = " + g_done_thread_num.get() + "\t" +
 			  								"done id = " + curr_task.id );
-}
+//}
+						
 						finishing_order_queue[curr_task.id].getAndIncrement();
 			  			reschedule=true;
 			  			//System.out.println("why height = " + ((AVL<Task>)instance).height());
