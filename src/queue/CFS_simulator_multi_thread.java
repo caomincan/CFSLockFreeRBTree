@@ -54,17 +54,12 @@ public class CFS_simulator_multi_thread<T extends Comparable<T>> {
 	
 	public static void main(String[] args) throws Exception {
 	  	int i;
-	  	//, j, k;
-	  	//int left;
 	  	boolean is_interrupted[];
-	  	//int virtualtime = -1;
-	  	//int timer; // timer interrupt cnt
-		//int data = 1;
-	  	
+
 	  	/* dispatch to threads */
-	  	//Tree<Task> instance = new AVL<Task>();
-	  	//Tree<Task> instance = new AvlTree<Task>();
-	  	Tree<Task> instance = new AVLTree2<Task>();
+	  	//Tree<Task> instance = new AVL<Task>(); 		// wrong 
+	  	//Tree<Task> instance = new AvlTree<Task>(); 	// wrong
+	  	Tree<Task> instance = new AVLTree2<Task>();		// correct AVL tree
 		//Tree<Task> instance = new RBTree<Task>();
 		ReentrantLock lock = new ReentrantLock();
 		Hashtable<String, String> htable = new Hashtable<>();
@@ -120,7 +115,6 @@ public class CFS_simulator_multi_thread<T extends Comparable<T>> {
 		 * every task will be executed in the threads
 		 * when a thread is done/out of time slice, it enq()/deq() global queue
 		 */
-		
 
 		//  Create THREADS threads(CPUs)
 		task = new Task[TASK];					// all tasks in this simulation
@@ -167,7 +161,6 @@ if(DEBUG){
 		}
 }
 
-
 		/* test 1. concurrent addition */
 		/*
 		ReentrantLock lock1 = new ReentrantLock();
@@ -192,6 +185,7 @@ if(DEBUG){
 			System.out.println(""); 
 		}
 		*/
+
 		/* test 2. concurrent deletion*/
 		/*
 		ReentrantLock lock2 = new ReentrantLock();
@@ -218,8 +212,10 @@ if(DEBUG){
 		
 		Thread.sleep(5*1000);
 		*/
-		g_queue_thread_num.set(0);
 
+
+
+		g_queue_thread_num.set(0);
 		/* after tasks are all enqueued */
 		Thread[] myThreads = new Thread[THREADS];
 	    for (i = 0; i < THREADS; i++) {
@@ -277,32 +273,34 @@ if(DEBUG){
 	    }
 		
 		long end_time = System.currentTimeMillis();
-		System.out.println( "Total execution time = " + (end_time - start_time) );
 		
-		/*
 		if (instance.leftMost()!=null)
 			System.out.println("ERROR: tasks not done");
 		else // ==null
-			System.out.println("Good: tasks are all done");
+			System.out.println("[Good]: tasks are all done");
 		
-		System.out.println("--------------------------------------------");
+		System.out.println("--------------------parameters------------------------");
+		System.out.println("TASK=" + TASK);
 		System.out.println("THREADS" + THREADS); // number of workers (simulated CPUs, not task!!!!!!!!!!!)
 		System.out.println("TimerIntThreshold" + TimerIntThreshold); // here time is ns
 		System.out.println("min_granunarity" + min_granunarity); // minimum granularity // 1ms
 		System.out.println("dynaic_nice_rang" + dynaic_nice_rang); // nice(dynamic) = original_nice +-dynaic_nice_rang	
-		System.out.println("--------------------------------------------");
-		System.out.println("TASK=" + TASK);
+		System.out.println("------------------------------------------------------");
 		System.out.println("g_queue_thread_num=" + g_queue_thread_num.get());
 		System.out.println("g_done_thread_num=" + g_done_thread_num.get());
 		System.out.println("g_time=" + g_time + " us");
 		System.out.println("g_time=" + g_time/1000 + " ms");
 		System.out.println("g_time=" + g_time/1000/1000 + " s");
 		
+		// TODO:
+		System.out.print("TODO finishing order:");
 		for(i=0; i<TASK; i++) {
 			System.out.print(finishing_order_queue[i].id + " ");			
 		}
 		System.out.println("");
-		*/
+		
+		System.out.println( "Total execution time = " + (end_time - start_time) + " ms");
+		System.out.println( "Total execution time = " + (end_time - start_time)/1000 + " s");
 	}
 
 	private static synchronized void adjust_Vtime(Task _task, Hashtable<String, String> _htable) {

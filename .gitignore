@@ -1,14 +1,16 @@
 /bin/
-<<<<<<< HEAD
 /jack_materials/
-*.txt
+CFS note.txt
+code.txt
 .classpath
 .project
-=======
-<<<<<<< HEAD
-*.txt
-.classpath
-.project
-=======
->>>>>>> rbtree
->>>>>>> master
+/hw1/
+/snaptree/
+/Project\(bak1202\)
+/java-iterative-avl-tree/
+in copy.txt
+HW1 extension.txt
+/AVL-Tree/
+Jack implemetation&presentation notes.docx
+*.jpg
+
