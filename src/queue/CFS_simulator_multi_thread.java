@@ -20,19 +20,20 @@ import java.io.*;
 
 public class CFS_simulator_multi_thread<T extends Comparable<T>> {
 	/* default values */ /* unit=us */
-	static int THREADS =4; 					// number of workers (simulated CPUs, not task!!!!!!!!!!!)
+	static int THREADS =4; 						// number of workers (simulated CPUs, not task!!!!!!!!!!!)
 	static int TimerIntThreshold = 1000*1000;	// timer interrupt ticks 1ms
 	static int min_granunarity = 1000*1000;		// minimum granularity // 1ms
 	static int dynaic_nice_rang = 5;			// nice(dynamic) = original_nice +-dynaic_nice_rang
-	static int how_many_int=10*1000; 				/* periodically debug */
+	static int how_many_int=10*1000; 			// periodically debug
 	
 	static int TASK = -1; 				// global number of tasks (threads) assigned by in.txt
 	static int g_time;					// global time
 	static AtomicInteger g_queue_thread_num = new AtomicInteger(0);		// global number of threads in run_queue
-	//static int g_exec_thread_num; 		// global number of executing threads on simulated CPUs
 	static AtomicInteger g_done_thread_num = new AtomicInteger(0);		// global number of threads done
     
-	static boolean DEBUG = true;			
+	static boolean DEBUG = false;	
+	static boolean TEST1 = false;		// concurrent addition
+	static boolean TEST2 = false;		// concurrent deletion
 	static boolean g_done = false;			
 	static boolean g_is_interrupted = false;
 
@@ -40,12 +41,7 @@ public class CFS_simulator_multi_thread<T extends Comparable<T>> {
   	public static Task[] run_queue; // tasks should be ran
   	static Task[] running_tasks; 	// running on simulated CPU
   	static boolean[] done_queue; 	// Be careful id is from 1~Task
-  	static Task[] finishing_order_queue;
-
-  	//static int[] Vtime_table; 	
-  	//static int Vtime_num; 	
-  	//static int Vtime_table_size = 1000000;
-  	
+  	static AtomicInteger[] finishing_order_queue;
 	private static Random random = new Random();
 	
 	public CFS_simulator_multi_thread(String testName, int thread, int duration, int n, int ops) {
@@ -136,25 +132,20 @@ public class CFS_simulator_multi_thread<T extends Comparable<T>> {
 
 		//  Create THREADS threads(CPUs)
 		task = new Task[TASK];					// all tasks in this simulation
-	  	finishing_order_queue = new Task[TASK]; // check finishing order // for record
-	  	
-	  	is_interrupted = new boolean[THREADS];	
-	  	for(i=0; i<THREADS; i++)
-	  		is_interrupted[i]=false;
+		finishing_order_queue = new AtomicInteger[TASK]; // check finishing order // for record
+	  	for(i=0; i<TASK; i++) {
+	  		task[i] = new Task();
+	  		finishing_order_queue[i] = new AtomicInteger(0);
+	  	}
 	  	
 	  	done_queue = new boolean[TASK+1]; 	// Be careful id is from 1~Task
 	  	for(i=1; i<TASK+1; i++)
 	  		done_queue[i]=false;
-
-	  	//Vtime_table = new int[Vtime_table_size];
-	  	//for(i=1; i<Vtime_table_size; i++)
-	  	//Vtime_table[i]=0;	  	
 	  	
-	  	for(i=0; i<TASK; i++) {
-	  		task[i] = new Task();
-	  		finishing_order_queue[i] = new Task();	
-	  	}
-	
+	  	is_interrupted = new boolean[THREADS];	
+	  	for(i=0; i<THREADS; i++)
+	  		is_interrupted[i]=false;
+	 
 	  	// initialize threads (task[i])
 	  	read_file_lines2();
 	  			
@@ -180,7 +171,7 @@ if(DEBUG){
 }
 
 		/* test 1. concurrent addition */
-		/*
+if(TEST1){
 		ReentrantLock lock1 = new ReentrantLock();
 		Tree<Task> instance1 = new RBTree<Task>();
 		Hashtable<String, String> htable1 = new Hashtable<>();
@@ -202,10 +193,10 @@ if(DEBUG){
 		for (i = 0; i < 5; i++) {
 			System.out.println(""); 
 		}
-		*/
+}
 
 		/* test 2. concurrent deletion*/
-		/*
+if(TEST2){
 		ReentrantLock lock2 = new ReentrantLock();
 		Tree<Task> instance2 = new RBTree<Task>();
 		Hashtable<String, String> htable2 = new Hashtable<>();
@@ -229,7 +220,7 @@ if(DEBUG){
 		instance2.print();
 		
 		Thread.sleep(5*1000);
-		*/
+}
 
 
 
@@ -275,9 +266,10 @@ if(DEBUG){
 					push_to_rbtree(_task, instance, lock, htable);
 					// 2. kill the task in task[] (task table)
 					thread_clean(task[i]);	// remove from task table
-					
+if(DEBUG){					
 					System.out.println("queue_num = " + g_queue_thread_num.get() + "\t" + 
-										"done_num = " + g_done_thread_num.get());	
+										"done_num = " + g_done_thread_num.get());
+}
 				}
 			}
 
@@ -298,27 +290,23 @@ if(DEBUG){
 			System.out.println("[Good]: tasks are all done");
 		
 		System.out.println("--------------------parameters------------------------");
-		System.out.println("TASK=" + TASK);
-		System.out.println("THREADS" + THREADS); // number of workers (simulated CPUs, not task!!!!!!!!!!!)
-		System.out.println("TimerIntThreshold" + TimerIntThreshold); // here time is ns
-		System.out.println("min_granunarity" + min_granunarity); // minimum granularity // 1ms
-		System.out.println("dynaic_nice_rang" + dynaic_nice_rang); // nice(dynamic) = original_nice +-dynaic_nice_rang	
+		System.out.println("TASK = " + TASK + "\t" + "THREADS = " + THREADS); // number of workers & simulated CPUs
+		System.out.println("TimerIntThreshold = " + TimerIntThreshold + "min_granunarity = " + min_granunarity); /// minimum granularity // 1ms
+		System.out.println("dynaic_nice_rang = " + dynaic_nice_rang); // nice(dynamic) = original_nice +-dynaic_nice_rang	
 		System.out.println("------------------------------------------------------");
-		System.out.println("g_queue_thread_num=" + g_queue_thread_num.get());
-		System.out.println("g_done_thread_num=" + g_done_thread_num.get());
-		System.out.println("g_time=" + g_time + " us");
-		System.out.println("g_time=" + g_time/1000 + " ms");
-		System.out.println("g_time=" + g_time/1000/1000 + " s");
+		System.out.println("g_queue_thread_num = " + g_queue_thread_num.get() + "\t" + "g_done_thread_num = " + g_done_thread_num.get());
+		System.out.println("g_time = " + g_time/1000 + " ms (system virtual ticks)");
+		System.out.println("g_time = " + g_time/1000/1000 + " s (system virtual ticks)");
 		
 		// TODO:
 		System.out.print("TODO finishing order:");
 		for(i=0; i<TASK; i++) {
-			System.out.print(finishing_order_queue[i].id + " ");			
+			System.out.print(finishing_order_queue[i].intValue()+ " ");		
 		}
 		System.out.println("");
 		
-		System.out.println( "Total execution time = " + (end_time - start_time) + " ms");
-		System.out.println( "Total execution time = " + (end_time - start_time)/1000 + " s");
+		System.out.println( "Total execution time = " + (end_time - start_time) + " ms (time in reality)");
+		System.out.println( "Total execution time = " + (end_time - start_time)/1000 + " s (time in reality)");
 	}
 
 	private static synchronized void adjust_Vtime(Task _task, Hashtable<String, String> _htable) {
@@ -651,8 +639,9 @@ if(DEBUG){
 				}
 				reschedule=true;
 				CPUThread currThread = (CPUThread) CPUThread.currentThread();
+if(DEBUG){				
 				System.out.println("Thread_id = " + currThread.id + ", Task_id = " + curr_task.id);
-
+}
 				/* Load a new task to run */
 				// sched2 - recalculate time_slice 
 				curr_task.time_slice = (int) ((1*1000) * (float)(curr_task.nice / (1024 / Math.pow(1.25, curr_task.nice))));
@@ -686,11 +675,13 @@ if(DEBUG){
 			  			/* clean runtime info to record for the next run */
 			  			//instance.print();
 			  			kill_from_rbtree(curr_task, instance, _lock);
-						System.out.println("Thread_id = " + currThread.id + ", task done =" + curr_task.id);
-
+if(DEBUG){						
+			  			System.out.println("Thread_id = " + currThread.id + ", task done =" + curr_task.id);
 			  			System.out.println("queue_num = " + g_queue_thread_num.get() + "\t" + 
 			  								"done_num = " + g_done_thread_num.get() + "\t" +
 			  								"done id = " + curr_task.id );
+}
+						finishing_order_queue[curr_task.id].incrementAndGet();
 			  			reschedule=true;
 			  			//System.out.println("why height = " + ((AVL<Task>)instance).height());
 					}
@@ -718,8 +709,10 @@ if(DEBUG){
 							if (curr_task.nice < curr_task.ori_nice-dynaic_nice_rang)
 								curr_task.nice = curr_task.ori_nice-dynaic_nice_rang;
 						}
+if(DEBUG){						
 						System.out.println("Thread_id = " + currThread.id + ", slice out: inserting id=" + curr_task.id + 
 											"\t left cpu=" + curr_task.cpu + ", left io=" + curr_task.io );
+}
 						push_to_rbtree(curr_task, instance, _lock, _htable);
 						reschedule=true;
 			  		}  // expired end
