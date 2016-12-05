@@ -40,7 +40,7 @@ public class CFS_simulator_multi_thread<T extends Comparable<T>> {
 	static Task[] task; 			// all tasks going to run in this simulation
   	public static Task[] run_queue; // tasks should be ran
   	static Task[] running_tasks; 	// running on simulated CPU
-  	static AtomicInteger[] finishing_order_queue; // check finishing order // Be careful id is from 1~Task
+  	static AtomicInteger[] finished_order_queue; // check finishing order // Be careful id is from 1~Task
 	private static Random random = new Random(); 
 	
 	public CFS_simulator_multi_thread(String testName, int thread, int duration, int n, int ops) {
@@ -58,43 +58,6 @@ public class CFS_simulator_multi_thread<T extends Comparable<T>> {
 		Tree<Task> instance = new RBTree<Task>();
 		ReentrantLock lock = new ReentrantLock();
 		Hashtable<String, String> htable = new Hashtable<>();
-		
-		/** example code - hashtable
-		Task __task = new Task();
-		__task.VirtualRunTime= new Integer(10); // set value
-		htable.put(__task.VirtualRunTime.toString(), __task.VirtualRunTime.toString());
-		__task.VirtualRunTime = new Integer(__task.VirtualRunTime.intValue() + 1); // ++
-		htable.put(__task.VirtualRunTime.toString(), __task.VirtualRunTime.toString());
-		
-		__task.VirtualRunTime.intValue(); //get
-		System.out.println("int = " + __task.VirtualRunTime.intValue()); 
-		
-		htable.put(__task.VirtualRunTime.toString(), __task.VirtualRunTime.toString());
-
-		System.out.println("ok key=" + htable.get(__task.VirtualRunTime.toString())); 
-		System.out.println("bad key=" + htable.get("123213")); 
-		*/	
-
-		/** example code - tree operation
-		Task _task = new Task();
-		
-		_task.VirtualRunTime=12;
-		int inserted_runtime = VirtualRunTime_update(_task, 12);
-		instance.add(_task);
-		// don't change it
-		
-		Task p_task;
-		p_task = instance.get_leftmost();
-		//p_task = instance.get_leftmost();
-		//
-		if (instance.remove(p_task) !=null) {
-			//do
-		}
-		else {
-			System.out.println("ERROR: cannot remove from tree");
-		}	
-		p_task.VirtualRunTime = 100;
-		*/
 		
 		/* determine how many threads */
 	  	TASK = read_file_lines();
@@ -117,11 +80,11 @@ public class CFS_simulator_multi_thread<T extends Comparable<T>> {
 	  		task[i] = new Task();
 	  	}
 	  	
-		finishing_order_queue = new AtomicInteger[TASK+1]; // check finishing order // Be careful id is from 1~Task
+	  	finished_order_queue = new AtomicInteger[TASK+1]; // check finishing order // Be careful id is from 1~Task
 	  	for(i=1; i<TASK+1; i++) {
-	  		finishing_order_queue[i] = new AtomicInteger(0);
+	  		finished_order_queue[i] = new AtomicInteger(0);
 	  	}
-  		finishing_order_queue[0] = new AtomicInteger(0); // 0 records how many threads done
+	  	finished_order_queue[0] = new AtomicInteger(0); // 0 records how many threads done
 
 	  	
 	  	is_interrupted = new boolean[THREADS];	
@@ -723,3 +686,40 @@ if(DEBUG){
 	}
 
 }
+
+/** example code - hashtable
+Task __task = new Task();
+__task.VirtualRunTime= new Integer(10); // set value
+htable.put(__task.VirtualRunTime.toString(), __task.VirtualRunTime.toString());
+__task.VirtualRunTime = new Integer(__task.VirtualRunTime.intValue() + 1); // ++
+htable.put(__task.VirtualRunTime.toString(), __task.VirtualRunTime.toString());
+
+__task.VirtualRunTime.intValue(); //get
+System.out.println("int = " + __task.VirtualRunTime.intValue()); 
+
+htable.put(__task.VirtualRunTime.toString(), __task.VirtualRunTime.toString());
+
+System.out.println("ok key=" + htable.get(__task.VirtualRunTime.toString())); 
+System.out.println("bad key=" + htable.get("123213")); 
+*/	
+
+/** example code - tree operation
+Task _task = new Task();
+
+_task.VirtualRunTime=12;
+int inserted_runtime = VirtualRunTime_update(_task, 12);
+instance.add(_task);
+// don't change it
+
+Task p_task;
+p_task = instance.get_leftmost();
+//p_task = instance.get_leftmost();
+//
+if (instance.remove(p_task) !=null) {
+	//do
+}
+else {
+	System.out.println("ERROR: cannot remove from tree");
+}	
+p_task.VirtualRunTime = 100;
+*/
