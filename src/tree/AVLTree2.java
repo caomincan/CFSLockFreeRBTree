@@ -356,11 +356,11 @@ public class AVLTree2<T extends Comparable<T>> implements  Tree<T>{
 	@Override
 	public T leftMost() {
 		// TODO Auto-generated method stub
-		public Node<T> getRoot() {
-	        return root;
-	    }
+		//public Node<T> getRoot() {
+	    //    return root;
+	    //}
 		
-		RBNode<V> temp = getRoot();
+		Node<T> temp = getRoot();
 		if(temp == null || temp.value == null) return null;
 		while(temp.left.value!= null){
 			temp = temp.left;
