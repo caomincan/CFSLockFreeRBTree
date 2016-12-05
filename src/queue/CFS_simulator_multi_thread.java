@@ -390,13 +390,15 @@ if(DEBUG){
 		return line_num;
 	}
 	
-	private static void push_to_rbtree(Task _task, AVL<Task> instance) {
+	//private static void push_to_rbtree(Task _task, AVL<Task> instance) {
+	private static void push_to_rbtree(Task _task, RBTree<Task> instance) {	
 		g_queue_thread_num.getAndIncrement();
 		instance.add(_task); // must succeed
 		//System.out.println("height"+instance.height());
 	}
 	
-	public static Task pop_from_rbtree(AVL<Task> instance) {
+	//public static Task pop_from_rbtree(AVL<Task> instance) {
+	public static Task pop_from_rbtree(RBTree<Task> instance) {
 		Task _task;
 		_task = instance.get_leftmost();
 		if(_task==null)
@@ -473,11 +475,12 @@ if(DEBUG){
 		private volatile int id=-1;  
 		int t_time=0; // thread run time
 		private Hashtable<String, String> _htable;
-		private AVL<Task> instance;
-		//private RBTree<Task> instance;
+		//private AVL<Task> instance;
+		private RBTree<Task> instance;
 		
 		private Random random = new Random();
-		public CPUThread(int i, AVL<Task> tree, Hashtable<String, String> htable) {
+		//public CPUThread(int i, AVL<Task> tree, Hashtable<String, String> htable) {
+		public CPUThread(int i, RBTree<Task> tree, Hashtable<String, String> htable) {
 			id = i;
 			instance=tree;
 			_htable=htable;

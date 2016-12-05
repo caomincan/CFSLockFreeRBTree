@@ -163,7 +163,6 @@ public class RBTree<V extends Comparable<V>> {
 	}
 	
 	
-	
 	protected void deleteHelp(RBNode<V> x){
 		RBNode<V> w;
 		while(x != root && !x.isRed){
