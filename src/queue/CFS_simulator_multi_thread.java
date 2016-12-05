@@ -316,12 +316,10 @@ if(DEBUG){
 			line = in.readLine();
 			while(line!=null)
 			{
-				//String line22 = "";
 				String delims_space = "[ \t]+"; //target: "the it   hard        concentrate";
 				String[] tokens = line.split(delims_space);
 				String[] args = new String[100];
 				for (int i = 1; i < tokens.length; i++) {
-					//line22 += tokens[i];
 					args[i] = tokens[i];
 				}
 				
@@ -661,6 +659,9 @@ if(DEBUG){
 			  								"done id = " + curr_task.id );
 }
 						
+
+finishing_order_queue[finishing_order_queue.getAndIncrement()].set(curr_task.id);
+
 						finishing_order_queue[curr_task.id].getAndIncrement();
 			  			reschedule=true;
 			  			//System.out.println("why height = " + ((AVL<Task>)instance).height());
