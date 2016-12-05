@@ -619,7 +619,8 @@ if(DD) {
 				if (g_done_thread_num.get()==TASK)
 					break;
 			} //while end
-}
+}			
+			thread done
 		}
 		
 		public int GetTotalDeq() {
