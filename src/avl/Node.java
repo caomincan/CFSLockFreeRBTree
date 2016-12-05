@@ -24,13 +24,13 @@ public class Node<T extends Comparable<T>> {
         right = r;
     }
 
-    public Task getTask() { //Jack
-        return task;
-    }
+    //public Task getTask() { //Jack
+    //    return task;
+    //}
     
-    public void setTask(Task data) { //Jack
-        this.task = data;
-    }
+    //public void setTask(Task data) { //Jack
+    //    this.task = data;
+    //}
 
     public T getData() {
         return data;

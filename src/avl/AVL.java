@@ -500,7 +500,7 @@ public class AVL<T extends Comparable<T>> implements AVLInterface<T> {
 
 	
 	@Override
-    public synchronized Task get_leftmost() {
+    public synchronized T get_leftmost() {
         //if (data == null) {
         //    throw new IllegalArgumentException("Argument cannot be null.");
         //}
@@ -519,8 +519,8 @@ public class AVL<T extends Comparable<T>> implements AVLInterface<T> {
 	            }
 	            */
 	        }
-	        //return current;
-	        return current.getTask();
+	        return (T) current;
+	        //return current.getTask();
         }
         return null;
     }
