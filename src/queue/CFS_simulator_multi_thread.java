@@ -624,7 +624,10 @@ if(DD) {
 						push_to_rbtree(curr_task, instance, _lock, _htable);
 						reschedule=true;
 			  			//thread_clean(curr_task);
-			  		} // expired end
+			  		}  // expired end
+					else {
+						System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+					}
 				}
 				else { // case 3. keep occupying the CPU 
 					reschedule=false;
