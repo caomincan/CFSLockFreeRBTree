@@ -546,6 +546,7 @@ if(DEBUG){
 			  			kill_from_rbtree(curr_task, instance, _lock);
 						System.out.println("queue_num = " + g_queue_thread_num.get());			
 						System.out.println("done_num = " + g_done_thread_num.get());
+						instance.print();
 			  			//System.out.println("why height = " + ((AVL<Task>)instance).height());
 					}
 				}
