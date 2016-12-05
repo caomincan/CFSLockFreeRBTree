@@ -365,7 +365,7 @@ public class AVLTree2<T extends Comparable<T>> implements  Tree<T>{
 			while(temp.left!= null){
 				temp = temp.left;
 			}
-			return temp;
+			return temp.data;
 
 	}
 }
