@@ -15,7 +15,7 @@ import queue.Task;
  *
  * @author Justin Ethier
  */
-class AvlTree<T extends Comparable<T>> implements  Tree<T> {
+public class AvlTree<T extends Comparable<T>> implements  Tree<T> {
   /** 
    * AvlNode is a container class that is used to store each element 
    * (node) of an AVL tree. 
@@ -118,14 +118,14 @@ class AvlTree<T extends Comparable<T>> implements  Tree<T> {
    * @return True - Success, the Element was added. 
    *         False - Error, the element was a duplicate.
    */
-  public boolean add (T x){
+  public void add (T x){
     try {
       root = insert (x, root);
       
       countInsertions++;
-      return true;
+      return ;
     } catch(Exception e){ // TODO: catch a DuplicateValueException instead!
-      return false;
+      return ;
     }
   }
   
@@ -544,8 +544,7 @@ public void print() {
 	
 }
 
-@Override
-public Task search(Task value) {
+public T search(T value) {
 	// TODO Auto-generated method stub
 	return null;
 }
@@ -562,11 +561,6 @@ public Task search(Task value) {
 	//return null;
 //}
 
-@Override
-public T search(T value) {
-	// TODO Auto-generated method stub
-	return null;
-}
 
 //public Task leftMost() {
 	// TODO Auto-generated method stub

@@ -168,7 +168,7 @@ if(DEBUG){
 
 
 		/* test 1. concurrent addition */
-		/*
+		
 		ReentrantLock lock1 = new ReentrantLock();
 		Tree<Task> instance1 = new RBTree<Task>();
 		Hashtable<String, String> htable1 = new Hashtable<>();
@@ -186,13 +186,13 @@ if(DEBUG){
 		System.out.println("THREADS=" + THREADS + "\tadd_num=" + add_num);
 		instance1.print();
 
-		//Thread.sleep(20*1000);
+		Thread.sleep(20*1000);
 		for (i = 0; i < 5; i++) {
 			System.out.println(""); 
 		}
-		*/
+		
 		/* test 2. concurrent deletion*/
-		/*
+		
 		ReentrantLock lock2 = new ReentrantLock();
 		Tree<Task> instance2 = new RBTree<Task>();
 		Hashtable<String, String> htable2 = new Hashtable<>();
@@ -215,8 +215,8 @@ if(DEBUG){
 		}
 		instance2.print();
 		
-		//Thread.sleep(20*1000);
-		*/
+		Thread.sleep(20*1000);
+		
 		g_queue_thread_num.set(0);
 
 		/* after tasks are all enqueued */
