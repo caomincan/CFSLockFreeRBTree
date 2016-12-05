@@ -512,7 +512,7 @@ if(DEBUG){
 				}while(true);
 				
 				if (t_time > TimerIntThreshold) { // feature - timer interrupt
-					// Job not done BUT time slice is reached. recycle(reclaim).
+					// case 1. Job not done BUT time slice is reached. recycle(reclaim).
 					if ( curr_task.time_slice <= (curr_task.cpu_runtime+curr_task.io_runtime) ) { // expired mush deq()	
 						// time_slice passed(out)
 						System.out.println("1. " + curr_task.cpu_runtime + "\t2. " +curr_task.io_runtime + "\t3. " + running_tasks[i].time_slice);
@@ -550,7 +550,7 @@ if(DEBUG){
 			  			//queue_arrange(running_taks);
 			  		}
 				}
-			
+				// case 2. exit
 				if(is_exit==true) { // feature - exit() interrupt			
 					if ( ((curr_task.cpu+curr_task.io) <= 0) ) {	// task done
 
