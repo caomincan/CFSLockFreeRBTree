@@ -1,10 +1,11 @@
 /*
- * LockFreeQueueTest.java
- * JUnit based test
+ * CFS_simulator_multi_thread.java
  *
  * Created on December 5, 2016, 11:15 PM
  * 14365
  * 15527
+ * 14102
+ * 12361
  */
 package queue;
 
