@@ -50,8 +50,6 @@ public class CFS_simulator_multi_thread<T extends Comparable<T>> {
 	
 	public CFS_simulator_multi_thread(String testName, int thread, int duration, int n, int ops) {
 		g_time = 0;
-		//g_queue_thread_num = 0;
-		//instance = new AVL<Integer>();
 	}
 	
 	public static void main(String[] args) throws Exception {
@@ -379,6 +377,7 @@ if(DEBUG){
 	    try {
 	    	instance.add(_task); // must succeed
 			//System.out.println("height"+instance.height());
+	    	instance.print();
 	    } finally {
 	    	lock.unlock();
 	    }
@@ -567,10 +566,8 @@ if(DEBUG){
 							if (curr_task.nice < curr_task.ori_nice-dynaic_nice_rang)
 								curr_task.nice = curr_task.ori_nice-dynaic_nice_rang;
 						}
-
 						push_to_rbtree(curr_task, instance, _lock);
 			  			thread_clean(curr_task);
-
 			  		}
 				}
 				//else { // time_slice remains, keep running}

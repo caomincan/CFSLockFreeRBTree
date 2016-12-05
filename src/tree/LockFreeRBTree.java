@@ -369,7 +369,7 @@ public class LockFreeRBTree<V extends Comparable<V>> implements Tree<V> {
 		List<List<String>> res = new LinkedList<List<String>>();
 		res = printHelp(root,0,res);
 		@SuppressWarnings("unchecked")
-		int id = ((test.testThread<V>)Thread.currentThread()).id;
+		int id = ((test.testThread<V>)Thread.currentThread()).id.;
 		System.out.println("Thread "+id+"printing:");
 		for(List<String> list:res){
 			for(String word: list){
