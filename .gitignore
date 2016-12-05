@@ -1,5 +1,14 @@
 /bin/
+<<<<<<< HEAD
 /jack_materials/
 *.txt
 .classpath
 .project
+=======
+<<<<<<< HEAD
+*.txt
+.classpath
+.project
+=======
+>>>>>>> rbtree
+>>>>>>> master
