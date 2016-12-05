@@ -20,7 +20,7 @@ import java.io.*;
 
 public class CFS_simulator_multi_thread<T extends Comparable<T>> {
 	/* default values */ /* unit=us */
-	static int THREADS = 8; 					// number of workers (simulated CPUs, not task!!!!!!!!!!!)
+	static int THREADS = 4; 					// number of workers (simulated CPUs, not task!!!!!!!!!!!)
 	static int TimerIntThreshold = 1000*1000;	// timer interrupt ticks 1ms
 	static int min_granunarity = 1000*1000;		// minimum granularity // 1ms
 	static int dynaic_nice_rang = 5;			// nice(dynamic) = original_nice +-dynaic_nice_rang
@@ -70,8 +70,8 @@ public class CFS_simulator_multi_thread<T extends Comparable<T>> {
 	  	
 	  	/* dispatch to threads */
 		//this.root = new Node<T>(null);
-	  	AVL<Task> instance = new AVL<Task>();
-		//RBTree<Task> instance = new RBTree<Task>();
+	  	//AVL<Task> instance = new AVL<Task>();
+		RBTree<Task> instance = new RBTree<Task>();
 		Hashtable<String, String> htable = new Hashtable<>();
 		
 		/** example code - hashtable
@@ -210,18 +210,7 @@ if(DEBUG){
 			/* check any thread should set to run_queue */
 			for(i=0; i<TASK; i++) { // check any thread ready to run
 				//System.out.println("task[i].id=" + task[i].id);
-				if( task[i].id>0 && task[i].start_time >= (g_time-1)) {  // if so put it to runqueue
-					
-					// TODO: replace all run_queue with rbtree
-					/* least Vtime */
-					//int least_Vtime=1; 		// Feature: min garauntee
-					//for(k=0; k<TASK; k++) { // assign the least nice value to the new task
-					//	if (run_queue[k].id!=0) {
-					//		if (least_Vtime > run_queue[k].VirtualRunTime)
-					//			least_Vtime = run_queue[k].VirtualRunTime;
-					//	}
-					//}
-					//task[i].VirtualRunTime = least_Vtime;
+				if( task[i].id>0 && task[i].start_time >= (g_time-1)) {  // if so, put it to run_queue
 					adjust_Vtime(task[i], htable);
 					
 					Task _task = new Task();		// redundant?
@@ -243,7 +232,7 @@ if(DEBUG){
 	    	myThreads[i].join();
 	    }
 		
-		if (instance.get_leftmost()!=null)	//TODO
+		if (instance.get_leftmost()!=null)
 			System.out.println("ERROR: tasks not done");
 		else // ==null
 			System.out.println("Good: tasks are all done");
@@ -390,18 +379,21 @@ if(DEBUG){
 		return line_num;
 	}
 	
-	private static void push_to_rbtree(Task _task, AVL<Task> instance) {
+	//private static void push_to_rbtree(Task _task, AVL<Task> instance) {
+	private static void push_to_rbtree(Task _task, RBTree<Task> instance) {	
 		g_queue_thread_num.getAndIncrement();
 		instance.add(_task); // must succeed
 		//System.out.println("height"+instance.height());
 	}
 	
-	public static Task pop_from_rbtree(AVL<Task> instance) {
+	//public static Task pop_from_rbtree(AVL<Task> instance) {
+	public static Task pop_from_rbtree(RBTree<Task> instance) {
 		Task _task;
 		_task = instance.get_leftmost();
 		if(_task==null)
 			return null;
 		else {
+			instance.remove(_task);
 			g_queue_thread_num.getAndDecrement();
 			return _task;
 		}
@@ -473,11 +465,12 @@ if(DEBUG){
 		private volatile int id=-1;  
 		int t_time=0; // thread run time
 		private Hashtable<String, String> _htable;
-		private AVL<Task> instance;
-		//private RBTree<Task> instance;
+		//private AVL<Task> instance;
+		private RBTree<Task> instance;
 		
 		private Random random = new Random();
-		public CPUThread(int i, AVL<Task> tree, Hashtable<String, String> htable) {
+		//public CPUThread(int i, AVL<Task> tree, Hashtable<String, String> htable) {
+		public CPUThread(int i, RBTree<Task> tree, Hashtable<String, String> htable) {
 			id = i;
 			instance=tree;
 			_htable=htable;
@@ -502,10 +495,13 @@ if(DEBUG){
 					continue;	// nothing in run queue
 				}
 
+				CPUThread currThread = (CPUThread) CPUThread.currentThread();
+				System.out.println("Thread_id = " + currThread.id + ", Task_id = " + curr_task.id);
+				
+				/* Load a new task to run */
 				// sched2 - recalculate time_slice 
 				curr_task.time_slice = (int) ((1*1000) * (float)(curr_task.nice / (1024 / Math.pow(1.25, curr_task.nice))));
 										//TODO: nice=0 is wrong => this is wrong
-				
 				if (curr_task.time_slice <= min_granunarity)
 					curr_task.time_slice=min_granunarity;
 				//System.out.println("_task.time_slice = " +_task.time_slice + "\t nice=" + _task.nice);
@@ -531,7 +527,7 @@ if(DEBUG){
 			  			// before cleaning info, record successful done threads
 			  			//g_queue_thread_num--; 					// this is not comprehensive
 			  			//System.out.println("id=?" + running_tasks[i].id + " done?=" + done_queue[running_tasks[i].id]);
-			  			done_queue[running_tasks[i].id]=true; 	// record (before id=0)	1~Task
+			  //done_queue[running_tasks[i].id]=true; 	// record (before id=0)	1~Task
 			  			//System.out.println("id=?" + running_tasks[i].id + " done?=" + done_queue[running_tasks[i].id]);
 			  				
 			  			thread_copy(finishing_order_queue[g_done_thread_num.get()], curr_task);
@@ -549,7 +545,7 @@ if(DEBUG){
 					// case 1. Job not done BUT time slice is reached. recycle(reclaim).
 					if ( curr_task.time_slice <= (curr_task.cpu_runtime+curr_task.io_runtime) ) { // expired mush deq()	
 						// time_slice passed(out) 
-						System.out.println("1. " + curr_task.cpu_runtime + "\t2. " +curr_task.io_runtime + "\t3. " + running_tasks[i].time_slice);
+						//System.out.println("1. " + curr_task.cpu_runtime + "\t2. " +curr_task.io_runtime + "\t3. " + curr_task[i].time_slice);
 			  			// sched1 - update Virtual Time - virtual += timslice (before push)
 			  			int temp_int=0;
 			  			temp_int += curr_task.VirtualRunTime.intValue();
