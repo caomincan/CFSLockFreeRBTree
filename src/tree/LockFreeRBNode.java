@@ -1,4 +1,4 @@
-package lockfree;
+package tree;
 
 import java.util.concurrent.atomic.*;
 
@@ -27,4 +27,8 @@ public class LockFreeRBNode<V extends Comparable<V>> {
 		this.isRed = true;
 		this.flag = new AtomicBoolean(false);
 	}	
+	
+	public String toString(){
+		return (value==null)?" _ ":value.toString()+(isRed?"_R":"_B")+(flag.get()?"T":"F");
+	}
 }

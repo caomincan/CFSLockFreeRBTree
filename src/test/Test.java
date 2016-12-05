@@ -1,39 +1,37 @@
 package test;
 
-import lockfree.LockFreeRBTree;
+import java.util.ArrayList;
+import java.util.List;
+
+import tree.LockFreeRBTree;
 import tree.RBTree;
 
 public class Test {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws InterruptedException {
 		// TODO Auto-generated method stub
         LockFreeRBTree<Integer> tree = new LockFreeRBTree<Integer>();
         //RBTree<Integer> tree = new RBTree<Integer>();
-        Integer[] list1 = new Integer[]{11,2,14,1,7,5,8,15,4};
-        int num = 0;
-        for(Integer x: list1){
-        	System.out.println("The "+num+"th run:");
-        	tree.add(x);
-        	tree.print();
-        	System.out.println("");
-        	num++;
+        
+        List<Thread> threads = new ArrayList<Thread>();
+        int num_threads = 8;
+        for(int i = 0;i<num_threads;i++){
+        	Integer[] list = new Integer[20];
+        	for(int j = 0;j<20;j++){
+        		list[j] = 20*i+j;
+        	}
+        	if(i == 0) threads.add(new searchThread(tree,num_threads));
+        	threads.add(new testThread<Integer>(tree,list));
         }
         
-        for(Integer x: list1){
-        	System.out.println("The "+num+"th run:");
-        	tree.remove(x);
-        	tree.print();
-        	System.out.println("");
-        	num++;
+     for(Thread thread: threads){
+        	thread.start();
+        }
+   
+        for(Thread thread: threads){
+        	thread.join();
         }
         
-        for(Integer x: list1){
-        	System.out.println("The "+num+"th run:");
-        	tree.add(x);
-        	tree.print();
-        	System.out.println("");
-        	num++;
-        }
 	}
 
 }
