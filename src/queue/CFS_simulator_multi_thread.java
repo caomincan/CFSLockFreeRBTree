@@ -231,7 +231,7 @@ if(DEBUG){
 	    	myThreads[i].join();
 	    }
 		
-		if (instance.get_leftmost()!=null)
+		if (instance.leftMost()!=null)
 			System.out.println("ERROR: tasks not done");
 		else // ==null
 			System.out.println("Good: tasks are all done");
@@ -388,7 +388,7 @@ if(DEBUG){
 	//public static Task pop_from_rbtree(AVL<Task> instance) {
 	public static Task pop_from_rbtree(RBTree<Task> instance) {
 		Task _task;
-		_task = instance.get_leftmost();
+		_task = instance.leftMost();
 		if(_task==null)
 			return null;
 		else {
