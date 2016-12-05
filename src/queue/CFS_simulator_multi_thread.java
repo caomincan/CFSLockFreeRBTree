@@ -121,6 +121,9 @@ public class CFS_simulator_multi_thread<T extends Comparable<T>> {
 	  	for(i=1; i<TASK+1; i++) {
 	  		finishing_order_queue[i] = new AtomicInteger(0);
 	  	}
+  		finishing_order_queue[0] = new AtomicInteger(1); // 0 records number of threads 
+
+	  	
 	  	is_interrupted = new boolean[THREADS];	
 	  	for(i=0; i<THREADS; i++)
 	  		is_interrupted[i]=false;
@@ -660,9 +663,8 @@ if(DEBUG){
 }
 						
 
-finishing_order_queue[finishing_order_queue.getAndIncrement()].set(curr_task.id);
-
-						finishing_order_queue[curr_task.id].getAndIncrement();
+						finishing_order_queue[finishing_order_queue[0].getAndIncrement()].set(curr_task.id);
+						//finishing_order_queue[curr_task.id].getAndIncrement();
 			  			reschedule=true;
 			  			//System.out.println("why height = " + ((AVL<Task>)instance).height());
 					}
