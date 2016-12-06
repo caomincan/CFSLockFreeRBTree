@@ -90,7 +90,7 @@ TASK = 140,	THREADS = 3
 540
 avl
 6490
-
+5712
 
 
 rb
