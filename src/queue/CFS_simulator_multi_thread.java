@@ -3,50 +3,6 @@
  *
  * Created on December 5, 2016, 11:15 PM
  */
-
-/*
-TASK = 200,	THREADS = 3
-700
-rb
-7422
-6583
-7883
-7643
-8340
-7933
-7421
-avl
-6793
-6513
-6
-
-
-TASK = 160,	THREADS = 3 
-760
-avl
-8776
-10045
-9144
-10123
-9862
-10324
-86493
-9055
-9800
-8520
-9782
-rb
-9300
-100074
-9338
-8868
-8755
-8954
-8115
-8785
- */
- 
-
 package queue;
 
 import tree.*;
@@ -299,8 +255,6 @@ if(DEBUG){
 		
 		System.out.println("g_add_num=" + g_add_num.intValue());
 		System.out.println("g_del_num=" + g_del_num.intValue()); 
-		//System.out.println( "add happens " + ((108*10000)+ (9*1000)) );
-		//System.out.println( "add happens " + ((80*10000)+ (2*90*1000)) );
 	}
 
 	/* adjust_Vtime() are all embedded in push_to_tree(). Automatically done. */
