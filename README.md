@@ -18,8 +18,8 @@ static int min_granunarity = 1000*1000;	    // minimum granularity = 1ms
 static int dynaic_nice_rang = 5;	    //nice(dynamic)=original_nice+-dynaic_nice_rang
 
 [Variables in input file]
-Tasks(Jobs) for single-thread simulator: 
+Assign tasks (jobs) for single-thread simulator: 
 	$ vi in_single.txt
-Tasks(Jobs) for multi-thread simulator:
+Assign tasks (jobs) for multi-thread simulator:
 	$ vi in.txt
 
