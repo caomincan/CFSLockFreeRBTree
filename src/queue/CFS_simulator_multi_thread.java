@@ -261,13 +261,7 @@ if(DEBUG){
 		System.out.println( "Total execution time = " + (end_time - start_time)/1000 + " s (time in reality)");
 		
 		System.out.println("g_add_num=" + g_add_num.intValue());
-		System.out.println("g_del_num=" + g_del_num.intValue());
-		System.out.println( "add happens " + ((60*11000)+ (30*1000)) );
-
-		 
-		 
-		 
-		 
+		System.out.println("g_del_num=" + g_del_num.intValue()); 
 		//System.out.println( "add happens " + ((108*10000)+ (9*1000)) );
 		//System.out.println( "add happens " + ((80*10000)+ (2*90*1000)) );
 	}
