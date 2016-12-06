@@ -2,7 +2,7 @@
  * CFS_simulator_multi_thread.java
  *
  * Created on December 5, 2016, 11:15 PM
- * TASK = 117
+ * TASK = 117 1089000
  * THREADS = 4
  * AVL
  * 16335
@@ -23,13 +23,13 @@
  * 17032
  * 16967
  * 
- * TASK = 117
+ * TASK = 117 1089000
  * THREADS = 3
  * AVL
  * 16752
  * 15126
  * 14940
- * 
+ * 14474
  * RB
  * 13881
  * 14546
