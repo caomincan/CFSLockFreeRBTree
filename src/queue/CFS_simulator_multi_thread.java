@@ -251,6 +251,11 @@ if(DEBUG){
 		System.out.println( "Total execution time = " + (end_time - start_time) + " ms (time in reality)");
 		System.out.println( "Total execution time = " + (end_time - start_time)/1000 + " s (time in reality)");
 		
+		System.out.println("" + g_del_num.intValue());
+		System.out.println("");
+
+		
+		
 		//System.out.println( "add happens " + ((108*10000)+ (9*1000)) );
 		//System.out.println( "add happens " + ((80*10000)+ (2*90*1000)) );
 	}
@@ -376,8 +381,6 @@ if(DEBUG){
 	    	instance.add(_task); // must succeed
 	    	g_queue_thread_num.getAndIncrement();
 	    	g_add_num.getAndIncrement();
-	    	static AtomicInteger g_add_num = new AtomicInteger(0);		// global number of addition
-	    	static AtomicInteger g_del_num = new AtomicInteger(0);		// global number of deletion
 			//System.out.println("height"+instance.height());
 	    	//instance.print();
 	    } finally {
@@ -411,6 +414,7 @@ if(DEBUG){
 				if (temp_task == null) 
 					System.out.println("ERROE: remove failed !!!!!!!!!!!!!!!!!!!");
 				g_queue_thread_num.getAndDecrement();
+				g_del_num.getAndIncrement();
 				return _task;
 			}
 	    } finally {
