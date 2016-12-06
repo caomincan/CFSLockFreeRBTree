@@ -49,6 +49,7 @@
  * 11132
  * 11602
  * 11727
+ * 10940
  * RB
  * 
  */
@@ -78,7 +79,7 @@ public class CFS_simulator_multi_thread<T extends Comparable<T>> {
 	static AtomicInteger g_queue_thread_num = new AtomicInteger(0);		// global number of threads in run_queue
 	static AtomicInteger g_done_thread_num = new AtomicInteger(0);		// global number of threads done
     
-	static boolean IS_RBTREE = false; 	// RBTree/AVLTree
+	static boolean IS_RBTREE = true; 	// RBTree/AVLTree
 	static boolean DEBUG = false;		
 	static boolean TEST1 = false;		// concurrent addition test
 	static boolean TEST2 = false;		// concurrent deletion test
