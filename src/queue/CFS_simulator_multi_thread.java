@@ -24,11 +24,11 @@ RB
 8471
 8012
 
-TASK = 250
+TASK = 230
 THREADS = 3 
-add 510
+add 730
 RB
-4557
+7214
 
 
 
