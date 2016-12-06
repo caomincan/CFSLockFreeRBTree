@@ -21,10 +21,14 @@ avl
 6
 
 
-TASK = 160,	THREADS = 3
+TASK = 160,	THREADS = 3 
+760
 avl
 8776
 
+
+
+rb
 
 
 
