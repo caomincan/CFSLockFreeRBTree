@@ -10,10 +10,7 @@ add 690
 AVL
 8203
  
- 60*11000
- 
- 30*1000
- 
+
  */
 package queue;
 
@@ -265,7 +262,12 @@ if(DEBUG){
 		
 		System.out.println("g_add_num=" + g_add_num.intValue());
 		System.out.println("g_del_num=" + g_del_num.intValue());
+		System.out.println( "add happens " + ((60*11000)+ (30*1000)) );
 
+		 
+		 
+		 
+		 
 		//System.out.println( "add happens " + ((108*10000)+ (9*1000)) );
 		//System.out.println( "add happens " + ((80*10000)+ (2*90*1000)) );
 	}
