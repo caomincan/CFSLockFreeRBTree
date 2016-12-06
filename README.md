@@ -23,3 +23,15 @@ Assign tasks (jobs) for single-thread simulator:
 Assign tasks (jobs) for multi-threaded simulator:
 	$ vi in.txt
 
+Our contribution:
+• Implementing/modifying AVL-tree & RB-tree
+• Implementing parts of lock-free RB-tree methods
+• Implementing Linux-like CFS simulators (single-threaded and ideal version, multi-threaded and concurrent version)
+
+
+References:
+AVL-tree:
+	Copyright on https://github.com/steven41292/AVL-Tree/blob/master/AVL.java and Ho-Ren(Jack) Chuang
+ 	@author https://github.com/steven41292
+	@modified by Jack Chuang
+

@@ -88,24 +88,6 @@ public class CFS_simulator_single_thread {
 	
 	  	// init threads
 	  	read_file_lines2();
-	  	/*
-	  	for(i=0; i<TASK; i++) {
-	  		// read from txt
-	  		task[i].id = i+1; // from 0 to Task
-
-	  		task[i].cpu = 1*1000*1000*10; // user defined (ms)
-	  		task[i].io = 1*1000*1000*10; // user defined (ms)
-	  		task[i].prio = 1000; //99 (high prio) ~ 0 (low prio) 
-	  		task[i].start_time = 0; // optional
-	  		
-	  		// init
-	  		task[i].nice = 1; // -20 (high prio) ~ 19 (low prio)   // -19 (high prio) ~ 20 (low prio)
-	  		task[i].VirtualRunTime_single = 0; 
-	  		task[i].time_slice = 0;
-	  		task[i].weight = 0;
-		}
-		*/
-		
 if(DEBUG){  	
 	  	for(i=0; i<TASK; i++) {
 	  		// read from txt
@@ -154,7 +136,6 @@ if(DEBUG){
 				/* check any thread should set to run_queue */
 				for(i=0; i<TASK; i++) { // check any thread ready to run
 					if( task[i].id>0 && g_time >= task[i].start_time ) {  // if so put it to runqueue
-						//System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@ "+task[i].id+" IS UP" + "gtime=" +g_time +"task[i].start_time="+task[i].start_time);
 						/*
 						int least_nice=1; // Feature: min garauntee
 						for(k=0; k<TASK; k++) { // assign the least nice value to the new task

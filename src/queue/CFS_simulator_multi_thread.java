@@ -255,6 +255,7 @@ if(DEBUG){
 		System.out.println("g_del_num=" + g_del_num.intValue()); 
 	}
 
+	/* Since RBtree doesn't allow the same key value (Virtual runtime in our case), we have to make every vtime unique */
 	/* adjust_Vtime() are all embedded in push_to_tree(). Automatically done. */
 	private static synchronized void adjust_Vtime(Task _task, Hashtable<String, String> _htable) {
 		while (true) {
