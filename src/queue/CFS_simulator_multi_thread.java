@@ -25,18 +25,6 @@ RB
 8012
 
 
-TASK = 60,	THREADS = 3
-add 360
-AVL
-4616
-4744
-4302
-4837
-RB
-5072
-4745
-4348
-4447
  */
 package queue;
 
