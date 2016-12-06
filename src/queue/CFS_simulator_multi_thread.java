@@ -2,128 +2,6 @@
  * CFS_simulator_multi_thread.java
  *
  * Created on December 5, 2016, 11:15 PM
- * TASK = 117 1089000
- * THREADS = 4
- * AVL
- * 16335
- * 15403
- * 17287
- * 15647
- * 13809
- * 16779
- * 16760
- * 15562
- * 14409
- * RB
- * 16580
- * 16077
- * 16091
- * 18478
- * 17865
- * 17032
- * 16967
- * 
- * TASK = 117 add 890000
- * THREADS = 3
- * AVL
- * 16752
- * 15126
- * 14940
- * 14474
- * RB
- * 13881
- * 14546
- * 14791
- * 17396
- * 15549
- * 15981
- * 14485
- * 16139
- * 
- * 
- * 
- * good
- * TASK = 170 add 890000
- * THREADS = 3
- * AVL
- * 10940 -
- * RB
- * 10012 -
- * 
- * 
- * TASK = 260 add 980000
- * THREADS = 3
- * AVL
- * 11266
- * 11954
- * 11606
- * 10888
- * 11060
- * 
- * RB
- * 9500
- * 9885
- * 10507
- * 12180
- * 9909
- * 10438
- * 10117
- * 10649
- * 
- * 
- * 
- * TASK = 180 add  60000*3
- * THREADS = 3
- * AVL
- * 921
- * 734
- * 745
- * 665
- * 1008
- * 788
- * 689
- * 1213
- * 737
- * 707
- * 758
- * RB
- * 777
- * 685
- * 540
- * 754
- * 764
- * 554
- * 798
- * 600
- * 919
- * 925
- * 907
- * 1063
- * 
- * 
- * TASK = 60 add  60000
- * THREADS = 3
- * AVL
- * 383
- * 341
- * 413
- * 673
- * 429
- * 297
- * 573
- * 526
- * 481
- * 396
- * RB
- * 583
- * 232
- * 540
- * 475
- * 323
- * 451
- * 579
- * 514
- * 512
  */
 package queue;
 
@@ -152,7 +30,9 @@ public class CFS_simulator_multi_thread<T extends Comparable<T>> {
   	static AtomicInteger[] finished_order_queue; // check finishing order // Be careful id is from 1~Task
 	static AtomicInteger g_queue_thread_num = new AtomicInteger(0);		// global number of threads in run_queue
 	static AtomicInteger g_done_thread_num = new AtomicInteger(0);		// global number of threads done
-    
+	static AtomicInteger g_add_num = new AtomicInteger(0);		// global number of add
+	static AtomicInteger g_del_num = new AtomicInteger(0);		// global number of deletionondon
+	
 	static boolean DEBUG = false;		
 	static boolean TEST1 = false;		// concurrent addition test
 	static boolean TEST2 = false;		// concurrent deletion test
