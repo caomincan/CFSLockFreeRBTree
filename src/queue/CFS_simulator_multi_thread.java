@@ -101,14 +101,14 @@
  * 1063
  * 
  * 
- * TASK = 180 add  60000
+ * TASK = 60 add  60000
  * THREADS = 3
  * AVL
  * 
  * 
  * RB
  * 583
- * 
+ * 232
  * 
  */
 package queue;
