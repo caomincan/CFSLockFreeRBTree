@@ -72,7 +72,7 @@
  * 
  * 
  * 
- * TASK = 180 add  980000
+ * TASK = 180 add  *3
  * THREADS = 3
  * AVL
  * 921
@@ -101,7 +101,7 @@
  * 1063
  * 
  * 
- * TASK = 180 add  980000
+ * TASK = 180 add  60000
  * THREADS = 3
  * AVL
  * 
