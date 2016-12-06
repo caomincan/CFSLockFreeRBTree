@@ -2,9 +2,9 @@
 
 1. CFS simulator by (Jack Chuang)
 [How to run CFS simulator]
-CFS simulator single-thread version:
+CFS simulator single-threaded version:
 	CFS_simulator_single_thread.java
-CFS simulator multi-thread version:
+CFS simulator multi-threaded version:
 	CFS_simulator_multi_thread.java
 
 [Choose one run_queue data structure]
@@ -20,6 +20,6 @@ static int dynaic_nice_rang = 5;	    //nice(dynamic)=original_nice+-dynaic_nice_
 [Variables in input file]
 Assign tasks (jobs) for single-thread simulator: 
 	$ vi in_single.txt
-Assign tasks (jobs) for multi-thread simulator:
+Assign tasks (jobs) for multi-threaded simulator:
 	$ vi in.txt
 

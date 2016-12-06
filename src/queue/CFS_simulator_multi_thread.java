@@ -20,8 +20,8 @@ public class CFS_simulator_multi_thread<T extends Comparable<T>> {
 	//static boolean IS_RBTREE = false; 	// run with AVLTree
 	/* default values */ /* unit=us */
 	static int THREADS = 3; 					// number of workers (simulated CPUs, not task!!!!!!!!!!!)
-	static int TimerIntThreshold = 1000*1000;	// timer interrupt ticks 1ms
-	static int min_granunarity = 1000*1000;		// minimum granularity // 1ms
+	static int TimerIntThreshold = 1000*1000;	// timer interrupt ticks = 1ms
+	static int min_granunarity = 1000*1000;		// minimum granularity = 1ms
 	static int dynaic_nice_rang = 5;			// nice(dynamic) = original_nice +-dynaic_nice_rang
 	static int how_many_int = 10*1000; 			// periodically debug
 	

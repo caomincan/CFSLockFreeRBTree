@@ -431,7 +431,7 @@ if(DEBUG){
 					task[i].prio = Integer.parseInt(tokens[4]);	// prio
 					task[i].nice = Integer.parseInt(tokens[5]);	// nice 
 					task[i].ori_nice = Integer.parseInt(tokens[5]);	// ori_nice 
-					task[i].start_time = Integer.parseInt(tokens[6]);	// start_time (used for interrupt or mimicing preemptive tasks) 
+					task[i].start_time = Integer.parseInt(tokens[6])*1000;	// start_time (used for interrupt or mimicing preemptive tasks) 
 					
 					task[i].VirtualRunTime_single = 0; 
 				  	task[i].time_slice = 0;
