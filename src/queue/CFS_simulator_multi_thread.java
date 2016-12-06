@@ -115,6 +115,7 @@
  * 451
  * 579
  * 514
+ * 512
  */
 package queue;
 
@@ -129,7 +130,7 @@ import java.util.concurrent.locks.ReentrantLock;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class CFS_simulator_multi_thread<T extends Comparable<T>> {
-	static boolean IS_RBTREE = true; 	// RBTree/AVLTree
+	static boolean IS_RBTREE = false; 	// RBTree/AVLTree
 
 	/* default values */ /* unit=us */
 	static int THREADS = 3; 					// number of workers (simulated CPUs, not task!!!!!!!!!!!)
