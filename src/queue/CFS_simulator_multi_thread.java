@@ -28,13 +28,19 @@ avl
 10045
 9144
 10123
+9862
+
 rb
 9300
 100074
 9338
 8868
-
+8755
+8954
+8115
+8785
  */
+ 
 
 package queue;
 
@@ -49,8 +55,8 @@ import java.util.concurrent.locks.ReentrantLock;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class CFS_simulator_multi_thread<T extends Comparable<T>> {
-	//static boolean IS_RBTREE = false; 	// RBTree/AVLTree
-	static boolean IS_RBTREE = true; 	// RBTree/AVLTree
+	static boolean IS_RBTREE = false; 	// RBTree/AVLTree
+	//static boolean IS_RBTREE = true; 	// RBTree/AVLTree
 
 	
 	/* default values */ /* unit=us */
