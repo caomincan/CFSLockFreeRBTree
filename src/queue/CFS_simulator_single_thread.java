@@ -153,7 +153,7 @@ if(DEBUG){
 
 				/* check any thread should set to run_queue */
 				for(i=0; i<TASK; i++) { // check any thread ready to run
-					if( task[i].start_time <= g_time) {  // if so put it to runqueue
+					if( task[i].id>0 && g_time >= task[i].start_time ) {  // if so put it to runqueue
 						System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@ "+task[i].id+" IS UP" + "gtime=" +g_time +"task[i].start_time="+task[i].start_time);
 						/*
 						int least_nice=1; // Feature: min garauntee
