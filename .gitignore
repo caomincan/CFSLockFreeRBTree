@@ -14,3 +14,4 @@ HW1 extension.txt
 Jack implemetation&presentation notes.docx
 *.jpg
 !sources.txt
+.DS_Store
