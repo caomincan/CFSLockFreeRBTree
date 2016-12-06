@@ -42,7 +42,7 @@
  * 
  * 
  * 
- * TASK = 170 x
+ * TASK = 170 add 890000
  * THREADS = 3
  * AVL
  * 10872
