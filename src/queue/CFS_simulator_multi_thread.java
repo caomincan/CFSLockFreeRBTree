@@ -42,8 +42,10 @@ AVL
 6841
 
 TASK = 100
+context switch 800
 AVL
 9943
+8836
 
 
 
