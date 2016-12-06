@@ -100,7 +100,7 @@ public class CFS_simulator_single_thread {
 	  		
 	  		// init
 	  		task[i].nice = 1; // -20 (high prio) ~ 19 (low prio)   // -19 (high prio) ~ 20 (low prio)
-	  		task[i].VirtualRunTime = 0; 
+	  		task[i].VirtualRunTime_single = 0; 
 	  		task[i].time_slice = 0;
 	  		task[i].weight = 0;
 		}
@@ -168,11 +168,11 @@ if(DEBUG){
 						int least_Vtime=1; 		// Feature: min garauntee
 						for(k=0; k<TASK; k++) { // assign the least nice value to the new task
 							if (run_queue[k].id!=0) {
-								if (least_Vtime > run_queue[k].VirtualRunTime)
-									least_Vtime = run_queue[k].VirtualRunTime;
+								if (least_Vtime > run_queue[k].VirtualRunTime_single)
+									least_Vtime = run_queue[k].VirtualRunTime_single;
 							}
 						}
-						task[i].VirtualRunTime = least_Vtime;
+						task[i].VirtualRunTime_single = least_Vtime;
 						
 						// way1
 						if (push_to_rbtree(task[i]) < 0 ) { //1. find a empty slot & insert the task to run_queue
@@ -274,7 +274,7 @@ if(DEBUG){
 				  		if ( (running_tasks[i].cpu_runtime+running_tasks[i].io_runtime) >= running_tasks[i].time_slice ) { // expired mush deq()	
 				  			System.out.println("1. " + running_tasks[i].cpu_runtime + "\t2. " +running_tasks[i].io_runtime + "\t3. " + running_tasks[i].time_slice);
 				  			// update Virtual Time
-				  			running_tasks[i].VirtualRunTime += (running_tasks[i].cpu_runtime+running_tasks[i].io_runtime); // + actual run time NOT time_slice  // TODO: check time_slice is > 0
+				  			running_tasks[i].VirtualRunTime_single += (running_tasks[i].cpu_runtime+running_tasks[i].io_runtime); // + actual run time NOT time_slice  // TODO: check time_slice is > 0
 
 				  			if (run_queue[i].io_runtime*2 > run_queue[i].cpu_runtime) {
 								run_queue[i].nice++;
@@ -327,13 +327,13 @@ if(DEBUG){
 		System.out.println("min_granunarity" + min_granunarity); // minimum granularity // 1ms
 		System.out.println("dynaic_nice_rang" + dynaic_nice_rang); // nice(dynamic) = original_nice +-dynaic_nice_rang	
 		System.out.println("--------------------------------------------");
-		System.out.println("TASK=" + TASK);
+		System.out.println("# of TASK=" + TASK);
 		System.out.println("g_queue_thread_num=" + g_queue_thread_num);
 		System.out.println("g_exec_thread_num=" + g_exec_thread_num);
 		System.out.println("g_done_thread_num=" + g_done_thread_num);
-		System.out.println("g_time=" + g_time + " us");
-		System.out.println("g_time=" + g_time/1000 + " ms");
-		System.out.println("g_time=" + g_time/1000/1000 + " s");
+		//System.out.println("g_time=" + g_time + " us");
+		//System.out.println("g_time=" + g_time/1000 + " ms (system virtual ticks)");
+		System.out.println("g_time=" + g_time/1000/1000 + " s (system virtual ticks)");
 		
 		for(i=0; i<TASK; i++) {
 			System.out.print(finishing_order_queue[i].id + " ");			
@@ -433,7 +433,7 @@ if(DEBUG){
 					task[i].ori_nice = Integer.parseInt(tokens[5]);	// ori_nice 
 					task[i].start_time = Integer.parseInt(tokens[6]);	// start_time (used for interrupt or mimicing preemptive tasks) 
 					
-					task[i].VirtualRunTime = 0; 
+					task[i].VirtualRunTime_single = 0; 
 				  	task[i].time_slice = 0;
 				  	task[i].weight = 0;
 				}
@@ -583,7 +583,7 @@ if(DEBUG){
 					run_queue[i].time_slice = ( (float)((float)(run_queue[i].io_runtime+run_queue[i].cpu_runtime)/(float)TimerIntThreshold) * (float)1 * (float)((run_queue[i].nice+20)/20)); // t x 1 x 1(-19+20)
 
 				
-				run_queue[i].VirtualRunTime += run_queue[i].time_slice;
+				run_queue[i].VirtualRunTime_single += run_queue[i].time_slice;
 				System.out.println("debug time_slice=" + run_queue[i].time_slice + " [i]=" + i);
 */			
 				/* 2. update a new weight by this run (time_slice - I should run next time) */ 
@@ -658,7 +658,7 @@ if(DEBUG){
 		task1.prio = task2.prio;		
 		task1.nice = task2.nice;
 		task1.ori_nice = task2.ori_nice;
-		task1.VirtualRunTime = task2.VirtualRunTime;
+		task1.VirtualRunTime_single = task2.VirtualRunTime_single;
 		task1.time_slice = task2.time_slice; 		
 		task1.weight = task2.weight;
 		task1.start_time = task2.start_time;

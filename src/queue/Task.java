@@ -17,13 +17,14 @@ import java.util.Random;
 
 public class Task implements Comparable<Task>{
 	/* Task info - cfs entity */
-	public int id=-1; // from 1 to TASK. So Tak[0]==0 is wrong!
+	public int id=0; // from 1 to TASK. So Tak[0]==0 is wrong!
 	public int io;
 	public int cpu;
 	public int prio;				//
 	public int nice;				// dynamic priority
 	public int ori_nice;			// user defined
 	public Integer VirtualRunTime; 		// accumulated =   TimerIntThreshold * (time_slice/weight) 
+	public int VirtualRunTime_single;
 	public int time_slice; 			// chose one = prio + nice  = 100ms  suppose to run
 	public int weight;				// chose one = prio + nice 
 	public int start_time;

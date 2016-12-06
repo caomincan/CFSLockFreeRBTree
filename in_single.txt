@@ -1,4 +1,4 @@
-Name	#ofT	cpu(us)		io(us)		prio	nice	start_time(us)	note
+Name	#ofT	CPU(us)		IO(us)		PRI	Nice	Start_time(us)	Note-> (Attention: no blank line)
 T1	5	10000		1000		100	1	0		1~5
 T2	3	1000		0		100	1	100000		6~8
 T3	3	1000		0		110	1	10000		9~11
