@@ -46,8 +46,10 @@ context switch 800
 AVL
 9943
 8836
-
-
+9171
+RB
+9680
+9139
 
  */
 package queue;
@@ -63,7 +65,7 @@ import java.util.concurrent.locks.ReentrantLock;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class CFS_simulator_multi_thread<T extends Comparable<T>> {
-	static boolean IS_RBTREE = false; 	// RBTree/AVLTree
+	static boolean IS_RBTREE = true; 	// RBTree/AVLTree
 
 	/* default values */ /* unit=us */
 	static int THREADS = 3; 					// number of workers (simulated CPUs, not task!!!!!!!!!!!)
