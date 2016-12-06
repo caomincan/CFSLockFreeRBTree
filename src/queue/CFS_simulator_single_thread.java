@@ -154,7 +154,7 @@ if(DEBUG){
 				/* check any thread should set to run_queue */
 				for(i=0; i<TASK; i++) { // check any thread ready to run
 					if( task[i].id>0 && g_time >= task[i].start_time ) {  // if so put it to runqueue
-						System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@ "+task[i].id+" IS UP" + "gtime=" +g_time +"task[i].start_time="+task[i].start_time);
+						//System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@ "+task[i].id+" IS UP" + "gtime=" +g_time +"task[i].start_time="+task[i].start_time);
 						/*
 						int least_nice=1; // Feature: min garauntee
 						for(k=0; k<TASK; k++) { // assign the least nice value to the new task
