@@ -153,7 +153,8 @@ if(DEBUG){
 
 				/* check any thread should set to run_queue */
 				for(i=0; i<TASK; i++) { // check any thread ready to run
-					if( task[i].start_time >= g_time) {  // if so put it to runqueue
+					if( task[i].start_time <= g_time) {  // if so put it to runqueue
+						System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@ "+task[i].id+" IS UP" + "gtime=" +g_time +"task[i].start_time="+task[i].start_time);
 						/*
 						int least_nice=1; // Feature: min garauntee
 						for(k=0; k<TASK; k++) { // assign the least nice value to the new task
@@ -233,6 +234,7 @@ if(DEBUG){
 					// TODO: for => if (timmer==TimerIntThreshold)
 					// TODO: 				timer=0;
 				}
+			  	
 			  	/* do */
 			  	
 			  	
@@ -549,7 +551,7 @@ if(DEBUG){
 	 * 			TODO:
 	 * 
 	 * */
-	public static int reschedule() { // 有拿到cpu的不會跑到這邊來
+	public static int reschedule() { // 
 		int i=0;
 		// make sure no any task in executing
 		for (i=0; i<THREADS;i++) {
@@ -558,14 +560,14 @@ if(DEBUG){
 				return -2;
 			}
 		}
-		// 寫在外面更簡單明瞭＝＝ 因為只針對要改變的調整而已
+		// 
 		// start to travers all task in run queueue 
 		for(i=0; i<TASK; i++) { // traverse all task in queue. This is simple no need to take consideration into init
 	  		
-			//if ( (run_queue[i].io_runtime==0) && (run_queue[i].cpu_runtime==0) ) { 	//剛加入 或者上次沒搶到cpu
+			//if ( (run_queue[i].io_runtime==0) && (run_queue[i].cpu_runtime==0) ) { 	//
 			//	;
 			//}
-			//else { // 剛剛有cpu幹點事情  來計算吧
+			//else { // 
 				/* 1. use the old weight to determine the virtual time should be added on  */
 				/*1-formula
 				if( run_queue[i].nice>0 )
@@ -604,7 +606,7 @@ if(DEBUG){
 	}
 	
 	/* Thread */
-	public static boolean JobTask(Task task, int virtualtime) { //單一task
+	public static boolean JobTask(Task task, int virtualtime) { //single task
 		// pass in the fake thread, virtualtime
 		int weight=0; //used for kernel for determine this is a io or cpu bound task
 		int rand=-1;
