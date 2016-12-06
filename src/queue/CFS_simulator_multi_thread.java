@@ -50,8 +50,8 @@ import java.util.concurrent.locks.ReentrantLock;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class CFS_simulator_multi_thread<T extends Comparable<T>> {
-	static boolean IS_RBTREE = false; 	// RBTree/AVLTree
-	//static boolean IS_RBTREE = true; 	// RBTree/AVLTree
+	//static boolean IS_RBTREE = false; 	// RBTree/AVLTree
+	static boolean IS_RBTREE = true; 	// RBTree/AVLTree
 
 	
 	/* default values */ /* unit=us */
