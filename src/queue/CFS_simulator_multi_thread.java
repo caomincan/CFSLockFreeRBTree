@@ -251,8 +251,8 @@ if(DEBUG){
 		System.out.println( "Total execution time = " + (end_time - start_time) + " ms (time in reality)");
 		System.out.println( "Total execution time = " + (end_time - start_time)/1000 + " s (time in reality)");
 		
-		System.out.println("" + g_del_num.intValue());
-		System.out.println("");
+		System.out.println("g_add_num=" + g_add_num.intValue());
+		System.out.println("g_del_num=" + g_del_num.intValue());
 
 		
 		
