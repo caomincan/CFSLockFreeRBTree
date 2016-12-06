@@ -30,8 +30,8 @@ public class CFS_simulator_multi_thread<T extends Comparable<T>> {
   	static AtomicInteger[] finished_order_queue; // check finishing order // Be careful id is from 1~Task
 	static AtomicInteger g_queue_thread_num = new AtomicInteger(0);		// global number of threads in run_queue
 	static AtomicInteger g_done_thread_num = new AtomicInteger(0);		// global number of threads done
-	static AtomicInteger g_add_num = new AtomicInteger(0);		// global number of add
-	static AtomicInteger g_del_num = new AtomicInteger(0);		// global number of deletionondon
+	static AtomicInteger g_add_num = new AtomicInteger(0);		// global number of addition
+	static AtomicInteger g_del_num = new AtomicInteger(0);		// global number of deletion
 	
 	static boolean DEBUG = false;		
 	static boolean TEST1 = false;		// concurrent addition test
@@ -39,8 +39,8 @@ public class CFS_simulator_multi_thread<T extends Comparable<T>> {
 	static boolean g_done = false;		
 	static boolean g_is_interrupted = false;
 
-	static Task[] task; 			// all tasks going to run in this simulation
-  	public static Task[] run_queue; // tasks should be ran
+	static Task[] task; 				// all tasks going to run in this simulation
+  	public static Task[] run_queue; 	// tasks should be ran
   	static Tree<Task> instance=null;
 	private static Random random = new Random(); 
 	
@@ -375,6 +375,9 @@ if(DEBUG){
 	    	adjust_Vtime(_task, _htable);
 	    	instance.add(_task); // must succeed
 	    	g_queue_thread_num.getAndIncrement();
+	    	g_add_num.getAndIncrement();
+	    	static AtomicInteger g_add_num = new AtomicInteger(0);		// global number of addition
+	    	static AtomicInteger g_del_num = new AtomicInteger(0);		// global number of deletion
 			//System.out.println("height"+instance.height());
 	    	//instance.print();
 	    } finally {
