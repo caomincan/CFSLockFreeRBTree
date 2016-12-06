@@ -72,7 +72,7 @@
  * 
  * 
  * 
- * TASK = 180 add  *3
+ * TASK = 180 add  60000*3
  * THREADS = 3
  * AVL
  * 921
@@ -358,7 +358,7 @@ if(DEBUG){
 		System.out.println( "Total execution time = " + (end_time - start_time)/1000 + " s (time in reality)");
 		
 		//System.out.println( "add happens " + ((108*10000)+ (9*1000)) );
-		System.out.println( "add happens " + ((80*10000)+ (2*90*1000)) );
+		//System.out.println( "add happens " + ((80*10000)+ (2*90*1000)) );
 	}
 
 	/* adjust_Vtime() are all embedded in push_to_tree(). Automatically done. */
