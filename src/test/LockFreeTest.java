@@ -60,8 +60,10 @@ public class LockFreeTest {
        System.out.println("LockFreeRBTree each thread insert "+insert_nodes+" nodes using " +(double)duration/1000.0 + " us");
        
        System.out.println("\n\rLock-Free Red-Black Tree Search test");
-       //tree2.print();
-       //System.out.println("");
+       tree2.print();
+       System.out.println("");
+       tree1.print();
+       System.out.println("");
        
        threads.clear();
        for(int i = 0;i<num_threads;i++){
