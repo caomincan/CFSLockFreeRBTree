@@ -39,7 +39,7 @@ public class testThread<V> extends Thread {
 			if(lock != null) lock.unlock();
 			//this.tree.print();
 		}
-		System.out.println("Thread "+id+": finished");
+		//System.out.println("Thread "+id+": finished");
 		//this.tree.print();
 		//System.out.println("");
 	}
