@@ -3,7 +3,8 @@
 ./src/tree/LockFreeRBNode.java
 ./src/tree/LockFreeRBTree.java
 ./src/tree/Tree.java
-./src/test/Test.java
+./src/test/LockFreeTest.java
 ./src/test/testThread.java
+./src/test/searchThread.java
 
 
